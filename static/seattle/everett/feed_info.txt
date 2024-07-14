@@ -1,0 +1,2 @@
+feed_id,feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version
+97,Strategic Mapping Inc.,http://www.mapstrat.com,en,20240622,20240921,229f5f05-d7df-481b-82fc-3e08f0ab0e21

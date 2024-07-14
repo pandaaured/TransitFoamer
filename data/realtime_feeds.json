@@ -1,0 +1,24 @@
+{
+    "pittsburgh": {
+        "bus": {
+            "vehicle_position": "https://truetime.portauthority.org/gtfsrt-bus/vehicles",
+            "trip_update": "https://truetime.portauthority.org/gtfsrt-bus/trips",
+            "alerts": "https://truetime.portauthority.org/gtfsrt-bus/alerts"
+        },
+        "train": {
+            "vehicle_position": "https://truetime.portauthority.org/gtfsrt-bus/vehicles",
+            "trip_update": "https://truetime.portauthority.org/gtfsrt-bus/trips",
+            "alerts": "https://truetime.portauthority.org/gtfsrt-bus/alerts"
+        }
+    },
+    "san_antonio": {
+        "vehicle_position": "http://gtfs.viainfo.net/vehicle/vehiclepositions.pb",
+        "trip_update": "http://gtfs.viainfo.net/tripupdate/tripupdates.pb",
+        "alerts": "http://gtfs.viainfo.net/alert/alerts.pb"
+    },
+    "seattle": {
+        "trip_update": "https://s3.amazonaws.com/kcm-alerts-realtime-prod/tripupdates_enhanced.json",
+        "vehicle_position": "https://s3.amazonaws.com/kcm-alerts-realtime-prod/vehiclepositions_enhanced.json",
+        "alerts": "https://s3.amazonaws.com/kcm-alerts-realtime-prod/alerts_enhanced.json"
+    }
+}

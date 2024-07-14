@@ -1225,6 +1225,7 @@ dependencies = [
  "protobuf",
  "reqwest 0.12.5",
  "reqwest-protobuf",
+ "serde_json",
 ]
 
 [[package]]

@@ -1,0 +1,48 @@
+facility_id,facility_code,facility_class,facility_type,stop_id,facility_short_name,facility_long_name,wheelchair_facility
+C05-VC-N,C05-VC-N,1,elevator,C05,University St elevators to Northgate platform,University St elevators to Northgate platform,1
+SS03-VC-All,SS03-VC-All,1,elevator,SS03,Kent Station Skybridge elevators,Kent Station Skybridge elevators,1
+SS01-VC-All,SS01-VC-All,1,elevator,SS01,King Street Station all elevators,King Street Station all elevators,1
+C05-VC-M,C05-VC-M,1,elevator,C05,University St 3rd Avenue (Exit C) elevator,University St 3rd Avenue (Exit C) elevator,1
+C03-VC-All,C03-VC-All,1,elevator,C03,Westlake all elevators,Westlake all elevators,1
+S01-VC-S,S01-VC-S,1,elevator,S01,Angle Lake south elevator,Angle Lake south elevator,1
+S01-VC-N,S01-VC-N,1,elevator,S01,Angle Lake north elevator,Angle Lake north elevator,1
+C23-VC-All,C23-VC-All,1,elevator,C23,Mount Baker all elevators,Mount Baker all elevators,1
+C35-VC-All,C35-VC-All,1,elevator,C35,Tukwila Int'l Blvd all elevators,Tukwila Int'l Blvd all elevators,1
+C05-VC-S,C05-VC-S,1,elevator,C05,University St elevators to Angle Lake platform,University St elevators to Angle Lake platform,1
+SS01-VC-W,SS01-VC-W,1,elevator,SS01,King Street Station west elevator,King Street Station west elevator,1
+SS04-VC-W,SS04-VC-W,1,elevator,SS04,Auburn Station elevator,Auburn Station elevator,1
+C37-VC-P,C37-VC-P,1,elevator,C37,SeaTac Airport pedestrian overpass elevator,SeaTac Airport pedestrian overpass elevator,1
+N03-VC-All,N03-VC-All,1,elevator,N03,Capitol Hill all elevators,Capitol Hill all elevators,1
+N05-VC-All,N05-VC-All,1,elevator,N05,Univ of Washington all elevators,Univ of Washington all elevators,1
+N07-VC-All,N07-VC-All,1,elevator,N07,U District all elevators,U District all elevators,1
+N09-VC-All,N09-VC-All,1,elevator,N09,Roosevelt all elevators,Roosevelt all elevators,1
+N11-VC-S,N11-VC-S,1,elevator,N11,Northgate south elevator,Northgate south elevator,1
+C09-VC-N,C09-VC-N,1,elevator,C09,Int'l Dist./Chinatown elevators to Northgate platform,Int'l Dist./Chinatown elevators to Northgate platform,1
+N11-VC-N,N11-VC-N,1,elevator,N11,Northgate north elevator,Northgate north elevator,1
+C35-VC-S,C35-VC-S,1,elevator,C35,Tukwila Int'l Blvd elevator to Angle Lake platform,Tukwila Int'l Blvd elevator to Angle Lake platform,1
+N11-VC-All,N11-VC-All,1,elevator,N11,Northgate all elevators,Northgate all elevators,1
+SN04-VC-W,SN04-VC-W,1,elevator,SN04,Everett Station west elevator,Everett Station west elevator,1
+C03-VC-N,C03-VC-N,1,elevator,C03,Westlake elevators to Northgate platform,Westlake elevators to Northgate platform,1
+C09-VC-S,C09-VC-S,1,elevator,C09,Int'l Dist./Chinatown elevators to Angle Lake platform,Int'l Dist./Chinatown elevators to Angle Lake platform,1
+SS03-VC-E,SS03-VC-E,1,elevator,SS03,Kent Station east elevator,Kent Station east elevator,1
+C19-VC-All,C19-VC-All,1,elevator,C19,Beacon Hill all elevators,Beacon Hill all elevators,1
+S01-VC-All,S01-VC-All,1,elevator,S01,Angle Lake all elevators,Angle Lake all elevators,1
+C03-VC-S,C03-VC-S,1,elevator,C03,Westlake elevators to Angle Lake platform,Westlake elevators to Angle Lake platform,1
+C35-VC-N,C35-VC-N,1,elevator,C35,Tukwila Int'l Blvd elevator to Northgate platform,Tukwila Int'l Blvd elevator to Northgate platform,1
+C07-VC-All,C07-VC-All,1,elevator,C07,Pioneer Square all elevators,Pioneer Square all elevators,1
+C07-VC-MC,C07-VC-MC,1,elevator,C07,Pioneer Square Yesler Way (Exit C) elevator,Pioneer Square Yesler Way (Exit C) elevator,1
+C09-VC-All,C09-VC-All,1,elevator,C09,Int'l Dist./Chinatown all elevators,Int'l Dist./Chinatown all elevators,1
+C05-VC-All,C05-VC-All,1,elevator,C05,University Street all elevators,University Street all elevators,1
+SS01-VC-E,SS01-VC-E,1,elevator,SS01,King Street Station east elevator,King Street Station east elevator,1
+C07-VC-MA,C07-VC-MA,1,elevator,C07,Pioneer Square James Street (Exit A) elevator,Pioneer Square James Street (Exit A) elevator,1
+SS09-VC-W,SS09-VC-W,1,elevator,SS09,Lakewood Station Skybridge/West Elevator,Lakewood Station Skybridge/West Elevator,1
+N03-VC-S,N03-VC-S,1,elevator,N03,Capitol Hill south entrance elevator,Capitol Hill south entrance elevator,1
+C07-VC-S,C07-VC-S,1,elevator,C07,Pioneer Square elevators to Angle Lake platform,Pioneer Square elevators to Angle Lake platform,1
+SN04-VC-E,SN04-VC-E,1,elevator,SN04,Everett Station east elevator,Everett Station east elevator,1
+C23-VC-S,C23-VC-S,1,elevator,C23,Mount Baker elevator to Angle Lake platform,Mount Baker elevator to Angle Lake platform,1
+C07-VC-N,C07-VC-N,1,elevator,C07,Pioneer Square elevators to Northgate platform,Pioneer Square elevators to Northgate platform,1
+N03-VC-W,N03-VC-W,1,elevator,N03,Capitol Hill west entrance elevator,Capitol Hill west entrance elevator,1
+SS03-VC-W,SS03-VC-W,1,elevator,SS03,Kent Station west elevator,Kent Station west elevator,1
+C23-VC-N,C23-VC-N,1,elevator,C23,Mount Baker elevator to Northgate platform,Mount Baker elevator to Northgate platform,1
+SN03-VC-All,SN03-VC-All,1,elevator,SN03,Mukilteo Station all elevators,Mukilteo Station all elevators,1
+SN04-VC-All,SN04-VC-All,1,elevator,SN04,Everett Station all elevators,Everett Station all elevators,1

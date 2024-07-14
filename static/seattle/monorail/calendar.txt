@@ -1,0 +1,7 @@
+service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
+summer2024_MonFri,1,1,1,1,1,0,0,20240525,20240902
+summer2024_SatSun,0,0,0,0,0,1,1,20240525,20240902
+winter2024_Fri,0,0,0,0,1,0,0,20240903,20250522
+winter2024_MonThu,1,1,1,1,0,0,0,20240903,20250522
+winter2024_Sat,0,0,0,0,0,1,0,20240903,20250522
+winter2024_Sun,0,0,0,0,0,0,1,20240903,20250522

@@ -1,0 +1,4 @@
+property_id,definition,possible_values
+includes-stop,"Specifies a specific, non-parent stop that the facility services; a single facility may have multiple instances of this property, each with a different included stop",Single 'stop_id' corresponding to an entry in stops.txt
+alternate-service-text,Intended for internal use only; gives information on alternate service if facility is out of service,Text
+excludes-stop,"Specifies a specific, non-parent stop that the facility does not service; used only if the facility does not serve all possible child stops within the stop specified in the 'stop_id' field in facilities.txt; a single facility may have multiple instances of this property, each with a different excluded stop",Single 'stop_id' corresponding to an entry in stops.txt

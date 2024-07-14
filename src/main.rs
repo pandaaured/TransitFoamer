@@ -1,61 +1,67 @@
 use std::any::type_name_of_val;
-use std::fs;
 use std::env;
 use std::str::Lines;
 use std::iter::Iterator;
 use std::collections::HashSet;
 use std::collections::HashMap;
+use reqwest;
+use std::fs::File;
+use std::fs;
+use serde_json::{Result, Value};
+use serde_json::json;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    // request_maker();
-    gtfs_static_file_fetcher("pittsburgh", "trips.txt");
-    gtfs_static_file_fetcher("pittsburgh", "trips.txt");
-    gtfs_static_file_fetcher("pittsburgh", "trips.txt");
-    gtfs_static_file_fetcher("pittsburgh", "trips.txt");
-    gtfs_static_file_fetcher("pittsburgh", "trips.txt");
-    gtfs_static_file_fetcher("pittsburgh", "trips.txt");
-
-
+    // request_maker(); // For making HTTP(S) requests.
+    static_feed_json("seattle", "king_county");
 }
 
-
-fn request_maker() {
-    let url =  String::from("https://truetime.portauthority.org/gtfsrt-bus/vehicles");
-    let body = reqwest::get("https://www.rust-lang.org");
-    let k = type_name_of_val(&body);
-    println!("{}",k)
+fn static_feed_json(city: &str, agency: &str) {
+    let file = fs::read_to_string("data/static_feeds.json").unwrap();
+    let json = json!(file);
 }
 
+// fn request_maker() {
+//     let url =  String::from("https://truetime.portauthority.org/gtfsrt-bus/vehicles");
+//     let body = reqwest::get(url);
+// }
 
-fn gtfs_static_file_fetcher(city_name: &str, file_name: &str) {
+
+fn gtfs_static_file_fetcher(city_name: &str, file_name: &str) -> String {
+    // Constructing the file name for each file.
     let mut file_path = "static/".to_string();
     file_path.push_str(city_name);
     file_path.push('/');
     file_path.push_str(file_name);
-
     println!("In file {}", file_path);
-    let file_contents = fs::read_to_string(file_path);
-    // let path = "via_bus_trips.out";
-    // let file_contents = fs::read_to_string(path);
-    let contents_actual = file_contents.unwrap();
-    println!("{}", contents_actual);
+    let file_contents = fs::read_to_string(file_path).unwrap();
+    file_contents
+}
+
+
+fn gtfs_static_string_processor(string: &str) {
+    let lines_from_string = string.lines();
+
+
+
+
 
 }
 
 
-fn line_splitter(line: &str, file_name: &str) {
-    let term = line.split(",");
-    let variable: Vec<&str> = term.collect();
 
-
-    // let mut agency = HashMap::new();
-    // let mut calendar_dates = HashMap::new();
-    // let mut calendar = HashMap::new();
-    // let mut routes = HashMap::new();
-    // let mut stops = HashMap::new();
-    // let mut trips = HashMap::new();
-}
+// fn line_splitter(line: &str, file_name: &str) {
+//     let term = line.split(",");
+//     let variable: Vec<&str> = term.collect();
+//
+//
+//     // let mut agency = HashMap::new();
+//     // let mut calendar_dates = HashMap::new();
+//     // let mut calendar = HashMap::new();
+//     // let mut routes = HashMap::new();
+//     // let mut stops = HashMap::new();
+//     // let mut trips = HashMap::new();
+// }
 
 //
 //     if file_name == "agency" {
@@ -88,17 +94,8 @@ fn line_splitter(line: &str, file_name: &str) {
 // //     let agency_phone = variable[5].to_string();
 // //     let agency_fare_url = variable[6].to_string();
 // //
-// //     let agency_info = Agency {
-// //         id: agency_id,
-// //         name: agency_name,
-// //         url: agency_url,
-// //         timezone: agency_timezone,
-// //         lang: agency_lang,
-// //         phone: agency_phone,
-// //         fare_url: agency_fare_url,
-// //     };
-// //     agency_info
-// // }
+// //
+// //
 // //
 // // fn calendar_dates_assignments(variable: Vec<&str>) -> CalendarDates {
 // //     // Populating calendar_dates fields with information.

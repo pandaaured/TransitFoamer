@@ -10,4 +10,5 @@ edition = "2021"
 protobuf = "3.5.0"
 reqwest = "0.12.5"
 reqwest-protobuf = "0.1.0"
+serde_json = "1.0.120"
 

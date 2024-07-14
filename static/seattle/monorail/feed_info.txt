@@ -1,0 +1,2 @@
+feed_id,feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version,feed_contact_email
+96,Seattle Monorail Services,https://www.seattlemonorail.com,en,20240530,20250522,2024-Jun-A,info@seattlemonorail.com

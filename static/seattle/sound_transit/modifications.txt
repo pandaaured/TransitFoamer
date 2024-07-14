@@ -1,0 +1,14 @@
+Below is a list of the changes included in the SC-Fall-2024.1 release of Sound Transit GTFS data.
+
+Schedule Changes
+* Add Fall service change for Link including Lynnwood Link Expansion opening
+* Adjust schedule starting 7/15 to account for testing prior to LLE opening
+
+Route Changes
+* none
+
+Stop Changes
+* Add Shoreline South/148th, Shoreline North/185th, Mountlake Terrace, and Lynnwood City Center
+
+Other Changes
+* none

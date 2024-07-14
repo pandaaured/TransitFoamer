@@ -1,0 +1,2 @@
+feed_id,feed_publisher_name,feed_publisher_url,feed_lang,feed_version
+95,Washington State Ferries,https://www.wsdot.wa.gov/ferries/,en,PDT: 10-Jul-2024 04:27

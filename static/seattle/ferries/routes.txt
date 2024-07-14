@@ -1,0 +1,39 @@
+agency_id,route_id,route_short_name,route_long_name,route_type
+95,101,,Friday Harbor - Anacortes,4
+95,1013,,Friday Harbor - Lopez Island,4
+95,1015,,Friday Harbor - Orcas Island,4
+95,1018,,Friday Harbor - Shaw Island,4
+95,110,,Anacortes - Friday Harbor,4
+95,1117,,Coupeville  - Port Townsend,4
+95,113,,Anacortes - Lopez Island,4
+95,115,,Anacortes - Orcas Island,4
+95,118,,Anacortes - Shaw Island,4
+95,128,,Kingston - Edmonds,4
+95,131,,Lopez Island - Anacortes,4
+95,1310,,Lopez Island - Friday Harbor,4
+95,1315,,Lopez Island - Orcas Island,4
+95,1318,,Lopez Island - Shaw Island,4
+95,145,,Mukilteo - Clinton,4
+95,151,,Orcas Island - Anacortes,4
+95,1510,,Orcas Island - Friday Harbor,4
+95,1513,,Orcas Island - Lopez Island,4
+95,1518,,Orcas Island - Shaw Island,4
+95,1621,,Point Defiance - Tahlequah,4
+95,1711,,Port Townsend - Coupeville,4
+95,181,,Shaw Island - Anacortes,4
+95,1810,,Shaw Island - Friday Harbor,4
+95,1813,,Shaw Island - Lopez Island,4
+95,1815,,Shaw Island - Orcas Island,4
+95,2022,,Southworth - Vashon Island,4
+95,209,,Southworth - Fauntleroy,4
+95,2116,,Tahlequah - Point Defiance,4
+95,2220,,Vashon Island - Southworth,4
+95,229,,Vashon Island - Fauntleroy,4
+95,37,,Bainbridge Island - Seattle,4
+95,47,,Bremerton - Seattle,4
+95,514,,Clinton - Mukilteo,4
+95,73,,Seattle - Bainbridge Island,4
+95,74,,Seattle - Bremerton,4
+95,812,,Edmonds - Kingston,4
+95,920,,Fauntleroy - Southworth,4
+95,922,,Fauntleroy - Vashon Island,4
