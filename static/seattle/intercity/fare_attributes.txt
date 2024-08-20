@@ -1,2 +1,0 @@
-fare_id,price,currency_type,payment_method,transfers,agency_id,transfer_duration,youth_price,senior_price
-3,0.0,USD,0,1,0,60,0.0,0.0

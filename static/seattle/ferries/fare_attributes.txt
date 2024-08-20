@@ -1,9 +1,0 @@
-fare_id,price,currency_type,payment_method,transfers,youth_price,senior_price
-ASJIR,14.85,USD,1,0,0.0,0.0
-MCR,5.65,USD,1,0,0.0,0.0
-PTCR,3.85,USD,1,0,0.0,0.0
-CSR,9.25,USD,1,0,0.0,0.0
-SSR,0.0,USD,1,0,0.0,0.0
-FSR,7.2,USD,1,0,0.0,0.0
-SJIR,0.0,USD,1,0,0.0,0.0
-EBR,6.1,USD,1,0,0.0,0.0

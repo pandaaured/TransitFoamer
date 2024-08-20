@@ -1,3 +1,0 @@
-feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version,feed_contact_url,feed_contact_email
-PT,https://www.piercetransit.org,en,20240609,20240831,S1000098,https://www.piercetransit.org/contact-us/,rholmes@piercetransit.org
-

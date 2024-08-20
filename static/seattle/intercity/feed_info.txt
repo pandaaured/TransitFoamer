@@ -1,2 +1,0 @@
-feed_id,feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version
-19,Intercity Transit,https://www.intercitytransit.com/,en,20240627,20240907,20240626
