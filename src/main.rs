@@ -13,9 +13,7 @@ fn main() {
     let header_string = &string[..header_index].to_string();
     string_to_vector(header_string);
 
-    
-
-    let vector: Vec<String> = string.lines().map(String::from).collect();
+    // let vector: Vec<String> = string.lines().map(String::from).collect();
 }
 
 fn header_end_index(str: &String) -> usize {
