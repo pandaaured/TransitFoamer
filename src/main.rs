@@ -9,7 +9,6 @@ fn main() {
         .output()
         .expect("failed to execute process")};
     
-    println!("{:#?}", python3_child);
         
     // let data_vec = string_to_vec_of_vec_of_vec();
     // let agency = vec_to_hashmap_ag(&data_vec[0]);

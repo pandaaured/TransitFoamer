@@ -49,7 +49,7 @@ prt_bus_vehicles = "https://truetime.portauthority.org/gtfsrt-bus/vehicles"
 prt_train_vehicles = "https://truetime.portauthority.org/gtfsrt-train/vehicles"
 prt_train_trips = "https://truetime.portauthority.org/gtfsrt-train/trips"
 
-main(prt_bus_trips, "prt_bus_trips.json")
-main(prt_bus_vehicles, "prt_bus_vehicles.json")
-main(prt_train_trips, "prt_train_trips.json")
-main(prt_train_vehicles, "prt_train_vehicles.json")
+main(prt_bus_trips, "out/prt_bus_trips.json")
+main(prt_bus_vehicles, "out/prt_bus_vehicles.json")
+main(prt_train_trips, "out/prt_train_trips.json")
+main(prt_train_vehicles, "out/prt_train_vehicles.json")
