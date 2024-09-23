@@ -43,3 +43,13 @@ def main(endpoint, output):
     print(f"\x1b[33m debug str has size \x1b[34m{len(fm_str) / 1000} KB\x1b[0m")
     print(f"\n\x1b[32mSuccessfully wrote output to \x1b[34m{output}\x1b[0m")
     return data
+
+prt_bus_trips = "https://truetime.portauthority.org/gtfsrt-bus/trips"
+prt_bus_vehicles = "https://truetime.portauthority.org/gtfsrt-bus/vehicles"
+prt_train_vehicles = "https://truetime.portauthority.org/gtfsrt-train/vehicles"
+prt_train_trips = "https://truetime.portauthority.org/gtfsrt-train/trips"
+
+main(prt_bus_trips, "prt_bus_trips.json")
+main(prt_bus_vehicles, "prt_bus_vehicles.json")
+main(prt_train_trips, "prt_train_trips.json")
+main(prt_train_vehicles, "prt_train_vehicles.json")

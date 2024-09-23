@@ -4,10 +4,17 @@ use std::process::Command;
 
 
 fn main() {
-    let data_vec = string_to_vec_of_vec_of_vec();
+    let python3_child = {Command::new("python3")
+        .arg("fetcher.py")
+        .output()
+        .expect("failed to execute process")};
+    
+    println!("{:#?}", python3_child);
+        
+    // let data_vec = string_to_vec_of_vec_of_vec();
     // let agency = vec_to_hashmap_ag(&data_vec[0]);
     // let calendar_dates = vec_to_hashmap_cd(&data_vec[1]);
-    let routes = vec_to_hashmap_rt(&data_vec[4]);
+    // let routes = vec_to_hashmap_rt(&data_vec[4]);
 
 
     // let calendar_dates_vec = &data_vec[1];
@@ -17,7 +24,7 @@ fn main() {
     // let stop_times_vec = &data_vec[6];
     // let stops_vec = &data_vec[7];
     // let trips_vec = &data_vec[9];
-    println!("{:#?}", routes);
+    // println!("{:#?}", routes);
 }
 
 fn vec_to_hashmap_ag(vec: &Vec<Vec<String>>) -> HashMap<String, Agency> {
