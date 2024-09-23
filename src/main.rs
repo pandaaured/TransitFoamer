@@ -13,7 +13,16 @@ fn main() {
     let header_string = &string[..header_index].to_string();
     string_to_vector(header_string);
 
-    // let vector: Vec<String> = string.lines().map(String::from).collect();
+    let mut collection: Vec<Vec<String>> = Vec::new();
+
+    let vector: Vec<String> = string.lines().map(String::from).collect();
+    for i in vector.iter() {
+        let row = string_to_vector(i);
+        collection.push(row);
+    }
+
+    println!("{:#?}", collection);
+
 }
 
 fn header_end_index(str: &String) -> usize {
@@ -25,63 +34,63 @@ fn header_end_index(str: &String) -> usize {
     value
 }
 
-fn string_to_vector(str: &String) {
+fn string_to_vector(str: &String) -> Vec<String> {
     let split = str.split(',');
     let terms: Vec<String> = split.map(String::from).collect();
-    println!("{}", terms[0]);
+    terms
 }
 
-#[derive(Debug)]
-struct Agency {
-    agency_id: i32,
-    agency_name: String,
-    agency_url: String,
-    agency_timezone: String,
-    agency_lang: String,
-    agency_phone: String,
-    agency_fare_url: String
-}
+// #[derive(Debug)]
+// struct Agency {
+//     agency_id: i32,
+//     agency_name: String,
+//     agency_url: String,
+//     agency_timezone: String,
+//     agency_lang: String,
+//     agency_phone: String,
+//     agency_fare_url: String
+// }
 
-struct CalendarDates {
-    service_id: String,
-    date: i32,
-    exception_type: String
-}
+// struct CalendarDates {
+//     service_id: String,
+//     date: i32,
+//     exception_type: String
+// }
 
-struct Calendar {
-    service_id: String,
-    monday: bool,
-    tuesday: bool,
-    wednesday: bool,
-    thursday: bool,
-    friday: bool,
-    saturday: bool,
-    sunday: bool,
-    start_date: i32,
-    end_date: i32
-}
+// struct Calendar {
+//     service_id: String,
+//     monday: bool,
+//     tuesday: bool,
+//     wednesday: bool,
+//     thursday: bool,
+//     friday: bool,
+//     saturday: bool,
+//     sunday: bool,
+//     start_date: i32,
+//     end_date: i32
+// }
 
-struct Routes {
-    route_id: String,
-    agency_id: String,
-    route_short_name: String,
-    route_long_name: String,
-    route_desc: String,
-    route_type: String,
-    route_url: String,
-    route_color: String,
-    route_text_color: String
-}
+// struct Routes {
+//     route_id: String,
+//     agency_id: String,
+//     route_short_name: String,
+//     route_long_name: String,
+//     route_desc: String,
+//     route_type: String,
+//     route_url: String,
+//     route_color: String,
+//     route_text_color: String
+// }
 
-struct Trips {
-    route_id: String,
-    service_id: String,
-    trip_id: String,
-    trip_headsign: String,
-    trip_short_name: String,
-    direction_id: String,
-    block_id: String,
-    shape_id: String,
-    wheelchair_accessible: String,
-    bikes_allowed: String
-}
+// struct Trips {
+//     route_id: String,
+//     service_id: String,
+//     trip_id: String,
+//     trip_headsign: String,
+//     trip_short_name: String,
+//     direction_id: String,
+//     block_id: String,
+//     shape_id: String,
+//     wheelchair_accessible: String,
+//     bikes_allowed: String
+// }
