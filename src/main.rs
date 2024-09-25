@@ -1,13 +1,22 @@
 use std::fs;
 use std::collections::HashMap;
 use std::process::Command;
+use serde::{Deserialize, Serialize};
 
+
+#[derive(Debug, Deserialize)]
+pub struct  {
+    #[serde(flatten)]
+    destination_city: HashMap<String, L2>,
+}
 
 fn main() {
     let python3_child = {Command::new("python3")
         .arg("fetcher.py")
         .output()
         .expect("failed to execute process")};
+
+
     
         
     // let data_vec = string_to_vec_of_vec_of_vec();
@@ -25,6 +34,8 @@ fn main() {
     // let trips_vec = &data_vec[9];
     // println!("{:#?}", routes);
 }
+
+
 
 fn vec_to_hashmap_ag(vec: &Vec<Vec<String>>) -> HashMap<String, Agency> {
     let mut data = HashMap::new();
