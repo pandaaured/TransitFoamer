@@ -1,14 +1,6 @@
 use std::fs;
 use std::collections::HashMap;
 use std::process::Command;
-use serde::{Deserialize, Serialize};
-
-
-#[derive(Debug, Deserialize)]
-pub struct  {
-    #[serde(flatten)]
-    destination_city: HashMap<String, L2>,
-}
 
 fn main() {
     let python3_child = {Command::new("python3")

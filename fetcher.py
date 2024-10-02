@@ -38,7 +38,7 @@ def main(endpoint, output):
     fm_str = str(feedmsg)
     data = json_format.MessageToDict(feedmsg)
     print(f"\n\x1b[33mStatusCode from \x1b[36mfeedmsg.ParseFromString(...) \x1b[0m: \x1b[34m{proto_status1}\x1b[0m]")
-    write_to_file(output, fm_str)
+    write_to_file(output, data)
     # Write output to output_path and additional pretty prints :3
     print(f"\x1b[33m debug str has size \x1b[34m{len(fm_str) / 1000} KB\x1b[0m")
     print(f"\n\x1b[32mSuccessfully wrote output to \x1b[34m{output}\x1b[0m")
