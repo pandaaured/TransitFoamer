@@ -146,8 +146,8 @@ pub fn string_to_vec_of_vec_of_vec() -> Vec<Vec<Vec<String>>> {
         let string = 
         fs::read_to_string(path)
             .expect("Should be able to read file.");
-        let agency_vec = string_to_vec_of_vec(&string);
-        double_collection.push(agency_vec);
+        let vec = string_to_vec_of_vec(&string);
+        double_collection.push(vec);
     }
 
     double_collection
