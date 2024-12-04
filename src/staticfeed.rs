@@ -129,7 +129,7 @@ fn file_path(city: &str, file: &str) -> String {
 fn city_files(city: &str) -> Vec<&str> {
     println!("Checking city input: you inputted \x1b[0;31m{}\x1b[0m", city);
     let mut files: Vec<&str> = vec![];
-    if city == "sa" {
+    if city == "satx" {
         files.push("agency");
         files.push("calendar");
         files.push("calendar_dates");
