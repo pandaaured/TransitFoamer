@@ -1,40 +1,48 @@
-// use std::process::Command;  // Use this if we use the python script.
-
-pub mod typeconv;
-pub mod classes;
-
-fn main() {
-    // Importing a python process to call and decode GTFS-RT protobuf files.
-    // let python3_child = {Command::new("python3")
-    //     .arg("fetcher.py")
-    //     .output()
-    //     .expect("failed to execute process")};
-    // We make a vector with all our data.
-    let data_vec = typeconv::string_to_vec_of_vec_of_vec();
-    // Aliasing the elements of this vector.
-    let agency_vec = &data_vec[0];
-    let calendar_dates_vec = &data_vec[1];
-    let calendar_vec = &data_vec[2];
-    let routes_vec = &data_vec[4];
-    let stop_times_vec = &data_vec[6];
-    let stops_vec = &data_vec[7];
-    let trips_vec = &data_vec[9];
-    // We make Hash Maps with the data we want.
-    let agency = 
-        typeconv::vec_to_hashmap_agency(agency_vec);
-    let calendar_dates = 
-        typeconv::vec_to_hashmap_cal_dates(calendar_dates_vec);
-    let calendar = 
-        typeconv::vec_to_hashmap_cal(calendar_vec);
-    let routes = 
-        typeconv::vec_to_hashmap_routes(routes_vec);
-    let stop_times = 
-        typeconv::vec_to_hashmap_stop_times(stop_times_vec);
-    let stops = 
-        typeconv::vec_to_hashmap_stop_times(stops_vec);
-    let trips = 
-        typeconv::vec_to_hashmap_stop_times(trips_vec);
+// use std::collections::HashMap;
+use std::env;
+use gtfs_realtime::FeedMessage;
+use gtfs_realtime::FeedEntity;
 
 
+pub mod staticfeed;
+pub mod realtime;
+pub mod iohandle;
+pub mod search;
+
+
+
+#[tokio::main]
+async fn main() {
+    let args: Vec<String> = env::args().collect();
+    assert!(args.len() >= 2);
+
+    let city = &args[1];    
+
+    // let input_links: HashMap<String, String> = staticfeed::static_data(city); 
+    // let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
+    //     staticfeed::static_data_vector(input_links);
+
+    let buses = realtime::caller(city, "vehicles-bus");
+    let bustrips = realtime::caller(city, "trips-bus");
+    let buses: FeedMessage = buses.await;
+    let bustrips: FeedMessage = bustrips.await;
+    let busdata : Vec<FeedEntity> = buses.entity;
+    let bustripdata: Vec<FeedEntity> = bustrips.entity;
+
+    // iohandle::format_args(args);
+    // println!("{:#?}", &busdata);
+    // println!("{:#?}", &bustrips.entity);
+
+
+
+
+    // let realtime_strings: HashMap<&str, String> = realtime::
+    // realtime::output_get(city);
+
+    // println!("{:?}", realtime_strings["vehicles-bus"]);
+    // for i in realtime_strings {
+    //     let formatted = realtime::slicer(i.1);
+    // }
+    // println!("{}", realtime_strings["vehicles-bus"]);
 
 }
