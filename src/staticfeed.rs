@@ -25,7 +25,6 @@ fn path_io(function: String, path: String) -> HashMap<String, Vec<String>> {
         } else if function == "calendar" {
             key = w[0].clone();
         } else if function == "calendar_dates" {
-            assert!(2 <= w.len());
             key = w[1].clone();
         } else if function == "fare_attributes" {
             key = w[0].clone();

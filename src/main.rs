@@ -7,7 +7,6 @@ use std::collections::HashMap;
 
 pub mod staticfeed;
 pub mod realtime;
-pub mod iohandle;
 pub mod search;
 
 
@@ -15,33 +14,34 @@ pub mod search;
 #[tokio::main]
 async fn main() {
     let args: Vec<String> = env::args().collect();
+    println!("{}", args.len());
     assert!(args.len() >= 2);
- 
-
-    let index: i32 = iohandle::state(args.clone());
     let city = &args[1];    
 
 
-    if index == 0 { // Grabbing GTFS-RT data from Rust and Static.
-        let buses = realtime::requester(&city, "vehicles-bus");
-        let bustrips = realtime::requester(&city, "trips-bus");
-        let buses: FeedMessage = buses.await;
-        let bustrips: FeedMessage = bustrips.await;
-        let busdata : Vec<FeedEntity> = buses.entity;
-        let bustripdata: Vec<FeedEntity> = bustrips.entity;
-        let bus: &Option<VehiclePosition> = &busdata[0].vehicle;
-        let input_links: HashMap<String, String> = staticfeed::static_data(&city); 
-        let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
-            staticfeed::static_data_vector(input_links);
-    } else if index == 1 { // Grabbing GTFS-static only.
-        let input_links: HashMap<String, String> = staticfeed::static_data(&city); 
-        let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
-            staticfeed::static_data_vector(input_links);
-    } else if index == 2 { // Grabbing GTFS-RT from Python.
-        realtime::caller(&city);
+    let buses = realtime::requester(&city, "vehicles-bus");
+    let trips = realtime::requester(&city, "trips-bus");
+    let buses: FeedMessage = buses.await;
+    let trips: FeedMessage = trips.await;
+    let busdata : Vec<FeedEntity> = buses.entity;
+    let tripdata: Vec<FeedEntity> = trips.entity;
 
-  
+    for bus in busdata {
+        println!("{:?}", bus);
     }
+
+    for trip in tripdata {
+        println!("{:?}", trip);
+    }
+
+    let input_links: HashMap<String, String> = staticfeed::static_data(&city); 
+    let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
+        staticfeed::static_data_vector(input_links);
+    let input_links: HashMap<String, String> = staticfeed::static_data(&city); 
+    let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
+        staticfeed::static_data_vector(input_links);
+    
+
 
 
 
