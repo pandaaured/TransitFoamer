@@ -1,7 +1,7 @@
-// use std::collections::HashMap;
 use std::env;
 use gtfs_realtime::FeedMessage;
 use gtfs_realtime::FeedEntity;
+use std::collections::HashMap;
 // use gtfs_realtime::VehiclePosition;
 
 pub mod staticfeed;
@@ -18,6 +18,12 @@ async fn main() {
     let function = &args[2];
     let numbers = &args[3];
 
+    let input_links: HashMap<String, String> = staticfeed::static_data(&city); 
+    let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
+        staticfeed::static_data_vector(input_links);
+    // for (k, v) in static_data {
+    //     println!("{}", k);
+    // }
 
     let buses = realtime::requester(&city, "vehicles-bus");
     let trips = realtime::requester(&city, "trips-bus");
@@ -26,11 +32,9 @@ async fn main() {
     let busdata : Vec<FeedEntity> = buses.entity;
     let tripdata: Vec<FeedEntity> = trips.entity;
 
-    search::result(busdata, tripdata, function, numbers);
+    search::result(busdata, tripdata, static_data, function, numbers);
 
-    // let input_links: HashMap<String, String> = staticfeed::static_data(&city); 
-    // let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
-    //     staticfeed::static_data_vector(input_links);
+
     // let input_links: HashMap<String, String> = staticfeed::static_data(&city); 
     // let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
     //     staticfeed::static_data_vector(input_links);
