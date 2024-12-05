@@ -53,7 +53,6 @@ fn path_io(function: String, path: String) -> HashMap<String, Vec<String>> {
 }
 
 fn path_io_helper(path: String) -> String {
-    println!("{}", path);
     let contents : String = 
        fs::read_to_string(path)
           .expect("Should have been able to read the file");

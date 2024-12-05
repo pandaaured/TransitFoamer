@@ -1,5 +1,5 @@
 use gtfs_realtime::FeedEntity;
-use gtfs_realtime::VehiclePosition;
+// use gtfs_realtime::VehiclePosition;
 use gtfs_realtime::VehicleDescriptor;
 use gtfs_realtime::TripUpdate;
 use gtfs_realtime::TripDescriptor;
@@ -24,12 +24,7 @@ pub fn result (vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>,
     }
 }
 
-fn get_stop_name(stop: String, data: HashMap<String, HashMap<String, Vec<String>>>) -> String {
-    let stop_name = data["stops"][&stop][2].clone();
-    stop_name
-}
-
-fn on_route(vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
+fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
             data: HashMap<String, HashMap<String, Vec<String>>>) {
     for trip in trips {
         // Primary element in this function, all others derive from it.
@@ -54,8 +49,9 @@ fn on_route(vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
                     println!("    arrives at {stop_name}");
                 } else {
                     let destination: String = headsign_vec[3].clone();
-                    println!("\x1b[0;31m{route}\x1b[0m {vehicle_id} is in transit to {destination}");
-                    println!("    arrives at {stop_name}");
+                    println!("\x1b[0;31m{route}\x1b[0m {vehicle_id} {destination} is in transit to {stop_name}");
+                    println!("    arrives at {stop_name} at foo.bar");
+
                 }
 
 
@@ -72,14 +68,14 @@ fn on_route(vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
 
 /* Requires: For our purposes, that we know the option evaluates to some. */ 
 /* Ensures: The result is of type VehiclePosition. */
-fn vehicle_position (entity: Option<VehiclePosition>) -> VehiclePosition {
-    let position : VehiclePosition = match entity {
-        None => panic!("This wasn't a vehicle position."),
-        Some(position) => {position}
-    };
+// fn vehicle_position (entity: Option<VehiclePosition>) -> VehiclePosition {
+//     let position : VehiclePosition = match entity {
+//         None => panic!("This wasn't a vehicle position."),
+//         Some(position) => {position}
+//     };
 
-    position
-}
+//     position
+// }
 
 /* Requires: For our purposes, that we know the option evaluates to some. */ 
 /* Ensures: The result is of type VehicleDescriptor. */
@@ -116,23 +112,23 @@ fn trip_update (entity: Option<TripUpdate>) -> TripUpdate {
     trip_update
 }
 
-fn trip_descriptor (entity: Option<TripDescriptor>) -> TripDescriptor {
-    let descriptor : TripDescriptor = match entity {
-        None => panic!("This wasn't a trip descriptor."),
-        Some(descriptor) => {descriptor}
-    };
+// fn trip_descriptor (entity: Option<TripDescriptor>) -> TripDescriptor {
+//     let descriptor : TripDescriptor = match entity {
+//         None => panic!("This wasn't a trip descriptor."),
+//         Some(descriptor) => {descriptor}
+//     };
 
-    descriptor
-}
+//     descriptor
+// }
 
-fn stop_sequence (entity: Option<u32>) -> u32 {
-    let stop_sequence : u32 = match entity {
-        None => panic!("This wasn't a stop sequence."),
-        Some(stop_sequence) => {stop_sequence}
-    };
+// fn stop_sequence (entity: Option<u32>) -> u32 {
+//     let stop_sequence : u32 = match entity {
+//         None => panic!("This wasn't a stop sequence."),
+//         Some(stop_sequence) => {stop_sequence}
+//     };
 
-    stop_sequence
-}
+//     stop_sequence
+// }
 
 fn stop_id (entity: Option<String>) -> String {
     let stop_id : String = match entity {
@@ -143,13 +139,13 @@ fn stop_id (entity: Option<String>) -> String {
     stop_id
 }
 
-fn arrival () {
+// fn arrival () {
 
-}
+// }
 
-fn departure () {
+// fn departure () {
 
-}
+// }
 
 fn trip_id (entity: Option<String>) -> String {
     let trip_id : String = match entity {
