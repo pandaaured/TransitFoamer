@@ -15,11 +15,12 @@ pub mod fetch {
 
     pub fn result (vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>,
             data: HashMap<String, HashMap<String, Vec<String>>>, 
-            function: &str, number: &str, number2: &str) {
+            function: &str, number: &str, number2: &str,
+            stops: HashMap<String, Vec<String>> ) {
         if function == "route" {
             on_route(vehicles, trips, number, data);
         } else if function == "stop" {
-            // on_stop(vehicles, trips, number);
+            at_stop(vehicles, trips, number, data, stops);
         } else if function == "range" {
             in_range(vehicles, trips, number, number2, data);
         }
@@ -92,6 +93,12 @@ pub mod fetch {
             }
         }
     } 
+
+    fn at_stop(vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, stop: &str,
+         data: HashMap<String, HashMap<String, Vec<String>>>, stops: HashMap<String, Vec<String>>) {
+
+        }
+
 }
 
 

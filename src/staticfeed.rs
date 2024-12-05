@@ -1,16 +1,24 @@
 
+pub mod extdata_gtfs {    
+    use std::collections::HashMap;
+    use std::fs::File;
+    use std::io::Read;
 
+    #[derive(Debug, serde::Deserialize)]
+    struct Data {
+        stops: HashMap<String, Vec<String>>,
+    }
 
+    pub fn routes_per_stop(city: &str) -> HashMap<String, Vec<String>> {
+        let file_path = file_path(city);
+        let mut file = File::open(file_path).unwrap();
+        let mut data = String::new();
+        file.read_to_string(&mut data).unwrap();
+        let json: Data = serde_json::from_str(&mut data).expect("Should work");
+        let hash_data: HashMap<String, Vec<String>> = json.stops;
 
-pub mod extdata_gtfs {
-    use std::fs;
-
-    pub fn routes_per_stop(city: &str) {
-        let file_path = file_path(city).to_owned();
-
-        let data = fs::read_to_string(file_path)
-            .expect("Should be able to read file!");
-        }
+        hash_data   
+    }
 
     fn file_path(city: &str) -> String {
         let mut string: String = "data/".to_string();
