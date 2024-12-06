@@ -2,24 +2,19 @@
   "header": {
     "gtfsRealtimeVersion": "2.0",
     "incrementality": "FULL_DATASET",
-    "timestamp": "1733272244"
+    "timestamp": "1733451221"
   },
   "entity": [
     {
       "id": "1",
       "vehicle": {
-        "trip": {
-          "tripId": "7035020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "59"
-        },
         "position": {
-          "latitude": 40.412693,
-          "longitude": -79.882454,
-          "bearing": 124.0,
-          "speed": 10.72896
+          "latitude": 40.362076,
+          "longitude": -79.93082,
+          "bearing": 123.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272226",
+        "timestamp": "1733451186",
         "vehicle": {
           "id": "6351"
         }
@@ -28,15 +23,20 @@
     {
       "id": "2",
       "vehicle": {
-        "position": {
-          "latitude": 40.457146,
-          "longitude": -79.913475,
-          "bearing": 248.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "1176020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "64"
         },
-        "timestamp": "1733271719",
+        "position": {
+          "latitude": 40.462826,
+          "longitude": -79.947365,
+          "bearing": 275.0,
+          "speed": 8.9408
+        },
+        "timestamp": "1733451195",
         "vehicle": {
-          "id": "6230"
+          "id": "6350"
         }
       }
     },
@@ -44,19 +44,19 @@
       "id": "3",
       "vehicle": {
         "trip": {
-          "tripId": "6827020",
+          "tripId": "10220020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "83"
+          "routeId": "12"
         },
         "position": {
-          "latitude": 40.44895,
-          "longitude": -79.957726,
-          "bearing": 48.0,
-          "speed": 3.57632
+          "latitude": 40.551556,
+          "longitude": -80.015465,
+          "bearing": 325.0,
+          "speed": 0.44704
         },
-        "timestamp": "1733272227",
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "6350"
+          "id": "6353"
         }
       }
     },
@@ -64,29 +64,34 @@
       "id": "4",
       "vehicle": {
         "position": {
-          "latitude": 40.362244,
-          "longitude": -79.931366,
+          "latitude": 40.457085,
+          "longitude": -79.91379,
           "bearing": 359.0,
           "speed": 0.0
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "6352"
+          "id": "6232"
         }
       }
     },
     {
       "id": "5",
       "vehicle": {
-        "position": {
-          "latitude": 40.50082,
-          "longitude": -80.02251,
-          "bearing": 237.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "13042020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "55"
         },
-        "timestamp": "1733272213",
+        "position": {
+          "latitude": 40.352448,
+          "longitude": -79.85156,
+          "bearing": 86.0,
+          "speed": 8.9408
+        },
+        "timestamp": "1733451189",
         "vehicle": {
-          "id": "6110"
+          "id": "6355"
         }
       }
     },
@@ -94,19 +99,19 @@
       "id": "6",
       "vehicle": {
         "trip": {
-          "tripId": "9055020",
+          "tripId": "5881020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "54"
+          "routeId": "81"
         },
         "position": {
-          "latitude": 40.46485,
-          "longitude": -79.95996,
-          "bearing": 77.0,
-          "speed": 6.7056
+          "latitude": 40.430397,
+          "longitude": -79.97707,
+          "bearing": 273.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272222",
+        "timestamp": "1733451180",
         "vehicle": {
-          "id": "6113"
+          "id": "6354"
         }
       }
     },
@@ -114,19 +119,19 @@
       "id": "7",
       "vehicle": {
         "trip": {
-          "tripId": "4613020",
+          "tripId": "3057020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "55"
+          "routeId": "86"
         },
         "position": {
-          "latitude": 40.34494,
-          "longitude": -79.924126,
-          "bearing": 295.0,
-          "speed": 18.32864
+          "latitude": 40.45857,
+          "longitude": -79.90753,
+          "bearing": 282.0,
+          "speed": 4.4704
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "6234"
+          "id": "6112"
         }
       }
     },
@@ -134,34 +139,29 @@
       "id": "8",
       "vehicle": {
         "position": {
-          "latitude": 40.3622,
-          "longitude": -79.930954,
-          "bearing": 123.0,
+          "latitude": 40.362118,
+          "longitude": -79.93076,
+          "bearing": 134.0,
           "speed": 0.0
         },
-        "timestamp": "1733272229",
+        "timestamp": "1733450653",
         "vehicle": {
-          "id": "6355"
+          "id": "6233"
         }
       }
     },
     {
       "id": "9",
       "vehicle": {
-        "trip": {
-          "tripId": "184020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "81"
-        },
         "position": {
-          "latitude": 40.440807,
-          "longitude": -79.96062,
-          "bearing": 124.0,
-          "speed": 0.89408
+          "latitude": 40.36178,
+          "longitude": -79.93118,
+          "bearing": 180.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272205",
+        "timestamp": "1733451179",
         "vehicle": {
-          "id": "6354"
+          "id": "6115"
         }
       }
     },
@@ -169,19 +169,19 @@
       "id": "10",
       "vehicle": {
         "trip": {
-          "tripId": "6517020",
+          "tripId": "425020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "P7"
+          "routeId": "71A"
         },
         "position": {
-          "latitude": 40.35231,
-          "longitude": -79.85612,
-          "bearing": 266.0,
-          "speed": 13.4112
+          "latitude": 40.44402,
+          "longitude": -79.95522,
+          "bearing": 47.0,
+          "speed": 6.7056
         },
-        "timestamp": "1733272231",
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "6233"
+          "id": "6114"
         }
       }
     },
@@ -189,14 +189,14 @@
       "id": "11",
       "vehicle": {
         "position": {
-          "latitude": 40.44653,
-          "longitude": -79.988396,
-          "bearing": 228.0,
-          "speed": 0.0
+          "latitude": 40.501373,
+          "longitude": -80.02253,
+          "bearing": 107.0,
+          "speed": 0.44704
         },
-        "timestamp": "1733272231",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6112"
+          "id": "6106"
         }
       }
     },
@@ -204,14 +204,14 @@
       "id": "12",
       "vehicle": {
         "position": {
-          "latitude": 40.483242,
-          "longitude": -79.947716,
-          "bearing": 36.0,
+          "latitude": 40.361954,
+          "longitude": -79.9299,
+          "bearing": 31.0,
           "speed": 0.0
         },
-        "timestamp": "1733272216",
+        "timestamp": "1733451194",
         "vehicle": {
-          "id": "6236"
+          "id": "6348"
         }
       }
     },
@@ -219,14 +219,14 @@
       "id": "13",
       "vehicle": {
         "position": {
-          "latitude": 40.447517,
-          "longitude": -80.01947,
-          "bearing": 84.0,
+          "latitude": 40.457138,
+          "longitude": -79.91414,
+          "bearing": 116.0,
           "speed": 0.0
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451200",
         "vehicle": {
-          "id": "6357"
+          "id": "6347"
         }
       }
     },
@@ -234,29 +234,34 @@
       "id": "14",
       "vehicle": {
         "position": {
-          "latitude": 40.362137,
-          "longitude": -79.92979,
-          "bearing": 38.0,
+          "latitude": 40.4569,
+          "longitude": -79.91317,
+          "bearing": 359.0,
           "speed": 0.0
         },
-        "timestamp": "1733272209",
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "6115"
+          "id": "6468"
         }
       }
     },
     {
       "id": "15",
       "vehicle": {
+        "trip": {
+          "tripId": "-1337840366",
+          "scheduleRelationship": "ADDED",
+          "routeId": "86"
+        },
         "position": {
-          "latitude": 40.456886,
-          "longitude": -79.9137,
-          "bearing": 122.0,
+          "latitude": 40.461483,
+          "longitude": -79.92501,
+          "bearing": 114.0,
           "speed": 0.0
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451179",
         "vehicle": {
-          "id": "6114"
+          "id": "5934"
         }
       }
     },
@@ -264,19 +269,19 @@
       "id": "16",
       "vehicle": {
         "trip": {
-          "tripId": "13394020",
+          "tripId": "9806020",
           "scheduleRelationship": "SCHEDULED",
           "routeId": "61A"
         },
         "position": {
-          "latitude": 40.437817,
-          "longitude": -79.93128,
-          "bearing": 84.0,
-          "speed": 0.0
+          "latitude": 40.437664,
+          "longitude": -79.96442,
+          "bearing": 241.0,
+          "speed": 11.176
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "3515"
+          "id": "6241"
         }
       }
     },
@@ -284,19 +289,19 @@
       "id": "17",
       "vehicle": {
         "trip": {
-          "tripId": "7409020",
+          "tripId": "7846020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "61B"
+          "routeId": "87"
         },
         "position": {
-          "latitude": 40.43805,
-          "longitude": -79.91914,
-          "bearing": 270.0,
-          "speed": 0.44704
+          "latitude": 40.46238,
+          "longitude": -79.943726,
+          "bearing": 95.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272218",
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "3514"
+          "id": "6361"
         }
       }
     },
@@ -304,49 +309,59 @@
       "id": "18",
       "vehicle": {
         "trip": {
-          "tripId": "-537840590",
-          "scheduleRelationship": "ADDED",
-          "routeId": "61A"
+          "tripId": "7211020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "67"
         },
         "position": {
-          "latitude": 40.441746,
-          "longitude": -80.00241,
-          "bearing": 77.0,
-          "speed": 1.78816
+          "latitude": 40.459396,
+          "longitude": -79.96615,
+          "bearing": 75.0,
+          "speed": 13.4112
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451194",
         "vehicle": {
-          "id": "3510"
+          "id": "6364"
         }
       }
     },
     {
       "id": "19",
       "vehicle": {
-        "position": {
-          "latitude": 40.38953,
-          "longitude": -79.84297,
-          "bearing": 351.0,
-          "speed": 12.517119
+        "trip": {
+          "tripId": "11435020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "Y47"
         },
-        "timestamp": "1733272208",
+        "position": {
+          "latitude": 40.336693,
+          "longitude": -79.97115,
+          "bearing": 243.0,
+          "speed": 17.434559
+        },
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "6348"
+          "id": "6243"
         }
       }
     },
     {
       "id": "20",
       "vehicle": {
+        "trip": {
+          "tripId": "11938020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "51"
+        },
         "position": {
-          "latitude": 40.50098,
-          "longitude": -80.02233,
-          "bearing": 174.0,
+          "latitude": 40.330902,
+          "longitude": -80.02191,
+          "bearing": 201.0,
           "speed": 0.0
         },
-        "timestamp": "1733272227",
+        "timestamp": "1733451189",
         "vehicle": {
-          "id": "6106"
+          "id": "6124"
         }
       }
     },
@@ -354,29 +369,34 @@
       "id": "21",
       "vehicle": {
         "position": {
-          "latitude": 40.457325,
-          "longitude": -79.9133,
-          "bearing": 251.0,
+          "latitude": 40.362316,
+          "longitude": -79.93099,
+          "bearing": 122.0,
           "speed": 0.0
         },
-        "timestamp": "1733272210",
+        "timestamp": "1733451195",
         "vehicle": {
-          "id": "6468"
+          "id": "6245"
         }
       }
     },
     {
       "id": "22",
       "vehicle": {
-        "position": {
-          "latitude": 40.46161,
-          "longitude": -79.90794,
-          "bearing": 70.0,
-          "speed": 3.57632
+        "trip": {
+          "tripId": "9964020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "61C"
         },
-        "timestamp": "1733272220",
+        "position": {
+          "latitude": 40.37297,
+          "longitude": -79.84689,
+          "bearing": 341.0,
+          "speed": 0.0
+        },
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6347"
+          "id": "6244"
         }
       }
     },
@@ -384,34 +404,29 @@
       "id": "23",
       "vehicle": {
         "position": {
-          "latitude": 40.542007,
-          "longitude": -80.17931,
-          "bearing": 231.0,
-          "speed": 7.15264
+          "latitude": 40.405537,
+          "longitude": -80.09074,
+          "bearing": 112.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272202",
+        "timestamp": "1733451181",
         "vehicle": {
-          "id": "6229"
+          "id": "6002"
         }
       }
     },
     {
       "id": "24",
       "vehicle": {
-        "trip": {
-          "tripId": "6948020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "13"
-        },
         "position": {
-          "latitude": 40.516895,
-          "longitude": -80.03863,
-          "bearing": 176.0,
-          "speed": 4.4704
+          "latitude": 40.40333,
+          "longitude": -79.88229,
+          "bearing": 135.0,
+          "speed": 8.9408
         },
-        "timestamp": "1733272215",
+        "timestamp": "1733451192",
         "vehicle": {
-          "id": "6107"
+          "id": "6123"
         }
       }
     },
@@ -419,14 +434,14 @@
       "id": "25",
       "vehicle": {
         "position": {
-          "latitude": 40.54051,
-          "longitude": -79.831245,
-          "bearing": 261.0,
+          "latitude": 40.457195,
+          "longitude": -79.913574,
+          "bearing": 359.0,
           "speed": 0.0
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "5933"
+          "id": "6365"
         }
       }
     },
@@ -434,19 +449,19 @@
       "id": "26",
       "vehicle": {
         "trip": {
-          "tripId": "13446020",
+          "tripId": "2305020",
           "scheduleRelationship": "SCHEDULED",
           "routeId": "61A"
         },
         "position": {
-          "latitude": 40.43806,
-          "longitude": -79.9235,
-          "bearing": 271.0,
-          "speed": 0.0
+          "latitude": 40.427135,
+          "longitude": -79.88513,
+          "bearing": 14.0,
+          "speed": 9.83488
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "3519"
+          "id": "6246"
         }
       }
     },
@@ -454,14 +469,14 @@
       "id": "27",
       "vehicle": {
         "position": {
-          "latitude": 40.361897,
-          "longitude": -79.93072,
-          "bearing": 306.0,
-          "speed": 0.44704
+          "latitude": 40.3617,
+          "longitude": -79.92963,
+          "bearing": 119.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451197",
         "vehicle": {
-          "id": "3518"
+          "id": "6125"
         }
       }
     },
@@ -469,34 +484,39 @@
       "id": "28",
       "vehicle": {
         "trip": {
-          "tripId": "1377020",
+          "tripId": "6688020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "P68"
+          "routeId": "71B"
         },
         "position": {
-          "latitude": 40.41544,
-          "longitude": -79.8569,
-          "bearing": 19.0,
-          "speed": 12.517119
+          "latitude": 40.43831,
+          "longitude": -79.97936,
+          "bearing": 0.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451184",
         "vehicle": {
-          "id": "6362"
+          "id": "6360"
         }
       }
     },
     {
       "id": "29",
       "vehicle": {
-        "position": {
-          "latitude": 40.37176,
-          "longitude": -79.844284,
-          "bearing": 164.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "2736020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "61C"
         },
-        "timestamp": "1733272229",
+        "position": {
+          "latitude": 40.409245,
+          "longitude": -79.899155,
+          "bearing": 86.0,
+          "speed": 11.62304
+        },
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "6241"
+          "id": "3526"
         }
       }
     },
@@ -504,14 +524,14 @@
       "id": "30",
       "vehicle": {
         "position": {
-          "latitude": 40.44985,
-          "longitude": -79.89201,
-          "bearing": 308.0,
+          "latitude": 40.4569,
+          "longitude": -79.91172,
+          "bearing": 342.0,
           "speed": 0.0
         },
-        "timestamp": "1733272220",
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "6361"
+          "id": "3401"
         }
       }
     },
@@ -519,39 +539,34 @@
       "id": "31",
       "vehicle": {
         "trip": {
-          "tripId": "2402020",
+          "tripId": "6280020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "59"
+          "routeId": "83"
         },
         "position": {
-          "latitude": 40.401817,
-          "longitude": -79.83236,
-          "bearing": 35.0,
-          "speed": 16.09344
+          "latitude": 40.452938,
+          "longitude": -79.96553,
+          "bearing": 276.0,
+          "speed": 7.59968
         },
-        "timestamp": "1733272229",
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "6243"
+          "id": "6117"
         }
       }
     },
     {
       "id": "32",
       "vehicle": {
-        "trip": {
-          "tripId": "572020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "93"
-        },
         "position": {
-          "latitude": 40.407993,
-          "longitude": -79.92642,
-          "bearing": 180.0,
+          "latitude": 40.456203,
+          "longitude": -79.914085,
+          "bearing": 229.0,
           "speed": 0.0
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451083",
         "vehicle": {
-          "id": "6122"
+          "id": "6359"
         }
       }
     },
@@ -559,49 +574,49 @@
       "id": "33",
       "vehicle": {
         "position": {
-          "latitude": 40.44727,
-          "longitude": -79.889,
-          "bearing": 328.0,
-          "speed": 11.62304
+          "latitude": 40.408,
+          "longitude": -79.91847,
+          "bearing": 224.0,
+          "speed": 11.176
         },
-        "timestamp": "1733272227",
+        "timestamp": "1733451185",
         "vehicle": {
-          "id": "6364"
+          "id": "6119"
         }
       }
     },
     {
       "id": "34",
       "vehicle": {
-        "position": {
-          "latitude": 40.45693,
-          "longitude": -79.91175,
-          "bearing": 343.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "8504020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "81"
         },
-        "timestamp": "1733272219",
+        "position": {
+          "latitude": 40.44111,
+          "longitude": -80.00139,
+          "bearing": 296.0,
+          "speed": 9.38784
+        },
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6363"
+          "id": "6118"
         }
       }
     },
     {
       "id": "35",
       "vehicle": {
-        "trip": {
-          "tripId": "759020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "93"
-        },
         "position": {
-          "latitude": 40.435173,
-          "longitude": -79.956505,
-          "bearing": 118.0,
-          "speed": 4.02336
+          "latitude": 40.51689,
+          "longitude": -80.03712,
+          "bearing": 345.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272203",
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "6124"
+          "id": "6010"
         }
       }
     },
@@ -609,14 +624,14 @@
       "id": "36",
       "vehicle": {
         "position": {
-          "latitude": 40.36179,
-          "longitude": -79.930534,
-          "bearing": 144.0,
+          "latitude": 40.36194,
+          "longitude": -79.93092,
+          "bearing": 136.0,
           "speed": 0.0
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733450909",
         "vehicle": {
-          "id": "6245"
+          "id": "6252"
         }
       }
     },
@@ -624,54 +639,54 @@
       "id": "37",
       "vehicle": {
         "trip": {
-          "tripId": "10390020",
+          "tripId": "5048020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "81"
+          "routeId": "16"
         },
         "position": {
-          "latitude": 40.442093,
-          "longitude": -80.00122,
-          "bearing": 70.0,
-          "speed": 8.49376
+          "latitude": 40.475666,
+          "longitude": -80.03091,
+          "bearing": 127.0,
+          "speed": 7.59968
         },
-        "timestamp": "1733272231",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6244"
+          "id": "6012"
         }
       }
     },
     {
       "id": "38",
       "vehicle": {
-        "trip": {
-          "tripId": "9358020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "P68"
-        },
         "position": {
-          "latitude": 40.428596,
-          "longitude": -79.79666,
-          "bearing": 16.0,
-          "speed": 1.34112
+          "latitude": 40.44601,
+          "longitude": -79.98907,
+          "bearing": 49.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272230",
+        "timestamp": "1733451184",
         "vehicle": {
-          "id": "6365"
+          "id": "6011"
         }
       }
     },
     {
       "id": "39",
       "vehicle": {
-        "position": {
-          "latitude": 40.501156,
-          "longitude": -80.02211,
-          "bearing": 234.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "9793020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "58"
         },
-        "timestamp": "1733272068",
+        "position": {
+          "latitude": 40.419853,
+          "longitude": -79.92926,
+          "bearing": 142.0,
+          "speed": 0.44704
+        },
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "6005"
+          "id": "7103"
         }
       }
     },
@@ -679,34 +694,29 @@
       "id": "40",
       "vehicle": {
         "position": {
-          "latitude": 40.50095,
-          "longitude": -80.022484,
-          "bearing": 359.0,
+          "latitude": 40.45683,
+          "longitude": -79.91369,
+          "bearing": 119.0,
           "speed": 0.0
         },
-        "timestamp": "1733271681",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "6126"
+          "id": "6256"
         }
       }
     },
     {
       "id": "41",
       "vehicle": {
-        "trip": {
-          "tripId": "2301020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "60"
-        },
         "position": {
-          "latitude": 40.32244,
-          "longitude": -79.83481,
-          "bearing": 218.0,
-          "speed": 0.0
+          "latitude": 40.497208,
+          "longitude": -80.01932,
+          "bearing": 298.0,
+          "speed": 13.85824
         },
-        "timestamp": "1733272210",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "6246"
+          "id": "6014"
         }
       }
     },
@@ -714,64 +724,69 @@
       "id": "42",
       "vehicle": {
         "position": {
-          "latitude": 40.361767,
-          "longitude": -79.93053,
-          "bearing": 299.0,
-          "speed": 0.44704
+          "latitude": 40.482018,
+          "longitude": -80.00741,
+          "bearing": 353.0,
+          "speed": 17.434559
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451178",
         "vehicle": {
-          "id": "3530"
+          "id": "6013"
         }
       }
     },
     {
       "id": "43",
       "vehicle": {
-        "trip": {
-          "tripId": "4753020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "74"
-        },
         "position": {
-          "latitude": 40.455925,
-          "longitude": -79.89688,
-          "bearing": 196.0,
-          "speed": 6.7056
+          "latitude": 40.457706,
+          "longitude": -79.914055,
+          "bearing": 359.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272212",
+        "timestamp": "1733451186",
         "vehicle": {
-          "id": "6360"
+          "id": "7102"
         }
       }
     },
     {
       "id": "44",
       "vehicle": {
-        "position": {
-          "latitude": 40.4985,
-          "longitude": -80.020424,
-          "bearing": 336.0,
-          "speed": 4.4704
+        "trip": {
+          "tripId": "6789020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "54"
         },
-        "timestamp": "1733272212",
+        "position": {
+          "latitude": 40.42128,
+          "longitude": -80.00596,
+          "bearing": 218.0,
+          "speed": 0.0
+        },
+        "timestamp": "1733451183",
         "vehicle": {
-          "id": "3406"
+          "id": "6016"
         }
       }
     },
     {
       "id": "45",
       "vehicle": {
-        "position": {
-          "latitude": 40.36218,
-          "longitude": -79.93071,
-          "bearing": 130.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "9393020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "69"
         },
-        "timestamp": "1733272202",
+        "position": {
+          "latitude": 40.3931,
+          "longitude": -79.761116,
+          "bearing": 264.0,
+          "speed": 15.19936
+        },
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "3527"
+          "id": "6015"
         }
       }
     },
@@ -779,39 +794,34 @@
       "id": "46",
       "vehicle": {
         "trip": {
-          "tripId": "9454020",
+          "tripId": "2992020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "61A"
+          "routeId": "74"
         },
         "position": {
-          "latitude": 40.408844,
-          "longitude": -79.90624,
-          "bearing": 264.0,
-          "speed": 10.72896
+          "latitude": 40.46062,
+          "longitude": -79.88877,
+          "bearing": 106.0,
+          "speed": 4.4704
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "3526"
+          "id": "6257"
         }
       }
     },
     {
       "id": "47",
       "vehicle": {
-        "trip": {
-          "tripId": "4187020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "28X"
-        },
         "position": {
-          "latitude": 40.498043,
-          "longitude": -80.25555,
-          "bearing": 182.0,
-          "speed": 10.2819195
+          "latitude": 40.457558,
+          "longitude": -79.91419,
+          "bearing": 249.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "3404"
+          "id": "7104"
         }
       }
     },
@@ -819,14 +829,14 @@
       "id": "48",
       "vehicle": {
         "position": {
-          "latitude": 40.500874,
-          "longitude": -80.022484,
-          "bearing": 235.0,
+          "latitude": 40.362087,
+          "longitude": -79.93065,
+          "bearing": 124.0,
           "speed": 0.0
         },
-        "timestamp": "1733272204",
+        "timestamp": "1733451195",
         "vehicle": {
-          "id": "3402"
+          "id": "6250"
         }
       }
     },
@@ -834,19 +844,19 @@
       "id": "49",
       "vehicle": {
         "trip": {
-          "tripId": "1634020",
+          "tripId": "6657020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "61C"
+          "routeId": "61B"
         },
         "position": {
-          "latitude": 40.438553,
-          "longitude": -79.9849,
-          "bearing": 273.0,
-          "speed": 0.0
+          "latitude": 40.409184,
+          "longitude": -79.856636,
+          "bearing": 224.0,
+          "speed": 12.07008
         },
-        "timestamp": "1733272211",
+        "timestamp": "1733451185",
         "vehicle": {
-          "id": "3522"
+          "id": "3538"
         }
       }
     },
@@ -854,14 +864,14 @@
       "id": "50",
       "vehicle": {
         "position": {
-          "latitude": 40.457363,
-          "longitude": -79.91425,
-          "bearing": 115.0,
+          "latitude": 40.457745,
+          "longitude": -79.9131,
+          "bearing": 296.0,
           "speed": 0.0
         },
-        "timestamp": "1733272208",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "3401"
+          "id": "3416"
         }
       }
     },
@@ -869,14 +879,14 @@
       "id": "51",
       "vehicle": {
         "position": {
-          "latitude": 40.346504,
-          "longitude": -79.939316,
-          "bearing": 180.0,
-          "speed": 0.0
+          "latitude": 40.49087,
+          "longitude": -79.87815,
+          "bearing": 268.0,
+          "speed": 21.45792
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6117"
+          "id": "3414"
         }
       }
     },
@@ -884,14 +894,14 @@
       "id": "52",
       "vehicle": {
         "position": {
-          "latitude": 40.457596,
-          "longitude": -79.913376,
-          "bearing": 149.0,
+          "latitude": 40.362896,
+          "longitude": -79.930695,
+          "bearing": 359.0,
           "speed": 0.0
         },
-        "timestamp": "1733271764",
+        "timestamp": "1733451188",
         "vehicle": {
-          "id": "6359"
+          "id": "3535"
         }
       }
     },
@@ -899,34 +909,39 @@
       "id": "53",
       "vehicle": {
         "trip": {
-          "tripId": "7973020",
+          "tripId": "13077020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "67"
+          "routeId": "P3"
         },
         "position": {
-          "latitude": 40.449192,
-          "longitude": -79.75159,
-          "bearing": 332.0,
-          "speed": 13.4112
+          "latitude": 40.438053,
+          "longitude": -79.96348,
+          "bearing": 225.0,
+          "speed": 3.57632
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451194",
         "vehicle": {
-          "id": "5941"
+          "id": "3413"
         }
       }
     },
     {
       "id": "54",
       "vehicle": {
-        "position": {
-          "latitude": 40.361965,
-          "longitude": -79.93035,
-          "bearing": 130.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "1008020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "61A"
         },
-        "timestamp": "1733272216",
+        "position": {
+          "latitude": 40.423916,
+          "longitude": -79.88619,
+          "bearing": 193.0,
+          "speed": 8.9408
+        },
+        "timestamp": "1733451194",
         "vehicle": {
-          "id": "6237"
+          "id": "6128"
         }
       }
     },
@@ -934,49 +949,49 @@
       "id": "55",
       "vehicle": {
         "position": {
-          "latitude": 40.361725,
-          "longitude": -79.930336,
-          "bearing": 292.0,
+          "latitude": 40.36266,
+          "longitude": -79.92965,
+          "bearing": 293.0,
           "speed": 0.0
         },
-        "timestamp": "1733272220",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6116"
+          "id": "6249"
         }
       }
     },
     {
       "id": "56",
       "vehicle": {
-        "trip": {
-          "tripId": "244020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "51"
-        },
         "position": {
-          "latitude": 40.38465,
-          "longitude": -79.97798,
-          "bearing": 151.0,
+          "latitude": 40.501152,
+          "longitude": -80.02256,
+          "bearing": 145.0,
           "speed": 0.0
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451191",
         "vehicle": {
-          "id": "6119"
+          "id": "6007"
         }
       }
     },
     {
       "id": "57",
       "vehicle": {
-        "position": {
-          "latitude": 40.36229,
-          "longitude": -79.93089,
-          "bearing": 132.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "4489020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "13"
         },
-        "timestamp": "1733272201",
+        "position": {
+          "latitude": 40.49822,
+          "longitude": -80.0503,
+          "bearing": 24.0,
+          "speed": 8.04672
+        },
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "3528"
+          "id": "6008"
         }
       }
     },
@@ -984,79 +999,64 @@
       "id": "58",
       "vehicle": {
         "trip": {
-          "tripId": "3126020",
+          "tripId": "11606020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "6"
+          "routeId": "61A"
         },
         "position": {
-          "latitude": 40.44641,
-          "longitude": -80.001495,
-          "bearing": 164.0,
-          "speed": 14.752319
+          "latitude": 40.44371,
+          "longitude": -79.95152,
+          "bearing": 162.0,
+          "speed": 3.1292799
         },
-        "timestamp": "1733272216",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "6010"
+          "id": "6129"
         }
       }
     },
     {
       "id": "59",
       "vehicle": {
-        "trip": {
-          "tripId": "3889020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "Y46"
-        },
         "position": {
-          "latitude": 40.34228,
-          "longitude": -79.9671,
-          "bearing": 117.0,
-          "speed": 10.72896
+          "latitude": 40.456905,
+          "longitude": -79.91221,
+          "bearing": 159.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6252"
+          "id": "6144"
         }
       }
     },
     {
       "id": "60",
       "vehicle": {
-        "trip": {
-          "tripId": "9640020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "61B"
-        },
         "position": {
-          "latitude": 40.42205,
-          "longitude": -79.8905,
-          "bearing": 155.0,
+          "latitude": 40.366577,
+          "longitude": -80.10409,
+          "bearing": 55.0,
           "speed": 0.0
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451186",
         "vehicle": {
-          "id": "6251"
+          "id": "6023"
         }
       }
     },
     {
       "id": "61",
       "vehicle": {
-        "trip": {
-          "tripId": "2913020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "P68"
-        },
         "position": {
-          "latitude": 40.429085,
-          "longitude": -79.749084,
-          "bearing": 90.0,
+          "latitude": 40.456646,
+          "longitude": -79.91172,
+          "bearing": 87.0,
           "speed": 0.0
         },
-        "timestamp": "1733272218",
+        "timestamp": "1733451206",
         "vehicle": {
-          "id": "6254"
+          "id": "6264"
         }
       }
     },
@@ -1064,14 +1064,14 @@
       "id": "62",
       "vehicle": {
         "position": {
-          "latitude": 40.589153,
-          "longitude": -80.22929,
-          "bearing": 181.0,
-          "speed": 2.2352
+          "latitude": 40.446102,
+          "longitude": -79.9887,
+          "bearing": 100.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272231",
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "6012"
+          "id": "6026"
         }
       }
     },
@@ -1079,49 +1079,59 @@
       "id": "63",
       "vehicle": {
         "trip": {
-          "tripId": "10833020",
+          "tripId": "8654020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "1"
+          "routeId": "P68"
         },
         "position": {
-          "latitude": 40.49295,
-          "longitude": -79.910736,
-          "bearing": 290.0,
+          "latitude": 40.44706,
+          "longitude": -79.88893,
+          "bearing": 154.0,
           "speed": 6.7056
         },
-        "timestamp": "1733272212",
+        "timestamp": "1733451200",
         "vehicle": {
-          "id": "6011"
+          "id": "6268"
         }
       }
     },
     {
       "id": "64",
       "vehicle": {
-        "position": {
-          "latitude": 40.43425,
-          "longitude": -79.88516,
-          "bearing": 352.0,
-          "speed": 21.01088
+        "trip": {
+          "tripId": "9181020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "82"
         },
-        "timestamp": "1733272228",
+        "position": {
+          "latitude": 40.45432,
+          "longitude": -79.94391,
+          "bearing": 248.0,
+          "speed": 7.15264
+        },
+        "timestamp": "1733451195",
         "vehicle": {
-          "id": "7103"
+          "id": "6261"
         }
       }
     },
     {
       "id": "65",
       "vehicle": {
-        "position": {
-          "latitude": 40.457817,
-          "longitude": -79.91391,
-          "bearing": 257.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "9073020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "48"
         },
-        "timestamp": "1733272217",
+        "position": {
+          "latitude": 40.438797,
+          "longitude": -80.00166,
+          "bearing": 27.0,
+          "speed": 3.57632
+        },
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "7102"
+          "id": "6260"
         }
       }
     },
@@ -1129,159 +1139,149 @@
       "id": "66",
       "vehicle": {
         "position": {
-          "latitude": 40.3624,
-          "longitude": -79.93111,
-          "bearing": 125.0,
+          "latitude": 40.36699,
+          "longitude": -80.10311,
+          "bearing": 76.0,
           "speed": 0.0
         },
-        "timestamp": "1733272085",
+        "timestamp": "1733451190",
         "vehicle": {
-          "id": "6134"
+          "id": "3302"
         }
       }
     },
     {
       "id": "67",
       "vehicle": {
-        "trip": {
-          "tripId": "2454020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "12"
-        },
         "position": {
-          "latitude": 40.442562,
-          "longitude": -79.999985,
-          "bearing": 157.0,
-          "speed": 7.15264
+          "latitude": 40.459446,
+          "longitude": -80.01788,
+          "bearing": 75.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272229",
+        "timestamp": "1733450675",
         "vehicle": {
-          "id": "6016"
+          "id": "3301"
         }
       }
     },
     {
       "id": "68",
       "vehicle": {
-        "trip": {
-          "tripId": "8706020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "69"
-        },
         "position": {
-          "latitude": 40.44921,
-          "longitude": -79.901375,
-          "bearing": 293.0,
-          "speed": 8.9408
+          "latitude": 40.366142,
+          "longitude": -80.104485,
+          "bearing": 287.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451191",
         "vehicle": {
-          "id": "6258"
+          "id": "6018"
         }
       }
     },
     {
       "id": "69",
       "vehicle": {
+        "trip": {
+          "tripId": "2531020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "58"
+        },
         "position": {
-          "latitude": 40.457493,
-          "longitude": -79.91389,
-          "bearing": 242.0,
+          "latitude": 40.44445,
+          "longitude": -79.948494,
+          "bearing": 266.0,
           "speed": 0.0
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "7105"
+          "id": "6138"
         }
       }
     },
     {
       "id": "70",
       "vehicle": {
-        "trip": {
-          "tripId": "2750020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "71C"
-        },
         "position": {
-          "latitude": 40.443134,
-          "longitude": -79.888176,
-          "bearing": 29.0,
-          "speed": 11.62304
+          "latitude": 40.366714,
+          "longitude": -80.103935,
+          "bearing": 55.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272215",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "7104"
+          "id": "6019"
         }
       }
     },
     {
       "id": "71",
       "vehicle": {
-        "trip": {
-          "tripId": "12958020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "75"
-        },
         "position": {
-          "latitude": 40.428646,
-          "longitude": -79.973595,
-          "bearing": 183.0,
+          "latitude": 40.457016,
+          "longitude": -79.91389,
+          "bearing": 128.0,
           "speed": 0.0
         },
-        "timestamp": "1733272217",
+        "timestamp": "1733451184",
         "vehicle": {
-          "id": "6257"
+          "id": "6273"
         }
       }
     },
     {
       "id": "72",
       "vehicle": {
+        "trip": {
+          "tripId": "2578020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "59"
+        },
         "position": {
-          "latitude": 40.457417,
-          "longitude": -79.91404,
-          "bearing": 250.0,
+          "latitude": 40.38283,
+          "longitude": -79.85768,
+          "bearing": 50.0,
           "speed": 0.0
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451183",
         "vehicle": {
-          "id": "3420"
+          "id": "6033"
         }
       }
     },
     {
       "id": "73",
       "vehicle": {
-        "trip": {
-          "tripId": "11549020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "67"
-        },
         "position": {
-          "latitude": 40.435234,
-          "longitude": -79.985176,
-          "bearing": 79.0,
-          "speed": 18.77568
+          "latitude": 40.4453,
+          "longitude": -79.8875,
+          "bearing": 355.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272203",
+        "timestamp": "1733451186",
         "vehicle": {
-          "id": "6370"
+          "id": "6158"
         }
       }
     },
     {
       "id": "74",
       "vehicle": {
-        "position": {
-          "latitude": 40.45729,
-          "longitude": -79.91414,
-          "bearing": 113.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "13880020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "P1"
         },
-        "timestamp": "1733272214",
+        "position": {
+          "latitude": 40.443764,
+          "longitude": -79.995056,
+          "bearing": 249.0,
+          "speed": 0.44704
+        },
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "3417"
+          "id": "3321"
         }
       }
     },
@@ -1289,19 +1289,19 @@
       "id": "75",
       "vehicle": {
         "trip": {
-          "tripId": "12415020",
+          "tripId": "9825020",
           "scheduleRelationship": "SCHEDULED",
           "routeId": "28X"
         },
         "position": {
-          "latitude": 40.44176,
-          "longitude": -80.00249,
-          "bearing": 333.0,
-          "speed": 0.0
+          "latitude": 40.452778,
+          "longitude": -80.17038,
+          "bearing": 122.0,
+          "speed": 3.1292799
         },
-        "timestamp": "1733272220",
+        "timestamp": "1733451192",
         "vehicle": {
-          "id": "3416"
+          "id": "3320"
         }
       }
     },
@@ -1309,19 +1309,19 @@
       "id": "76",
       "vehicle": {
         "trip": {
-          "tripId": "1443020",
+          "tripId": "2947020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "28X"
+          "routeId": "88"
         },
         "position": {
-          "latitude": 40.444504,
-          "longitude": -79.947266,
-          "bearing": 87.0,
-          "speed": 13.4112
+          "latitude": 40.46135,
+          "longitude": -79.92464,
+          "bearing": 294.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272206",
+        "timestamp": "1733451186",
         "vehicle": {
-          "id": "3415"
+          "id": "6270"
         }
       }
     },
@@ -1329,29 +1329,34 @@
       "id": "77",
       "vehicle": {
         "position": {
-          "latitude": 40.362312,
-          "longitude": -79.93035,
-          "bearing": 126.0,
+          "latitude": 40.44981,
+          "longitude": -79.89167,
+          "bearing": 310.0,
           "speed": 0.0
         },
-        "timestamp": "1733271948",
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "3536"
+          "id": "6151"
         }
       }
     },
     {
       "id": "78",
       "vehicle": {
-        "position": {
-          "latitude": 40.440624,
-          "longitude": -79.88121,
-          "bearing": 293.0,
-          "speed": 11.62304
+        "trip": {
+          "tripId": "3353020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "17"
         },
-        "timestamp": "1733272206",
+        "position": {
+          "latitude": 40.480434,
+          "longitude": -80.03451,
+          "bearing": 346.0,
+          "speed": 6.7056
+        },
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "3414"
+          "id": "6708"
         }
       }
     },
@@ -1359,14 +1364,14 @@
       "id": "79",
       "vehicle": {
         "position": {
-          "latitude": 40.362637,
-          "longitude": -79.93137,
-          "bearing": 359.0,
+          "latitude": 40.60054,
+          "longitude": -79.757225,
+          "bearing": 158.0,
           "speed": 0.0
         },
-        "timestamp": "1733272216",
+        "timestamp": "1733451184",
         "vehicle": {
-          "id": "3535"
+          "id": "6707"
         }
       }
     },
@@ -1374,14 +1379,14 @@
       "id": "80",
       "vehicle": {
         "position": {
-          "latitude": 40.352303,
-          "longitude": -79.860664,
-          "bearing": 260.0,
-          "speed": 0.0
+          "latitude": 40.446373,
+          "longitude": -79.9884,
+          "bearing": 344.0,
+          "speed": 1.34112
         },
-        "timestamp": "1733272217",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "3534"
+          "id": "6709"
         }
       }
     },
@@ -1389,34 +1394,39 @@
       "id": "81",
       "vehicle": {
         "trip": {
-          "tripId": "1717020",
+          "tripId": "4987020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "P3"
+          "routeId": "61A"
         },
         "position": {
-          "latitude": 40.445858,
-          "longitude": -79.88811,
-          "bearing": 155.0,
-          "speed": 10.72896
+          "latitude": 40.413845,
+          "longitude": -79.85577,
+          "bearing": 214.0,
+          "speed": 6.7056
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "3413"
+          "id": "6028"
         }
       }
     },
     {
       "id": "82",
       "vehicle": {
+        "trip": {
+          "tripId": "2614020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "77"
+        },
         "position": {
-          "latitude": 40.457253,
-          "longitude": -79.913956,
-          "bearing": 116.0,
+          "latitude": 40.46258,
+          "longitude": -79.928154,
+          "bearing": 113.0,
           "speed": 0.0
         },
-        "timestamp": "1733272202",
+        "timestamp": "1733451189",
         "vehicle": {
-          "id": "3411"
+          "id": "6149"
         }
       }
     },
@@ -1424,14 +1434,14 @@
       "id": "83",
       "vehicle": {
         "position": {
-          "latitude": 40.41478,
-          "longitude": -79.87887,
-          "bearing": 109.0,
+          "latitude": 40.50174,
+          "longitude": -80.0228,
+          "bearing": 54.0,
           "speed": 0.0
         },
-        "timestamp": "1733272207",
+        "timestamp": "1733451180",
         "vehicle": {
-          "id": "3410"
+          "id": "6702"
         }
       }
     },
@@ -1439,14 +1449,14 @@
       "id": "84",
       "vehicle": {
         "position": {
-          "latitude": 40.402767,
-          "longitude": -79.86916,
-          "bearing": 49.0,
+          "latitude": 40.5175,
+          "longitude": -80.03674,
+          "bearing": 285.0,
           "speed": 0.0
         },
-        "timestamp": "1733272206",
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "6249"
+          "id": "6701"
         }
       }
     },
@@ -1454,19 +1464,19 @@
       "id": "85",
       "vehicle": {
         "trip": {
-          "tripId": "64020",
+          "tripId": "3223020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "61D"
+          "routeId": "54"
         },
         "position": {
-          "latitude": 40.44455,
-          "longitude": -79.94579,
-          "bearing": 266.0,
-          "speed": 4.02336
+          "latitude": 40.423473,
+          "longitude": -79.97769,
+          "bearing": 4.0,
+          "speed": 3.57632
         },
-        "timestamp": "1733272222",
+        "timestamp": "1733451197",
         "vehicle": {
-          "id": "6248"
+          "id": "6704"
         }
       }
     },
@@ -1474,29 +1484,34 @@
       "id": "86",
       "vehicle": {
         "position": {
-          "latitude": 40.457005,
-          "longitude": -79.91319,
-          "bearing": 63.0,
+          "latitude": 40.44778,
+          "longitude": -80.01987,
+          "bearing": 265.0,
           "speed": 0.0
         },
-        "timestamp": "1733272207",
+        "timestamp": "1733451185",
         "vehicle": {
-          "id": "6369"
+          "id": "6706"
         }
       }
     },
     {
       "id": "87",
       "vehicle": {
-        "position": {
-          "latitude": 40.576267,
-          "longitude": -80.02586,
-          "bearing": 153.0,
-          "speed": 22.79904
+        "trip": {
+          "tripId": "13227020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "51"
         },
-        "timestamp": "1733272225",
+        "position": {
+          "latitude": 40.3984,
+          "longitude": -79.98861,
+          "bearing": 159.0,
+          "speed": 9.83488
+        },
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "6008"
+          "id": "6043"
         }
       }
     },
@@ -1504,34 +1519,39 @@
       "id": "88",
       "vehicle": {
         "trip": {
-          "tripId": "10058020",
+          "tripId": "5654020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "69"
+          "routeId": "79"
         },
         "position": {
-          "latitude": 40.397945,
-          "longitude": -79.76961,
-          "bearing": 141.0,
-          "speed": 0.0
+          "latitude": 40.454784,
+          "longitude": -79.87167,
+          "bearing": 240.0,
+          "speed": 7.59968
         },
-        "timestamp": "1733272222",
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "6263"
+          "id": "6047"
         }
       }
     },
     {
       "id": "89",
       "vehicle": {
-        "position": {
-          "latitude": 40.365765,
-          "longitude": -80.10377,
-          "bearing": 288.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "9163020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "71C"
         },
-        "timestamp": "1733271958",
+        "position": {
+          "latitude": 40.44068,
+          "longitude": -79.887085,
+          "bearing": 255.0,
+          "speed": 4.91744
+        },
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6020"
+          "id": "6046"
         }
       }
     },
@@ -1539,19 +1559,19 @@
       "id": "90",
       "vehicle": {
         "trip": {
-          "tripId": "10085020",
+          "tripId": "13019020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "74"
+          "routeId": "27"
         },
         "position": {
-          "latitude": 40.45571,
-          "longitude": -79.9106,
-          "bearing": 147.0,
-          "speed": 2.2352
+          "latitude": 40.440002,
+          "longitude": -80.00612,
+          "bearing": 115.0,
+          "speed": 7.15264
         },
-        "timestamp": "1733272227",
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "6144"
+          "id": "6049"
         }
       }
     },
@@ -1559,44 +1579,54 @@
       "id": "91",
       "vehicle": {
         "position": {
-          "latitude": 40.457333,
-          "longitude": -79.91361,
-          "bearing": 359.0,
+          "latitude": 40.47328,
+          "longitude": -79.88803,
+          "bearing": 265.0,
           "speed": 0.0
         },
-        "timestamp": "1733272218",
+        "timestamp": "1733451191",
         "vehicle": {
-          "id": "6265"
+          "id": "6160"
         }
       }
     },
     {
       "id": "92",
       "vehicle": {
-        "position": {
-          "latitude": 40.457157,
-          "longitude": -79.91419,
-          "bearing": 112.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "10312020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "29"
         },
-        "timestamp": "1733272215",
+        "position": {
+          "latitude": 40.439022,
+          "longitude": -80.191864,
+          "bearing": 345.0,
+          "speed": 12.517119
+        },
+        "timestamp": "1733451206",
         "vehicle": {
-          "id": "6264"
+          "id": "6719"
         }
       }
     },
     {
       "id": "93",
       "vehicle": {
-        "position": {
-          "latitude": 40.456947,
-          "longitude": -79.91312,
-          "bearing": 359.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "9329020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "P1"
         },
-        "timestamp": "1733272230",
+        "position": {
+          "latitude": 40.449738,
+          "longitude": -79.89185,
+          "bearing": 129.0,
+          "speed": 14.752319
+        },
+        "timestamp": "1733451194",
         "vehicle": {
-          "id": "6143"
+          "id": "3326"
         }
       }
     },
@@ -1604,14 +1634,14 @@
       "id": "94",
       "vehicle": {
         "position": {
-          "latitude": 40.368317,
-          "longitude": -80.103065,
-          "bearing": 233.0,
-          "speed": 0.44704
+          "latitude": 40.50123,
+          "longitude": -80.02187,
+          "bearing": 231.0,
+          "speed": 1.78816
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451001",
         "vehicle": {
-          "id": "6025"
+          "id": "6711"
         }
       }
     },
@@ -1619,69 +1649,64 @@
       "id": "95",
       "vehicle": {
         "position": {
-          "latitude": 40.456768,
-          "longitude": -79.912476,
-          "bearing": 80.0,
-          "speed": 2.68224
+          "latitude": 40.494247,
+          "longitude": -79.99533,
+          "bearing": 332.0,
+          "speed": 3.57632
         },
-        "timestamp": "1733272226",
+        "timestamp": "1733451182",
         "vehicle": {
-          "id": "6146"
+          "id": "1708"
         }
       }
     },
     {
       "id": "96",
       "vehicle": {
-        "trip": {
-          "tripId": "5067020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "38"
-        },
         "position": {
-          "latitude": 40.44089,
-          "longitude": -80.00416,
-          "bearing": 27.0,
-          "speed": 4.02336
+          "latitude": 40.36648,
+          "longitude": -80.104385,
+          "bearing": 56.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451181",
         "vehicle": {
-          "id": "6024"
+          "id": "6713"
         }
       }
     },
     {
       "id": "97",
       "vehicle": {
-        "trip": {
-          "tripId": "13812020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "P78"
-        },
         "position": {
-          "latitude": 40.485188,
-          "longitude": -79.83741,
-          "bearing": 179.0,
-          "speed": 13.4112
+          "latitude": 40.50325,
+          "longitude": -80.024925,
+          "bearing": 135.0,
+          "speed": 8.49376
         },
-        "timestamp": "1733272206",
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "6266"
+          "id": "1707"
         }
       }
     },
     {
       "id": "98",
       "vehicle": {
-        "position": {
-          "latitude": 40.492867,
-          "longitude": -79.89828,
-          "bearing": 283.0,
-          "speed": 25.48128
+        "trip": {
+          "tripId": "1993020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "13"
         },
-        "timestamp": "1733272211",
+        "position": {
+          "latitude": 40.459595,
+          "longitude": -80.01734,
+          "bearing": 76.0,
+          "speed": 0.0
+        },
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6147"
+          "id": "6712"
         }
       }
     },
@@ -1689,14 +1714,14 @@
       "id": "99",
       "vehicle": {
         "position": {
-          "latitude": 40.456676,
-          "longitude": -79.91183,
-          "bearing": 107.0,
+          "latitude": 40.50071,
+          "longitude": -80.02213,
+          "bearing": 233.0,
           "speed": 0.0
         },
-        "timestamp": "1733272231",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6268"
+          "id": "1706"
         }
       }
     },
@@ -1704,29 +1729,34 @@
       "id": "100",
       "vehicle": {
         "position": {
-          "latitude": 40.453278,
-          "longitude": -80.17009,
-          "bearing": 222.0,
-          "speed": 0.0
+          "latitude": 40.37392,
+          "longitude": -80.1066,
+          "bearing": 354.0,
+          "speed": 10.72896
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451192",
         "vehicle": {
-          "id": "6026"
+          "id": "6715"
         }
       }
     },
     {
       "id": "101",
       "vehicle": {
-        "position": {
-          "latitude": 40.36602,
-          "longitude": -80.10424,
-          "bearing": 281.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "133020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "91"
         },
-        "timestamp": "1733272218",
+        "position": {
+          "latitude": 40.49172,
+          "longitude": -79.86605,
+          "bearing": 65.0,
+          "speed": 9.83488
+        },
+        "timestamp": "1733451190",
         "vehicle": {
-          "id": "6260"
+          "id": "1704"
         }
       }
     },
@@ -1734,69 +1764,74 @@
       "id": "102",
       "vehicle": {
         "trip": {
-          "tripId": "9396020",
+          "tripId": "4186020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "P1"
+          "routeId": "29"
         },
         "position": {
-          "latitude": 40.4497,
-          "longitude": -79.98336,
-          "bearing": 236.0,
-          "speed": 15.6463995
+          "latitude": 40.450794,
+          "longitude": -80.17404,
+          "bearing": 253.0,
+          "speed": 3.57632
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "3425"
+          "id": "6717"
         }
       }
     },
     {
       "id": "103",
       "vehicle": {
-        "position": {
-          "latitude": 40.366444,
-          "longitude": -80.10377,
-          "bearing": 276.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "8450020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "40"
         },
-        "timestamp": "1733272223",
+        "position": {
+          "latitude": 40.427288,
+          "longitude": -80.00895,
+          "bearing": 5.0,
+          "speed": 4.91744
+        },
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "3304"
+          "id": "1703"
         }
       }
     },
     {
       "id": "104",
       "vehicle": {
+        "trip": {
+          "tripId": "6537020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "48"
+        },
         "position": {
-          "latitude": 40.45751,
-          "longitude": -79.91366,
-          "bearing": 254.0,
+          "latitude": 40.421062,
+          "longitude": -80.005936,
+          "bearing": 94.0,
           "speed": 0.0
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "3423"
+          "id": "6716"
         }
       }
     },
     {
       "id": "105",
       "vehicle": {
-        "trip": {
-          "tripId": "4804020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "79"
-        },
         "position": {
-          "latitude": 40.473766,
-          "longitude": -79.86289,
-          "bearing": 103.0,
-          "speed": 9.38784
+          "latitude": 40.500908,
+          "longitude": -80.02252,
+          "bearing": 317.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "6139"
+          "id": "1702"
         }
       }
     },
@@ -1804,14 +1839,14 @@
       "id": "106",
       "vehicle": {
         "position": {
-          "latitude": 40.3666,
-          "longitude": -80.10433,
-          "bearing": 57.0,
+          "latitude": 40.456787,
+          "longitude": -79.91354,
+          "bearing": 123.0,
           "speed": 0.0
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451188",
         "vehicle": {
-          "id": "6018"
+          "id": "6054"
         }
       }
     },
@@ -1819,19 +1854,19 @@
       "id": "107",
       "vehicle": {
         "trip": {
-          "tripId": "6225020",
+          "tripId": "11380020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "48"
+          "routeId": "20"
         },
         "position": {
-          "latitude": 40.428646,
-          "longitude": -79.99161,
-          "bearing": 88.0,
-          "speed": 4.91744
+          "latitude": 40.48104,
+          "longitude": -80.10623,
+          "bearing": 291.0,
+          "speed": 14.30528
         },
-        "timestamp": "1733272217",
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "6017"
+          "id": "6610"
         }
       }
     },
@@ -1839,19 +1874,19 @@
       "id": "108",
       "vehicle": {
         "trip": {
-          "tripId": "166020",
+          "tripId": "6182020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "77"
+          "routeId": "Y49"
         },
         "position": {
-          "latitude": 40.473206,
-          "longitude": -79.82056,
-          "bearing": 134.0,
-          "speed": 11.62304
+          "latitude": 40.43627,
+          "longitude": -80.00112,
+          "bearing": 21.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272229",
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "6259"
+          "id": "6731"
         }
       }
     },
@@ -1859,119 +1894,119 @@
       "id": "109",
       "vehicle": {
         "position": {
-          "latitude": 40.45772,
-          "longitude": -79.9138,
-          "bearing": 250.0,
+          "latitude": 40.411034,
+          "longitude": -79.90655,
+          "bearing": 254.0,
           "speed": 0.0
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451189",
         "vehicle": {
-          "id": "7106"
+          "id": "6730"
         }
       }
     },
     {
       "id": "110",
       "vehicle": {
-        "position": {
-          "latitude": 40.36235,
-          "longitude": -79.931015,
-          "bearing": 127.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "11850020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "P1"
         },
-        "timestamp": "1733272220",
+        "position": {
+          "latitude": 40.415016,
+          "longitude": -79.87947,
+          "bearing": 201.0,
+          "speed": 6.7056
+        },
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6274"
+          "id": "3340"
         }
       }
     },
     {
       "id": "111",
       "vehicle": {
-        "position": {
-          "latitude": 40.417084,
-          "longitude": -79.887474,
-          "bearing": 335.0,
-          "speed": 9.83488
+        "trip": {
+          "tripId": "10000020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "61B"
         },
-        "timestamp": "1733272221",
+        "position": {
+          "latitude": 40.43388,
+          "longitude": -79.894806,
+          "bearing": 331.0,
+          "speed": 6.7056
+        },
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6031"
+          "id": "6052"
         }
       }
     },
     {
       "id": "112",
       "vehicle": {
-        "trip": {
-          "tripId": "6424020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "51"
-        },
         "position": {
-          "latitude": 40.440277,
-          "longitude": -79.99858,
-          "bearing": 208.0,
-          "speed": 0.0
+          "latitude": 40.444286,
+          "longitude": -79.99163,
+          "bearing": 230.0,
+          "speed": 6.7056
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6034"
+          "id": "1712"
         }
       }
     },
     {
       "id": "113",
       "vehicle": {
-        "trip": {
-          "tripId": "4981020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "56"
-        },
         "position": {
-          "latitude": 40.37098,
-          "longitude": -79.91484,
-          "bearing": 313.0,
-          "speed": 10.72896
+          "latitude": 40.440376,
+          "longitude": -80.06959,
+          "bearing": 99.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272229",
+        "timestamp": "1733451186",
         "vehicle": {
-          "id": "6033"
+          "id": "6609"
         }
       }
     },
     {
       "id": "114",
       "vehicle": {
-        "trip": {
-          "tripId": "9472020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "53L"
-        },
         "position": {
-          "latitude": 40.385963,
-          "longitude": -79.90296,
-          "bearing": 21.0,
-          "speed": 8.04672
+          "latitude": 40.44604,
+          "longitude": -79.9888,
+          "bearing": 104.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451188",
         "vehicle": {
-          "id": "6036"
+          "id": "6608"
         }
       }
     },
     {
       "id": "115",
       "vehicle": {
-        "position": {
-          "latitude": 40.456646,
-          "longitude": -79.91235,
-          "bearing": 92.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "6755020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "40"
         },
-        "timestamp": "1733272230",
+        "position": {
+          "latitude": 40.415894,
+          "longitude": -80.011024,
+          "bearing": 2.0,
+          "speed": 8.04672
+        },
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6157"
+          "id": "1710"
         }
       }
     },
@@ -1979,14 +2014,14 @@
       "id": "116",
       "vehicle": {
         "position": {
-          "latitude": 40.473312,
-          "longitude": -79.888145,
-          "bearing": 258.0,
+          "latitude": 40.45748,
+          "longitude": -79.91328,
+          "bearing": 249.0,
           "speed": 0.0
         },
-        "timestamp": "1733272210",
+        "timestamp": "1733451179",
         "vehicle": {
-          "id": "6159"
+          "id": "3336"
         }
       }
     },
@@ -1994,19 +2029,19 @@
       "id": "117",
       "vehicle": {
         "trip": {
-          "tripId": "5679020",
+          "tripId": "8985020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "69"
+          "routeId": "31"
         },
         "position": {
-          "latitude": 40.447254,
-          "longitude": -79.895485,
-          "bearing": 113.0,
-          "speed": 0.0
+          "latitude": 40.406586,
+          "longitude": -80.08372,
+          "bearing": 0.0,
+          "speed": 11.62304
         },
-        "timestamp": "1733272218",
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "6158"
+          "id": "1719"
         }
       }
     },
@@ -2014,34 +2049,39 @@
       "id": "118",
       "vehicle": {
         "trip": {
-          "tripId": "95020",
+          "tripId": "12891020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "77"
+          "routeId": "1"
         },
         "position": {
-          "latitude": 40.48426,
-          "longitude": -79.81912,
-          "bearing": 48.0,
-          "speed": 6.7056
+          "latitude": 40.553024,
+          "longitude": -79.77066,
+          "bearing": 352.0,
+          "speed": 20.1168
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451195",
         "vehicle": {
-          "id": "6270"
+          "id": "6603"
         }
       }
     },
     {
       "id": "119",
       "vehicle": {
-        "position": {
-          "latitude": 40.457233,
-          "longitude": -79.91406,
-          "bearing": 117.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "5899020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "41"
         },
-        "timestamp": "1733272227",
+        "position": {
+          "latitude": 40.376057,
+          "longitude": -80.068115,
+          "bearing": 48.0,
+          "speed": 6.7056
+        },
+        "timestamp": "1733451189",
         "vehicle": {
-          "id": "6151"
+          "id": "6724"
         }
       }
     },
@@ -2049,54 +2089,54 @@
       "id": "120",
       "vehicle": {
         "trip": {
-          "tripId": "1846020",
+          "tripId": "5992020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "61B"
+          "routeId": "44"
         },
         "position": {
-          "latitude": 40.440884,
-          "longitude": -79.93594,
-          "bearing": 144.0,
-          "speed": 11.62304
+          "latitude": 40.39645,
+          "longitude": -79.97393,
+          "bearing": 274.0,
+          "speed": 13.4112
         },
-        "timestamp": "1733272222",
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "6150"
+          "id": "1718"
         }
       }
     },
     {
       "id": "121",
       "vehicle": {
-        "trip": {
-          "tripId": "9524020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "2"
-        },
         "position": {
-          "latitude": 40.494305,
-          "longitude": -79.957054,
-          "bearing": 87.0,
-          "speed": 11.62304
+          "latitude": 40.50098,
+          "longitude": -80.02226,
+          "bearing": 230.0,
+          "speed": 1.34112
         },
-        "timestamp": "1733272216",
+        "timestamp": "1733450777",
         "vehicle": {
-          "id": "6708"
+          "id": "6602"
         }
       }
     },
     {
       "id": "122",
       "vehicle": {
-        "position": {
-          "latitude": 40.457645,
-          "longitude": -79.913864,
-          "bearing": 258.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "12878020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "2"
         },
-        "timestamp": "1733272062",
+        "position": {
+          "latitude": 40.566154,
+          "longitude": -80.00206,
+          "bearing": 110.0,
+          "speed": 11.176
+        },
+        "timestamp": "1733451194",
         "vehicle": {
-          "id": "3318"
+          "id": "6604"
         }
       }
     },
@@ -2104,19 +2144,19 @@
       "id": "123",
       "vehicle": {
         "trip": {
-          "tripId": "8377020",
+          "tripId": "6263020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "54"
+          "routeId": "44"
         },
         "position": {
-          "latitude": 40.453403,
-          "longitude": -79.947395,
-          "bearing": 346.0,
-          "speed": 4.02336
+          "latitude": 40.438393,
+          "longitude": -79.99984,
+          "bearing": 206.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6707"
+          "id": "1715"
         }
       }
     },
@@ -2124,34 +2164,39 @@
       "id": "124",
       "vehicle": {
         "trip": {
-          "tripId": "3597020",
+          "tripId": "7597020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "91"
+          "routeId": "54"
         },
         "position": {
-          "latitude": 40.490196,
-          "longitude": -79.87002,
-          "bearing": 58.0,
-          "speed": 3.57632
+          "latitude": 40.45168,
+          "longitude": -79.9519,
+          "bearing": 155.0,
+          "speed": 4.91744
         },
-        "timestamp": "1733272222",
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "6709"
+          "id": "6607"
         }
       }
     },
     {
       "id": "125",
       "vehicle": {
-        "position": {
-          "latitude": 40.363213,
-          "longitude": -79.930954,
-          "bearing": 298.0,
-          "speed": 0.44704
+        "trip": {
+          "tripId": "13473020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "6"
         },
-        "timestamp": "1733272214",
+        "position": {
+          "latitude": 40.454647,
+          "longitude": -79.99477,
+          "bearing": 56.0,
+          "speed": 0.0
+        },
+        "timestamp": "1733451188",
         "vehicle": {
-          "id": "3315"
+          "id": "6606"
         }
       }
     },
@@ -2159,14 +2204,14 @@
       "id": "126",
       "vehicle": {
         "position": {
-          "latitude": 40.36219,
-          "longitude": -79.92996,
-          "bearing": 245.0,
+          "latitude": 40.405396,
+          "longitude": -80.0908,
+          "bearing": 98.0,
           "speed": 0.0
         },
-        "timestamp": "1733271699",
+        "timestamp": "1733451195",
         "vehicle": {
-          "id": "3311"
+          "id": "1713"
         }
       }
     },
@@ -2174,14 +2219,14 @@
       "id": "127",
       "vehicle": {
         "position": {
-          "latitude": 40.35223,
-          "longitude": -79.86085,
-          "bearing": 250.0,
+          "latitude": 40.348366,
+          "longitude": -79.94529,
+          "bearing": 85.0,
           "speed": 0.0
         },
-        "timestamp": "1733272216",
+        "timestamp": "1733451186",
         "vehicle": {
-          "id": "6028"
+          "id": "6727"
         }
       }
     },
@@ -2189,14 +2234,14 @@
       "id": "128",
       "vehicle": {
         "position": {
-          "latitude": 40.456734,
-          "longitude": -79.91194,
-          "bearing": 123.0,
+          "latitude": 40.457813,
+          "longitude": -79.91355,
+          "bearing": 293.0,
           "speed": 0.0
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "6149"
+          "id": "8001"
         }
       }
     },
@@ -2204,59 +2249,49 @@
       "id": "129",
       "vehicle": {
         "trip": {
-          "tripId": "458020",
+          "tripId": "2594020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "1"
+          "routeId": "Y46"
         },
         "position": {
-          "latitude": 40.496086,
-          "longitude": -79.94064,
-          "bearing": 127.0,
-          "speed": 8.9408
+          "latitude": 40.357754,
+          "longitude": -79.981125,
+          "bearing": 332.0,
+          "speed": 15.6463995
         },
-        "timestamp": "1733272214",
+        "timestamp": "1733451191",
         "vehicle": {
-          "id": "6702"
+          "id": "6620"
         }
       }
     },
     {
       "id": "130",
       "vehicle": {
-        "trip": {
-          "tripId": "11674020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "54"
-        },
         "position": {
-          "latitude": 40.42104,
-          "longitude": -79.99926,
-          "bearing": 73.0,
-          "speed": 7.59968
+          "latitude": 40.414658,
+          "longitude": -79.85359,
+          "bearing": 302.0,
+          "speed": 8.04672
         },
-        "timestamp": "1733272205",
+        "timestamp": "1733451176",
         "vehicle": {
-          "id": "6704"
+          "id": "6060"
         }
       }
     },
     {
       "id": "131",
       "vehicle": {
-        "trip": {
-          "tripId": "10608020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "71A"
-        },
         "position": {
-          "latitude": 40.46949,
-          "longitude": -79.92717,
-          "bearing": 19.0,
-          "speed": 5.81152
+          "latitude": 40.42107,
+          "longitude": -80.006294,
+          "bearing": 359.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272230",
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "3319"
+          "id": "1723"
         }
       }
     },
@@ -2264,14 +2299,14 @@
       "id": "132",
       "vehicle": {
         "position": {
-          "latitude": 40.45722,
-          "longitude": -79.913925,
-          "bearing": 107.0,
+          "latitude": 40.42102,
+          "longitude": -80.00575,
+          "bearing": 82.0,
           "speed": 0.0
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "6045"
+          "id": "1722"
         }
       }
     },
@@ -2279,34 +2314,29 @@
       "id": "133",
       "vehicle": {
         "position": {
-          "latitude": 40.457268,
-          "longitude": -79.91342,
-          "bearing": 251.0,
+          "latitude": 40.362144,
+          "longitude": -79.930954,
+          "bearing": 142.0,
           "speed": 0.0
         },
-        "timestamp": "1733272209",
+        "timestamp": "1733451188",
         "vehicle": {
-          "id": "6047"
+          "id": "6619"
         }
       }
     },
     {
       "id": "134",
       "vehicle": {
-        "trip": {
-          "tripId": "8905020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "71B"
-        },
         "position": {
-          "latitude": 40.44725,
-          "longitude": -79.94496,
-          "bearing": 84.0,
+          "latitude": 40.36602,
+          "longitude": -80.1047,
+          "bearing": 359.0,
           "speed": 0.0
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6046"
+          "id": "1720"
         }
       }
     },
@@ -2314,19 +2344,19 @@
       "id": "135",
       "vehicle": {
         "trip": {
-          "tripId": "12405020",
+          "tripId": "4548020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "G2"
+          "routeId": "51"
         },
         "position": {
-          "latitude": 40.44231,
-          "longitude": -80.0004,
-          "bearing": 70.0,
+          "latitude": 40.348034,
+          "longitude": -79.947174,
+          "bearing": 346.0,
           "speed": 0.0
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451188",
         "vehicle": {
-          "id": "6049"
+          "id": "6733"
         }
       }
     },
@@ -2334,39 +2364,34 @@
       "id": "136",
       "vehicle": {
         "trip": {
-          "tripId": "11879020",
+          "tripId": "6742020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "61C"
+          "routeId": "93"
         },
         "position": {
-          "latitude": 40.37582,
-          "longitude": -79.849266,
-          "bearing": 144.0,
-          "speed": 9.83488
+          "latitude": 40.44384,
+          "longitude": -79.95563,
+          "bearing": 319.0,
+          "speed": 6.7056
         },
-        "timestamp": "1733272230",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "3332"
+          "id": "6732"
         }
       }
     },
     {
       "id": "137",
       "vehicle": {
-        "trip": {
-          "tripId": "3773020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "71A"
-        },
         "position": {
-          "latitude": 40.478928,
-          "longitude": -79.91919,
-          "bearing": 206.0,
+          "latitude": 40.440533,
+          "longitude": -80.06886,
+          "bearing": 16.0,
           "speed": 0.0
         },
-        "timestamp": "1733272205",
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "3330"
+          "id": "6611"
         }
       }
     },
@@ -2374,19 +2399,19 @@
       "id": "138",
       "vehicle": {
         "trip": {
-          "tripId": "11936020",
+          "tripId": "8874020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "71D"
+          "routeId": "41"
         },
         "position": {
-          "latitude": 40.443142,
-          "longitude": -79.95647,
-          "bearing": 47.0,
-          "speed": 7.59968
+          "latitude": 40.39529,
+          "longitude": -80.033905,
+          "bearing": 228.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272222",
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "6160"
+          "id": "6614"
         }
       }
     },
@@ -2394,39 +2419,34 @@
       "id": "139",
       "vehicle": {
         "trip": {
-          "tripId": "5949020",
+          "tripId": "8312020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "28X"
+          "routeId": "4"
         },
         "position": {
-          "latitude": 40.435513,
-          "longitude": -79.98326,
-          "bearing": 79.0,
-          "speed": 25.034239
+          "latitude": 40.48947,
+          "longitude": -79.99243,
+          "bearing": 284.0,
+          "speed": 16.54048
         },
-        "timestamp": "1733272206",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "3329"
+          "id": "1728"
         }
       }
     },
     {
       "id": "140",
       "vehicle": {
-        "trip": {
-          "tripId": "10501020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "G2"
-        },
         "position": {
-          "latitude": 40.40684,
-          "longitude": -80.08949,
-          "bearing": 200.0,
-          "speed": 10.72896
+          "latitude": 40.44525,
+          "longitude": -79.99025,
+          "bearing": 225.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "6719"
+          "id": "6613"
         }
       }
     },
@@ -2434,29 +2454,34 @@
       "id": "141",
       "vehicle": {
         "position": {
-          "latitude": 40.457027,
-          "longitude": -79.913605,
-          "bearing": 114.0,
-          "speed": 0.0
+          "latitude": 40.362255,
+          "longitude": -79.92999,
+          "bearing": 28.0,
+          "speed": 1.78816
         },
-        "timestamp": "1733272203",
+        "timestamp": "1733451200",
         "vehicle": {
-          "id": "3208"
+          "id": "6734"
         }
       }
     },
     {
       "id": "142",
       "vehicle": {
-        "position": {
-          "latitude": 40.445927,
-          "longitude": -79.98938,
-          "bearing": 227.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "174020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "56"
         },
-        "timestamp": "1733272217",
+        "position": {
+          "latitude": 40.42461,
+          "longitude": -79.95188,
+          "bearing": 158.0,
+          "speed": 7.15264
+        },
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6718"
+          "id": "6736"
         }
       }
     },
@@ -2464,84 +2489,94 @@
       "id": "143",
       "vehicle": {
         "trip": {
-          "tripId": "5058020",
+          "tripId": "4541020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "71B"
+          "routeId": "21"
         },
         "position": {
-          "latitude": 40.43876,
-          "longitude": -79.994896,
-          "bearing": 161.0,
-          "speed": 3.1292799
+          "latitude": 40.47344,
+          "longitude": -80.06265,
+          "bearing": 122.0,
+          "speed": 8.04672
         },
-        "timestamp": "1733272203",
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "3326"
+          "id": "1725"
         }
       }
     },
     {
       "id": "144",
       "vehicle": {
-        "position": {
-          "latitude": 40.530018,
-          "longitude": -80.00927,
-          "bearing": 322.0,
-          "speed": 7.59968
+        "trip": {
+          "tripId": "8857020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "71A"
         },
-        "timestamp": "1733272203",
+        "position": {
+          "latitude": 40.47787,
+          "longitude": -79.91967,
+          "bearing": 205.0,
+          "speed": 8.04672
+        },
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "6711"
+          "id": "6738"
         }
       }
     },
     {
       "id": "145",
       "vehicle": {
-        "position": {
-          "latitude": 40.500713,
-          "longitude": -80.02258,
-          "bearing": 319.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "8784020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "61D"
         },
-        "timestamp": "1733272231",
+        "position": {
+          "latitude": 40.408848,
+          "longitude": -79.91708,
+          "bearing": 43.0,
+          "speed": 7.59968
+        },
+        "timestamp": "1733451178",
         "vehicle": {
-          "id": "1708"
+          "id": "6630"
         }
       }
     },
     {
       "id": "146",
       "vehicle": {
-        "trip": {
-          "tripId": "2623020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "4"
-        },
         "position": {
-          "latitude": 40.501637,
-          "longitude": -80.02178,
-          "bearing": 139.0,
+          "latitude": 40.36176,
+          "longitude": -79.9301,
+          "bearing": 17.0,
           "speed": 0.0
         },
-        "timestamp": "1733271665",
+        "timestamp": "1733450701",
         "vehicle": {
-          "id": "1707"
+          "id": "6632"
         }
       }
     },
     {
       "id": "147",
       "vehicle": {
-        "position": {
-          "latitude": 40.405514,
-          "longitude": -80.09076,
-          "bearing": 108.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "10272020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "1"
         },
-        "timestamp": "1733272212",
+        "position": {
+          "latitude": 40.489395,
+          "longitude": -79.903206,
+          "bearing": 205.0,
+          "speed": 10.72896
+        },
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "6713"
+          "id": "6501"
         }
       }
     },
@@ -2549,19 +2584,19 @@
       "id": "148",
       "vehicle": {
         "trip": {
-          "tripId": "11119020",
+          "tripId": "3599020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "24"
+          "routeId": "17"
         },
         "position": {
-          "latitude": 40.45287,
-          "longitude": -80.15698,
-          "bearing": 243.0,
-          "speed": 0.0
+          "latitude": 40.48166,
+          "longitude": -80.03498,
+          "bearing": 152.0,
+          "speed": 1.34112
         },
-        "timestamp": "1733272209",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6717"
+          "id": "6504"
         }
       }
     },
@@ -2569,39 +2604,34 @@
       "id": "149",
       "vehicle": {
         "trip": {
-          "tripId": "3963020",
+          "tripId": "6973020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "4"
+          "routeId": "91"
         },
         "position": {
-          "latitude": 40.467426,
-          "longitude": -79.98004,
-          "bearing": 25.0,
-          "speed": 8.04672
+          "latitude": 40.49656,
+          "longitude": -79.89039,
+          "bearing": 298.0,
+          "speed": 3.1292799
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451190",
         "vehicle": {
-          "id": "1703"
+          "id": "6506"
         }
       }
     },
     {
       "id": "150",
       "vehicle": {
-        "trip": {
-          "tripId": "3790020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "29"
-        },
         "position": {
-          "latitude": 40.436314,
-          "longitude": -80.19285,
-          "bearing": 116.0,
-          "speed": 3.1292799
+          "latitude": 40.453777,
+          "longitude": -79.99688,
+          "bearing": 341.0,
+          "speed": 22.352
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "6716"
+          "id": "6627"
         }
       }
     },
@@ -2609,39 +2639,34 @@
       "id": "151",
       "vehicle": {
         "trip": {
-          "tripId": "10708020",
+          "tripId": "13351020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "P68"
+          "routeId": "55"
         },
         "position": {
-          "latitude": 40.412605,
-          "longitude": -79.85664,
-          "bearing": 98.0,
-          "speed": 0.89408
+          "latitude": 40.33972,
+          "longitude": -79.95308,
+          "bearing": 303.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272217",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6054"
+          "id": "6626"
         }
       }
     },
     {
       "id": "152",
       "vehicle": {
-        "trip": {
-          "tripId": "13067020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "26"
-        },
         "position": {
-          "latitude": 40.449497,
-          "longitude": -80.04477,
-          "bearing": 159.0,
-          "speed": 9.83488
+          "latitude": 40.517467,
+          "longitude": -80.05229,
+          "bearing": 323.0,
+          "speed": 4.02336
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451189",
         "vehicle": {
-          "id": "6610"
+          "id": "6505"
         }
       }
     },
@@ -2649,19 +2674,19 @@
       "id": "153",
       "vehicle": {
         "trip": {
-          "tripId": "3303020",
+          "tripId": "4575020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "64"
+          "routeId": "91"
         },
         "position": {
-          "latitude": 40.45361,
-          "longitude": -79.93188,
-          "bearing": 155.0,
-          "speed": 8.9408
+          "latitude": 40.485237,
+          "longitude": -79.946106,
+          "bearing": 244.0,
+          "speed": 3.1292799
         },
-        "timestamp": "1733272222",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6731"
+          "id": "6508"
         }
       }
     },
@@ -2669,19 +2694,19 @@
       "id": "154",
       "vehicle": {
         "trip": {
-          "tripId": "13678020",
+          "tripId": "1004020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "56"
+          "routeId": "54"
         },
         "position": {
-          "latitude": 40.37945,
-          "longitude": -79.92509,
-          "bearing": 117.0,
-          "speed": 9.83488
+          "latitude": 40.462845,
+          "longitude": -79.96693,
+          "bearing": 228.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272208",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6730"
+          "id": "6507"
         }
       }
     },
@@ -2689,14 +2714,14 @@
       "id": "155",
       "vehicle": {
         "position": {
-          "latitude": 40.3618,
-          "longitude": -79.93074,
-          "bearing": 138.0,
+          "latitude": 40.53759,
+          "longitude": -80.18535,
+          "bearing": 310.0,
           "speed": 0.0
         },
-        "timestamp": "1733272204",
+        "timestamp": "1733451180",
         "vehicle": {
-          "id": "6052"
+          "id": "6520"
         }
       }
     },
@@ -2704,14 +2729,14 @@
       "id": "156",
       "vehicle": {
         "position": {
-          "latitude": 40.44558,
-          "longitude": -79.98992,
-          "bearing": 77.0,
-          "speed": 0.0
+          "latitude": 40.44591,
+          "longitude": -79.98936,
+          "bearing": 221.0,
+          "speed": 2.2352
         },
-        "timestamp": "1733272207",
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "6051"
+          "id": "6641"
         }
       }
     },
@@ -2719,54 +2744,54 @@
       "id": "157",
       "vehicle": {
         "trip": {
-          "tripId": "9439020",
+          "tripId": "8307020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "36"
+          "routeId": "G2"
         },
         "position": {
-          "latitude": 40.339977,
-          "longitude": -80.054016,
-          "bearing": 60.0,
-          "speed": 0.0
+          "latitude": 40.44158,
+          "longitude": -80.00483,
+          "bearing": 276.0,
+          "speed": 6.7056
         },
-        "timestamp": "1733272222",
+        "timestamp": "1733451206",
         "vehicle": {
-          "id": "6609"
+          "id": "6513"
         }
       }
     },
     {
       "id": "158",
       "vehicle": {
-        "position": {
-          "latitude": 40.500774,
-          "longitude": -80.02202,
-          "bearing": 235.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "3708020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "93"
         },
-        "timestamp": "1733272212",
+        "position": {
+          "latitude": 40.46292,
+          "longitude": -79.95347,
+          "bearing": 35.0,
+          "speed": 9.38784
+        },
+        "timestamp": "1733451186",
         "vehicle": {
-          "id": "1712"
+          "id": "6633"
         }
       }
     },
     {
       "id": "159",
       "vehicle": {
-        "trip": {
-          "tripId": "5913020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "16"
-        },
         "position": {
-          "latitude": 40.455082,
-          "longitude": -80.01495,
-          "bearing": 164.0,
-          "speed": 9.83488
+          "latitude": 40.44581,
+          "longitude": -79.98939,
+          "bearing": 48.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272229",
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "6608"
+          "id": "6512"
         }
       }
     },
@@ -2774,19 +2799,19 @@
       "id": "160",
       "vehicle": {
         "trip": {
-          "tripId": "13869020",
+          "tripId": "8583020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "51"
+          "routeId": "69"
         },
         "position": {
-          "latitude": 40.42864,
-          "longitude": -79.99214,
-          "bearing": 88.0,
-          "speed": 0.0
+          "latitude": 40.39576,
+          "longitude": -79.76769,
+          "bearing": 330.0,
+          "speed": 13.4112
         },
-        "timestamp": "1733272208",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6729"
+          "id": "6636"
         }
       }
     },
@@ -2794,39 +2819,34 @@
       "id": "161",
       "vehicle": {
         "trip": {
-          "tripId": "11330020",
+          "tripId": "1513020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "11"
+          "routeId": "22"
         },
         "position": {
-          "latitude": 40.466526,
-          "longitude": -80.00409,
-          "bearing": 296.0,
-          "speed": 7.59968
+          "latitude": 40.44196,
+          "longitude": -80.00921,
+          "bearing": 182.0,
+          "speed": 11.176
         },
-        "timestamp": "1733272227",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "1710"
+          "id": "6519"
         }
       }
     },
     {
       "id": "162",
       "vehicle": {
-        "trip": {
-          "tripId": "-1593822928",
-          "scheduleRelationship": "ADDED",
-          "routeId": "P1"
-        },
         "position": {
-          "latitude": 40.45047,
-          "longitude": -79.98179,
-          "bearing": 238.0,
-          "speed": 16.09344
+          "latitude": 40.45052,
+          "longitude": -80.11252,
+          "bearing": 327.0,
+          "speed": 17.434559
         },
-        "timestamp": "1733272212",
+        "timestamp": "1733451197",
         "vehicle": {
-          "id": "3336"
+          "id": "6518"
         }
       }
     },
@@ -2834,44 +2854,54 @@
       "id": "163",
       "vehicle": {
         "position": {
-          "latitude": 40.363255,
-          "longitude": -79.93115,
-          "bearing": 262.0,
-          "speed": 1.78816
+          "latitude": 40.457245,
+          "longitude": -79.91324,
+          "bearing": 256.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272227",
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "3334"
+          "id": "6650"
         }
       }
     },
     {
       "id": "164",
       "vehicle": {
-        "position": {
-          "latitude": 40.456944,
-          "longitude": -79.911644,
-          "bearing": 344.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "7708020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "59"
         },
-        "timestamp": "1733272207",
+        "position": {
+          "latitude": 40.37232,
+          "longitude": -79.84887,
+          "bearing": 341.0,
+          "speed": 4.91744
+        },
+        "timestamp": "1733451184",
         "vehicle": {
-          "id": "3213"
+          "id": "6530"
         }
       }
     },
     {
       "id": "165",
       "vehicle": {
-        "position": {
-          "latitude": 40.36269,
-          "longitude": -79.930565,
-          "bearing": 163.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "14100020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "16"
         },
-        "timestamp": "1733272213",
+        "position": {
+          "latitude": 40.47524,
+          "longitude": -80.03019,
+          "bearing": 220.0,
+          "speed": 7.15264
+        },
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "3333"
+          "id": "6412"
         }
       }
     },
@@ -2879,14 +2909,14 @@
       "id": "166",
       "vehicle": {
         "position": {
-          "latitude": 40.366867,
-          "longitude": -80.10255,
-          "bearing": 190.0,
+          "latitude": 40.459637,
+          "longitude": -80.01777,
+          "bearing": 137.0,
           "speed": 0.0
         },
-        "timestamp": "1733272230",
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "6722"
+          "id": "6654"
         }
       }
     },
@@ -2894,14 +2924,14 @@
       "id": "167",
       "vehicle": {
         "position": {
-          "latitude": 40.37194,
-          "longitude": -80.09976,
-          "bearing": 20.0,
-          "speed": 7.59968
+          "latitude": 40.449997,
+          "longitude": -79.891785,
+          "bearing": 303.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272226",
+        "timestamp": "1733451185",
         "vehicle": {
-          "id": "1719"
+          "id": "6653"
         }
       }
     },
@@ -2909,144 +2939,139 @@
       "id": "168",
       "vehicle": {
         "trip": {
-          "tripId": "9430020",
+          "tripId": "23020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "36"
+          "routeId": "61C"
         },
         "position": {
-          "latitude": 40.387287,
-          "longitude": -80.05452,
-          "bearing": 253.0,
-          "speed": 1.34112
+          "latitude": 40.439194,
+          "longitude": -79.99628,
+          "bearing": 116.0,
+          "speed": 4.91744
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "6724"
+          "id": "3257"
         }
       }
     },
     {
       "id": "169",
       "vehicle": {
-        "trip": {
-          "tripId": "5035020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "54"
-        },
         "position": {
-          "latitude": 40.456028,
-          "longitude": -80.00392,
-          "bearing": 343.0,
+          "latitude": 40.457176,
+          "longitude": -79.914116,
+          "bearing": 111.0,
           "speed": 0.0
         },
-        "timestamp": "1733272213",
+        "timestamp": "1733451191",
         "vehicle": {
-          "id": "6603"
+          "id": "6645"
         }
       }
     },
     {
       "id": "170",
       "vehicle": {
+        "trip": {
+          "tripId": "9430020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "36"
+        },
         "position": {
-          "latitude": 40.58666,
-          "longitude": -80.03064,
-          "bearing": 258.0,
+          "latitude": 40.36669,
+          "longitude": -80.10391,
+          "bearing": 54.0,
           "speed": 0.0
         },
-        "timestamp": "1733272207",
+        "timestamp": "1733451190",
         "vehicle": {
-          "id": "6602"
+          "id": "6523"
         }
       }
     },
     {
       "id": "171",
       "vehicle": {
-        "trip": {
-          "tripId": "10582020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "21"
-        },
         "position": {
-          "latitude": 40.45314,
-          "longitude": -80.03962,
-          "bearing": 143.0,
+          "latitude": 40.456852,
+          "longitude": -79.91357,
+          "bearing": 123.0,
           "speed": 0.0
         },
-        "timestamp": "1733272220",
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "1716"
+          "id": "6644"
         }
       }
     },
     {
       "id": "172",
       "vehicle": {
-        "trip": {
-          "tripId": "3566020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "91"
-        },
         "position": {
-          "latitude": 40.4677,
-          "longitude": -79.96357,
-          "bearing": 224.0,
-          "speed": 0.44704
+          "latitude": 40.5019,
+          "longitude": -80.02266,
+          "bearing": 359.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451180",
         "vehicle": {
-          "id": "6605"
+          "id": "6402"
         }
       }
     },
     {
       "id": "173",
       "vehicle": {
-        "position": {
-          "latitude": 40.29399,
-          "longitude": -79.91744,
-          "bearing": 318.0,
-          "speed": 14.752319
+        "trip": {
+          "tripId": "1669020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "28X"
         },
-        "timestamp": "1733272214",
+        "position": {
+          "latitude": 40.44808,
+          "longitude": -79.93526,
+          "bearing": 67.0,
+          "speed": 9.83488
+        },
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6725"
+          "id": "6647"
         }
       }
     },
     {
       "id": "174",
       "vehicle": {
-        "trip": {
-          "tripId": "8481020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "17"
-        },
         "position": {
-          "latitude": 40.47019,
-          "longitude": -80.030464,
-          "bearing": 166.0,
-          "speed": 8.04672
+          "latitude": 40.34659,
+          "longitude": -79.82976,
+          "bearing": 318.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272230",
+        "timestamp": "1733451182",
         "vehicle": {
-          "id": "6606"
+          "id": "6526"
         }
       }
     },
     {
       "id": "175",
       "vehicle": {
-        "position": {
-          "latitude": 40.36211,
-          "longitude": -79.930725,
-          "bearing": 134.0,
-          "speed": 2.2352
+        "trip": {
+          "tripId": "12444020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "88"
         },
-        "timestamp": "1733272216",
+        "position": {
+          "latitude": 40.465656,
+          "longitude": -79.95521,
+          "bearing": 77.0,
+          "speed": 4.91744
+        },
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "6727"
+          "id": "6646"
         }
       }
     },
@@ -3054,19 +3079,19 @@
       "id": "176",
       "vehicle": {
         "trip": {
-          "tripId": "13884020",
+          "tripId": "10201020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "71B"
+          "routeId": "28X"
         },
         "position": {
-          "latitude": 40.470867,
-          "longitude": -79.92049,
-          "bearing": 19.0,
-          "speed": 8.9408
+          "latitude": 40.442684,
+          "longitude": -79.99641,
+          "bearing": 296.0,
+          "speed": 8.04672
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451194",
         "vehicle": {
-          "id": "8002"
+          "id": "6649"
         }
       }
     },
@@ -3074,39 +3099,34 @@
       "id": "177",
       "vehicle": {
         "trip": {
-          "tripId": "9512020",
+          "tripId": "5536020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "28X"
+          "routeId": "P68"
         },
         "position": {
-          "latitude": 40.436817,
-          "longitude": -80.14881,
-          "bearing": 123.0,
-          "speed": 26.8224
+          "latitude": 40.427723,
+          "longitude": -79.74913,
+          "bearing": 28.0,
+          "speed": 2.2352
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451188",
         "vehicle": {
-          "id": "6740"
+          "id": "6648"
         }
       }
     },
     {
       "id": "178",
       "vehicle": {
-        "trip": {
-          "tripId": "2303020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "15"
-        },
         "position": {
-          "latitude": 40.47058,
-          "longitude": -80.01082,
-          "bearing": 256.0,
-          "speed": 8.04672
+          "latitude": 40.36211,
+          "longitude": -79.9308,
+          "bearing": 128.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "6621"
+          "id": "6529"
         }
       }
     },
@@ -3114,39 +3134,34 @@
       "id": "179",
       "vehicle": {
         "trip": {
-          "tripId": "8602020",
+          "tripId": "12442020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "51"
+          "routeId": "59"
         },
         "position": {
-          "latitude": 40.394947,
-          "longitude": -79.986664,
-          "bearing": 338.0,
-          "speed": 9.83488
+          "latitude": 40.412834,
+          "longitude": -79.84477,
+          "bearing": 339.0,
+          "speed": 11.62304
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "6620"
+          "id": "6540"
         }
       }
     },
     {
       "id": "180",
       "vehicle": {
-        "trip": {
-          "tripId": "9084020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "P78"
-        },
         "position": {
-          "latitude": 40.443768,
-          "longitude": -79.993675,
-          "bearing": 304.0,
-          "speed": 0.0
+          "latitude": 40.473457,
+          "longitude": -80.24921,
+          "bearing": 323.0,
+          "speed": 20.1168
         },
-        "timestamp": "1733272222",
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "3232"
+          "id": "6542"
         }
       }
     },
@@ -3154,19 +3169,19 @@
       "id": "181",
       "vehicle": {
         "trip": {
-          "tripId": "10506020",
+          "tripId": "3754020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "44"
+          "routeId": "61B"
         },
         "position": {
-          "latitude": 40.430935,
-          "longitude": -80.001785,
-          "bearing": 120.0,
-          "speed": 0.0
+          "latitude": 40.43805,
+          "longitude": -79.919846,
+          "bearing": 90.0,
+          "speed": 6.7056
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451194",
         "vehicle": {
-          "id": "1723"
+          "id": "6535"
         }
       }
     },
@@ -3174,19 +3189,19 @@
       "id": "182",
       "vehicle": {
         "trip": {
-          "tripId": "4245020",
+          "tripId": "6618020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "43"
+          "routeId": "8"
         },
         "position": {
-          "latitude": 40.428856,
-          "longitude": -79.99796,
-          "bearing": 304.0,
+          "latitude": 40.45844,
+          "longitude": -80.007545,
+          "bearing": 346.0,
           "speed": 6.7056
         },
-        "timestamp": "1733272207",
+        "timestamp": "1733451182",
         "vehicle": {
-          "id": "1722"
+          "id": "6414"
         }
       }
     },
@@ -3194,39 +3209,34 @@
       "id": "183",
       "vehicle": {
         "trip": {
-          "tripId": "8271020",
+          "tripId": "13746020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "51"
+          "routeId": "91"
         },
         "position": {
-          "latitude": 40.387638,
-          "longitude": -79.984184,
-          "bearing": 139.0,
-          "speed": 0.0
+          "latitude": 40.46278,
+          "longitude": -79.96713,
+          "bearing": 23.0,
+          "speed": 7.15264
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451206",
         "vehicle": {
-          "id": "6619"
+          "id": "6413"
         }
       }
     },
     {
       "id": "184",
       "vehicle": {
-        "trip": {
-          "tripId": "13764020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "86"
-        },
         "position": {
-          "latitude": 40.463284,
-          "longitude": -79.95457,
-          "bearing": 258.0,
-          "speed": 10.2819195
+          "latitude": 40.361965,
+          "longitude": -79.92984,
+          "bearing": 22.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272220",
+        "timestamp": "1733451195",
         "vehicle": {
-          "id": "3228"
+          "id": "6534"
         }
       }
     },
@@ -3234,19 +3244,19 @@
       "id": "185",
       "vehicle": {
         "trip": {
-          "tripId": "13338020",
+          "tripId": "4273020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "82"
+          "routeId": "Y46"
         },
         "position": {
-          "latitude": 40.45175,
-          "longitude": -79.95249,
-          "bearing": 68.0,
-          "speed": 3.1292799
+          "latitude": 40.294136,
+          "longitude": -79.903656,
+          "bearing": 134.0,
+          "speed": 10.72896
         },
-        "timestamp": "1733272229",
+        "timestamp": "1733451194",
         "vehicle": {
-          "id": "3223"
+          "id": "6537"
         }
       }
     },
@@ -3254,54 +3264,54 @@
       "id": "186",
       "vehicle": {
         "trip": {
-          "tripId": "11468020",
+          "tripId": "8386020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "Y46"
+          "routeId": "48"
         },
         "position": {
-          "latitude": 40.44026,
-          "longitude": -80.00066,
-          "bearing": 27.0,
-          "speed": 0.0
+          "latitude": 40.41753,
+          "longitude": -79.97204,
+          "bearing": 261.0,
+          "speed": 6.7056
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451195",
         "vehicle": {
-          "id": "6733"
+          "id": "6418"
         }
       }
     },
     {
       "id": "187",
       "vehicle": {
-        "trip": {
-          "tripId": "11669020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "24"
-        },
         "position": {
-          "latitude": 40.4442,
-          "longitude": -80.14692,
-          "bearing": 263.0,
+          "latitude": 40.36661,
+          "longitude": -80.10407,
+          "bearing": 359.0,
           "speed": 0.0
         },
-        "timestamp": "1733272213",
+        "timestamp": "1733451200",
         "vehicle": {
-          "id": "6611"
+          "id": "6417"
         }
       }
     },
     {
       "id": "188",
       "vehicle": {
+        "trip": {
+          "tripId": "5927020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "38"
+        },
         "position": {
-          "latitude": 40.41111,
-          "longitude": -79.90651,
-          "bearing": 252.0,
+          "latitude": 40.36677,
+          "longitude": -80.107864,
+          "bearing": 323.0,
           "speed": 0.0
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451191",
         "vehicle": {
-          "id": "6732"
+          "id": "6419"
         }
       }
     },
@@ -3309,19 +3319,19 @@
       "id": "189",
       "vehicle": {
         "trip": {
-          "tripId": "1124020",
+          "tripId": "5919020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "21"
+          "routeId": "71C"
         },
         "position": {
-          "latitude": 40.50809,
-          "longitude": -80.11305,
-          "bearing": 282.0,
-          "speed": 8.04672
+          "latitude": 40.44324,
+          "longitude": -79.956436,
+          "bearing": 225.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272229",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6614"
+          "id": "6551"
         }
       }
     },
@@ -3329,19 +3339,19 @@
       "id": "190",
       "vehicle": {
         "trip": {
-          "tripId": "2962020",
+          "tripId": "10795020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "40"
+          "routeId": "75"
         },
         "position": {
-          "latitude": 40.428383,
-          "longitude": -80.00848,
-          "bearing": 206.0,
-          "speed": 7.15264
+          "latitude": 40.458393,
+          "longitude": -79.92722,
+          "bearing": 72.0,
+          "speed": 6.7056
         },
-        "timestamp": "1733272230",
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "1728"
+          "id": "6550"
         }
       }
     },
@@ -3349,19 +3359,19 @@
       "id": "191",
       "vehicle": {
         "trip": {
-          "tripId": "6761020",
+          "tripId": "209020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "59"
+          "routeId": "69"
         },
         "position": {
-          "latitude": 40.380245,
-          "longitude": -79.86433,
-          "bearing": 277.0,
-          "speed": 9.83488
+          "latitude": 40.451393,
+          "longitude": -79.908264,
+          "bearing": 208.0,
+          "speed": 4.4704
         },
-        "timestamp": "1733272220",
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "6734"
+          "id": "6552"
         }
       }
     },
@@ -3369,34 +3379,39 @@
       "id": "192",
       "vehicle": {
         "trip": {
-          "tripId": "2056020",
+          "tripId": "13686020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "29"
+          "routeId": "8"
         },
         "position": {
-          "latitude": 40.447514,
-          "longitude": -80.14307,
-          "bearing": 210.0,
-          "speed": 15.6463995
+          "latitude": 40.503826,
+          "longitude": -80.02571,
+          "bearing": 130.0,
+          "speed": 11.62304
         },
-        "timestamp": "1733272220",
+        "timestamp": "1733451185",
         "vehicle": {
-          "id": "1727"
+          "id": "6310"
         }
       }
     },
     {
       "id": "193",
       "vehicle": {
-        "position": {
-          "latitude": 40.600536,
-          "longitude": -79.75716,
-          "bearing": 165.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "9429020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "P68"
         },
-        "timestamp": "1733272214",
+        "position": {
+          "latitude": 40.405033,
+          "longitude": -79.82574,
+          "bearing": 204.0,
+          "speed": 3.1292799
+        },
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "6616"
+          "id": "6546"
         }
       }
     },
@@ -3404,19 +3419,19 @@
       "id": "194",
       "vehicle": {
         "trip": {
-          "tripId": "7160020",
+          "tripId": "13956020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "20"
+          "routeId": "12"
         },
         "position": {
-          "latitude": 40.503677,
-          "longitude": -80.136024,
-          "bearing": 254.0,
-          "speed": 16.54048
+          "latitude": 40.545464,
+          "longitude": -80.01883,
+          "bearing": 253.0,
+          "speed": 8.04672
         },
-        "timestamp": "1733272215",
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "6615"
+          "id": "6303"
         }
       }
     },
@@ -3424,129 +3439,119 @@
       "id": "195",
       "vehicle": {
         "trip": {
-          "tripId": "4935020",
+          "tripId": "12160020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "44"
+          "routeId": "71D"
         },
         "position": {
-          "latitude": 40.384,
-          "longitude": -79.953,
-          "bearing": 171.0,
-          "speed": 12.07008
+          "latitude": 40.452854,
+          "longitude": -79.92091,
+          "bearing": 80.0,
+          "speed": 0.44704
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451178",
         "vehicle": {
-          "id": "1726"
+          "id": "6545"
         }
       }
     },
     {
       "id": "196",
       "vehicle": {
-        "position": {
-          "latitude": 40.411137,
-          "longitude": -79.9063,
-          "bearing": 337.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "4172020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "24"
         },
-        "timestamp": "1733272217",
+        "position": {
+          "latitude": 40.440308,
+          "longitude": -80.00444,
+          "bearing": 298.0,
+          "speed": 6.7056
+        },
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "6736"
+          "id": "6427"
         }
       }
     },
     {
       "id": "197",
       "vehicle": {
+        "trip": {
+          "tripId": "10142020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "71C"
+        },
         "position": {
-          "latitude": 40.352745,
-          "longitude": -80.11521,
-          "bearing": 358.0,
+          "latitude": 40.46058,
+          "longitude": -79.93245,
+          "bearing": 24.0,
           "speed": 0.0
         },
-        "timestamp": "1733272204",
+        "timestamp": "1733451187",
         "vehicle": {
-          "id": "1725"
+          "id": "6548"
         }
       }
     },
     {
       "id": "198",
       "vehicle": {
-        "trip": {
-          "tripId": "11846020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "44"
-        },
         "position": {
-          "latitude": 40.406883,
-          "longitude": -79.97845,
-          "bearing": 194.0,
-          "speed": 9.38784
+          "latitude": 40.501305,
+          "longitude": -80.022766,
+          "bearing": 48.0,
+          "speed": 1.34112
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451189",
         "vehicle": {
-          "id": "1724"
+          "id": "6306"
         }
       }
     },
     {
       "id": "199",
       "vehicle": {
-        "trip": {
-          "tripId": "1117020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "61C"
-        },
         "position": {
-          "latitude": 40.440853,
-          "longitude": -79.95796,
-          "bearing": 46.0,
-          "speed": 5.36448
+          "latitude": 40.44701,
+          "longitude": -79.94881,
+          "bearing": 172.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272226",
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "6617"
+          "id": "6547"
         }
       }
     },
     {
       "id": "200",
       "vehicle": {
-        "trip": {
-          "tripId": "11478020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "71C"
-        },
         "position": {
-          "latitude": 40.451904,
-          "longitude": -79.95194,
-          "bearing": 337.0,
-          "speed": 3.1292799
+          "latitude": 40.366875,
+          "longitude": -80.102974,
+          "bearing": 359.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272230",
+        "timestamp": "1733451183",
         "vehicle": {
-          "id": "6738"
+          "id": "6426"
         }
       }
     },
     {
       "id": "201",
       "vehicle": {
-        "trip": {
-          "tripId": "783020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "53L"
-        },
         "position": {
-          "latitude": 40.35522,
-          "longitude": -79.91291,
-          "bearing": 225.0,
-          "speed": 13.4112
+          "latitude": 40.361885,
+          "longitude": -79.92995,
+          "bearing": 106.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272222",
+        "timestamp": "1733451192",
         "vehicle": {
-          "id": "6630"
+          "id": "6429"
         }
       }
     },
@@ -3554,39 +3559,34 @@
       "id": "202",
       "vehicle": {
         "trip": {
-          "tripId": "4009020",
+          "tripId": "2538020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "51"
+          "routeId": "82"
         },
         "position": {
-          "latitude": 40.428795,
-          "longitude": -79.9849,
-          "bearing": 268.0,
-          "speed": 9.83488
+          "latitude": 40.4393,
+          "longitude": -79.99451,
+          "bearing": 299.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272230",
+        "timestamp": "1733451186",
         "vehicle": {
-          "id": "6632"
+          "id": "6549"
         }
       }
     },
     {
       "id": "203",
       "vehicle": {
-        "trip": {
-          "tripId": "4559020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "13"
-        },
         "position": {
-          "latitude": 40.44448,
-          "longitude": -80.00111,
-          "bearing": 67.0,
+          "latitude": 40.442413,
+          "longitude": -79.99545,
+          "bearing": 112.0,
           "speed": 0.0
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "6510"
+          "id": "6307"
         }
       }
     },
@@ -3594,19 +3594,19 @@
       "id": "204",
       "vehicle": {
         "trip": {
-          "tripId": "768020",
+          "tripId": "7109020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "14"
+          "routeId": "38"
         },
         "position": {
-          "latitude": 40.466724,
-          "longitude": -80.03473,
-          "bearing": 324.0,
-          "speed": 20.1168
+          "latitude": 40.386936,
+          "longitude": -80.04397,
+          "bearing": 80.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451197",
         "vehicle": {
-          "id": "6631"
+          "id": "6320"
         }
       }
     },
@@ -3614,19 +3614,19 @@
       "id": "205",
       "vehicle": {
         "trip": {
-          "tripId": "9484020",
+          "tripId": "13467020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "14"
+          "routeId": "53L"
         },
         "position": {
-          "latitude": 40.54131,
-          "longitude": -80.18174,
-          "bearing": 227.0,
-          "speed": 6.7056
+          "latitude": 40.430508,
+          "longitude": -79.958374,
+          "bearing": 135.0,
+          "speed": 13.4112
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451197",
         "vehicle": {
-          "id": "6509"
+          "id": "6441"
         }
       }
     },
@@ -3634,14 +3634,14 @@
       "id": "206",
       "vehicle": {
         "position": {
-          "latitude": 40.44543,
-          "longitude": -79.99001,
-          "bearing": 225.0,
-          "speed": 0.0
+          "latitude": 40.370487,
+          "longitude": -79.927734,
+          "bearing": 29.0,
+          "speed": 16.09344
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "1730"
+          "id": "6440"
         }
       }
     },
@@ -3649,19 +3649,19 @@
       "id": "207",
       "vehicle": {
         "trip": {
-          "tripId": "4622020",
+          "tripId": "9378020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "55"
+          "routeId": "61B"
         },
         "position": {
-          "latitude": 40.305286,
-          "longitude": -79.88368,
-          "bearing": 308.0,
-          "speed": 11.62304
+          "latitude": 40.44107,
+          "longitude": -79.99814,
+          "bearing": 209.0,
+          "speed": 4.4704
         },
-        "timestamp": "1733272214",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6623"
+          "id": "6443"
         }
       }
     },
@@ -3669,39 +3669,34 @@
       "id": "208",
       "vehicle": {
         "trip": {
-          "tripId": "7692020",
+          "tripId": "880020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "8"
+          "routeId": "22"
         },
         "position": {
-          "latitude": 40.47042,
-          "longitude": -80.00842,
-          "bearing": 173.0,
-          "speed": 8.9408
+          "latitude": 40.4682,
+          "longitude": -80.098114,
+          "bearing": 69.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272220",
+        "timestamp": "1733451181",
         "vehicle": {
-          "id": "6501"
+          "id": "6321"
         }
       }
     },
     {
       "id": "209",
       "vehicle": {
-        "trip": {
-          "tripId": "11488020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "54"
-        },
         "position": {
-          "latitude": 40.428574,
-          "longitude": -79.97753,
-          "bearing": 274.0,
-          "speed": 0.0
+          "latitude": 40.362095,
+          "longitude": -79.93134,
+          "bearing": 301.0,
+          "speed": 1.78816
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "6504"
+          "id": "6442"
         }
       }
     },
@@ -3709,54 +3704,54 @@
       "id": "210",
       "vehicle": {
         "trip": {
-          "tripId": "310020",
+          "tripId": "426020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "61D"
+          "routeId": "38"
         },
         "position": {
-          "latitude": 40.412056,
-          "longitude": -79.90815,
-          "bearing": 343.0,
+          "latitude": 40.440228,
+          "longitude": -80.0086,
+          "bearing": 58.0,
           "speed": 9.83488
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "6624"
+          "id": "6324"
         }
       }
     },
     {
       "id": "211",
       "vehicle": {
-        "trip": {
-          "tripId": "13469020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "2"
-        },
         "position": {
-          "latitude": 40.494255,
-          "longitude": -79.95858,
-          "bearing": 266.0,
-          "speed": 0.89408
+          "latitude": 40.354675,
+          "longitude": -79.89705,
+          "bearing": 353.0,
+          "speed": 12.517119
         },
-        "timestamp": "1733272214",
+        "timestamp": "1733451188",
         "vehicle": {
-          "id": "6627"
+          "id": "6445"
         }
       }
     },
     {
       "id": "212",
       "vehicle": {
-        "position": {
-          "latitude": 40.4473,
-          "longitude": -80.02012,
-          "bearing": 346.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "4810020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "1"
         },
-        "timestamp": "1733272229",
+        "position": {
+          "latitude": 40.471004,
+          "longitude": -79.974556,
+          "bearing": 39.0,
+          "speed": 14.752319
+        },
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "6506"
+          "id": "5909"
         }
       }
     },
@@ -3764,74 +3759,69 @@
       "id": "213",
       "vehicle": {
         "trip": {
-          "tripId": "11714020",
+          "tripId": "3431020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "13"
+          "routeId": "75"
         },
         "position": {
-          "latitude": 40.508247,
-          "longitude": -80.046936,
-          "bearing": 22.0,
-          "speed": 6.7056
+          "latitude": 40.488846,
+          "longitude": -79.892166,
+          "bearing": 290.0,
+          "speed": 4.91744
         },
-        "timestamp": "1733272218",
+        "timestamp": "1733451182",
         "vehicle": {
-          "id": "6505"
+          "id": "6557"
         }
       }
     },
     {
       "id": "214",
       "vehicle": {
-        "trip": {
-          "tripId": "2016020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "Y49"
-        },
         "position": {
-          "latitude": 40.420246,
-          "longitude": -80.00857,
-          "bearing": 233.0,
-          "speed": 9.83488
+          "latitude": 40.430405,
+          "longitude": -79.97692,
+          "bearing": 273.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272206",
+        "timestamp": "1733451190",
         "vehicle": {
-          "id": "6626"
+          "id": "6436"
         }
       }
     },
     {
       "id": "215",
       "vehicle": {
-        "position": {
-          "latitude": 40.501717,
-          "longitude": -80.025635,
-          "bearing": 127.0,
-          "speed": 16.09344
+        "trip": {
+          "tripId": "6471020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "69"
         },
-        "timestamp": "1733272220",
+        "position": {
+          "latitude": 40.4469,
+          "longitude": -79.89442,
+          "bearing": 113.0,
+          "speed": 6.7056
+        },
+        "timestamp": "1733451198",
         "vehicle": {
-          "id": "6508"
+          "id": "6556"
         }
       }
     },
     {
       "id": "216",
       "vehicle": {
-        "trip": {
-          "tripId": "5377020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "22"
-        },
         "position": {
-          "latitude": 40.475296,
-          "longitude": -80.058334,
-          "bearing": 327.0,
-          "speed": 5.36448
+          "latitude": 40.4058,
+          "longitude": -79.86324,
+          "bearing": 61.0,
+          "speed": 5.81152
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451200",
         "vehicle": {
-          "id": "6520"
+          "id": "6435"
         }
       }
     },
@@ -3839,14 +3829,14 @@
       "id": "217",
       "vehicle": {
         "position": {
-          "latitude": 40.457092,
-          "longitude": -79.91409,
-          "bearing": 115.0,
+          "latitude": 40.501858,
+          "longitude": -80.02278,
+          "bearing": 50.0,
           "speed": 0.0
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "6641"
+          "id": "6314"
         }
       }
     },
@@ -3854,94 +3844,84 @@
       "id": "218",
       "vehicle": {
         "trip": {
-          "tripId": "7634020",
+          "tripId": "1639020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "71D"
+          "routeId": "61C"
         },
         "position": {
-          "latitude": 40.449955,
-          "longitude": -79.89163,
-          "bearing": 294.0,
-          "speed": 0.0
+          "latitude": 40.43805,
+          "longitude": -79.92765,
+          "bearing": 264.0,
+          "speed": 4.91744
         },
-        "timestamp": "1733272219",
+        "timestamp": "1733451184",
         "vehicle": {
-          "id": "6522"
+          "id": "6438"
         }
       }
     },
     {
       "id": "219",
       "vehicle": {
-        "trip": {
-          "tripId": "9677020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "67"
-        },
         "position": {
-          "latitude": 40.428192,
-          "longitude": -79.79178,
-          "bearing": 209.0,
-          "speed": 9.83488
+          "latitude": 40.440838,
+          "longitude": -80.068756,
+          "bearing": 6.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451179",
         "vehicle": {
-          "id": "6642"
+          "id": "6317"
         }
       }
     },
     {
       "id": "220",
       "vehicle": {
-        "position": {
-          "latitude": 40.420925,
-          "longitude": -80.00571,
-          "bearing": 76.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "2246020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "P3"
         },
-        "timestamp": "1733272212",
+        "position": {
+          "latitude": 40.419308,
+          "longitude": -79.886406,
+          "bearing": 156.0,
+          "speed": 7.15264
+        },
+        "timestamp": "1733451195",
         "vehicle": {
-          "id": "6521"
+          "id": "6558"
         }
       }
     },
     {
       "id": "221",
       "vehicle": {
-        "trip": {
-          "tripId": "9441020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "61C"
-        },
         "position": {
-          "latitude": 40.419643,
-          "longitude": -79.92755,
-          "bearing": 94.0,
-          "speed": 4.02336
+          "latitude": 40.441917,
+          "longitude": -79.99404,
+          "bearing": 240.0,
+          "speed": 2.2352
         },
-        "timestamp": "1733271955",
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "3253"
+          "id": "6316"
         }
       }
     },
     {
       "id": "222",
       "vehicle": {
-        "trip": {
-          "tripId": "2937020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "61B"
-        },
         "position": {
-          "latitude": 40.40847,
-          "longitude": -79.85779,
-          "bearing": 47.0,
-          "speed": 10.2819195
+          "latitude": 40.361877,
+          "longitude": -79.93057,
+          "bearing": 132.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "3251"
+          "id": "6437"
         }
       }
     },
@@ -3949,14 +3929,14 @@
       "id": "223",
       "vehicle": {
         "position": {
-          "latitude": 40.367043,
-          "longitude": -80.10971,
-          "bearing": 238.0,
+          "latitude": 40.426895,
+          "longitude": -80.07189,
+          "bearing": 35.0,
           "speed": 0.0
         },
-        "timestamp": "1733272230",
+        "timestamp": "1733451191",
         "vehicle": {
-          "id": "6513"
+          "id": "6319"
         }
       }
     },
@@ -3964,14 +3944,14 @@
       "id": "224",
       "vehicle": {
         "position": {
-          "latitude": 40.50295,
-          "longitude": -80.02652,
-          "bearing": 64.0,
-          "speed": 8.9408
+          "latitude": 40.352295,
+          "longitude": -79.86069,
+          "bearing": 260.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451177",
         "vehicle": {
-          "id": "6512"
+          "id": "6439"
         }
       }
     },
@@ -3979,19 +3959,19 @@
       "id": "225",
       "vehicle": {
         "trip": {
-          "tripId": "10089020",
+          "tripId": "6123020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "82"
+          "routeId": "83"
         },
         "position": {
-          "latitude": 40.445625,
-          "longitude": -79.97173,
-          "bearing": 288.0,
-          "speed": 11.62304
+          "latitude": 40.430336,
+          "longitude": -79.97674,
+          "bearing": 274.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6636"
+          "id": "6331"
         }
       }
     },
@@ -3999,19 +3979,19 @@
       "id": "226",
       "vehicle": {
         "trip": {
-          "tripId": "3310020",
+          "tripId": "2547020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "27"
+          "routeId": "64"
         },
         "position": {
-          "latitude": 40.45775,
-          "longitude": -80.07269,
-          "bearing": 253.0,
-          "speed": 7.15264
+          "latitude": 40.41178,
+          "longitude": -79.90797,
+          "bearing": 344.0,
+          "speed": 5.81152
         },
-        "timestamp": "1733272226",
+        "timestamp": "1733451199",
         "vehicle": {
-          "id": "6514"
+          "id": "6330"
         }
       }
     },
@@ -4019,19 +3999,19 @@
       "id": "227",
       "vehicle": {
         "trip": {
-          "tripId": "3031020",
+          "tripId": "2980020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "57"
+          "routeId": "54"
         },
         "position": {
-          "latitude": 40.394657,
-          "longitude": -79.92868,
-          "bearing": 239.0,
-          "speed": 17.8816
+          "latitude": 40.449528,
+          "longitude": -80.019264,
+          "bearing": 76.0,
+          "speed": 8.04672
         },
-        "timestamp": "1733272225",
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "6635"
+          "id": "6212"
         }
       }
     },
@@ -4039,84 +4019,94 @@
       "id": "228",
       "vehicle": {
         "trip": {
-          "tripId": "-1640197874",
-          "scheduleRelationship": "ADDED",
-          "routeId": "86"
+          "tripId": "966020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "77"
         },
         "position": {
-          "latitude": 40.444733,
-          "longitude": -79.885,
-          "bearing": 293.0,
-          "speed": 6.7056
+          "latitude": 40.442978,
+          "longitude": -79.992836,
+          "bearing": 226.0,
+          "speed": 13.4112
         },
-        "timestamp": "1733272229",
+        "timestamp": "1733451196",
         "vehicle": {
-          "id": "6638"
+          "id": "6454"
         }
       }
     },
     {
       "id": "229",
       "vehicle": {
-        "position": {
-          "latitude": 40.365425,
-          "longitude": -80.10469,
-          "bearing": 99.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "3675020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "71D"
         },
-        "timestamp": "1733271988",
+        "position": {
+          "latitude": 40.453682,
+          "longitude": -79.91484,
+          "bearing": 259.0,
+          "speed": 9.83488
+        },
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6517"
+          "id": "6453"
         }
       }
     },
     {
       "id": "230",
       "vehicle": {
-        "trip": {
-          "tripId": "8854020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "31"
-        },
         "position": {
-          "latitude": 40.44134,
-          "longitude": -80.009254,
-          "bearing": 182.0,
-          "speed": 13.4112
+          "latitude": 40.58626,
+          "longitude": -80.044495,
+          "bearing": 5.0,
+          "speed": 7.59968
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6516"
+          "id": "6214"
         }
       }
     },
     {
       "id": "231",
       "vehicle": {
-        "position": {
-          "latitude": 40.503536,
-          "longitude": -80.224014,
-          "bearing": 87.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "10655020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "14"
         },
-        "timestamp": "1733272229",
+        "position": {
+          "latitude": 40.590233,
+          "longitude": -80.2296,
+          "bearing": 165.0,
+          "speed": 8.04672
+        },
+        "timestamp": "1733451206",
         "vehicle": {
-          "id": "6519"
+          "id": "6213"
         }
       }
     },
     {
       "id": "232",
       "vehicle": {
-        "position": {
-          "latitude": 40.37231,
-          "longitude": -80.09965,
-          "bearing": 197.0,
-          "speed": 6.2585597
+        "trip": {
+          "tripId": "7651020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "51"
         },
-        "timestamp": "1733272231",
+        "position": {
+          "latitude": 40.345573,
+          "longitude": -79.949394,
+          "bearing": 150.0,
+          "speed": 10.72896
+        },
+        "timestamp": "1733451204",
         "vehicle": {
-          "id": "6518"
+          "id": "6334"
         }
       }
     },
@@ -4124,49 +4114,59 @@
       "id": "233",
       "vehicle": {
         "trip": {
-          "tripId": "604020",
+          "tripId": "12008020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "89"
+          "routeId": "39"
         },
         "position": {
-          "latitude": 40.46998,
-          "longitude": -79.94024,
-          "bearing": 160.0,
-          "speed": 8.49376
+          "latitude": 40.392082,
+          "longitude": -80.014496,
+          "bearing": 254.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451195",
         "vehicle": {
-          "id": "6650"
+          "id": "5917"
         }
       }
     },
     {
       "id": "234",
       "vehicle": {
-        "position": {
-          "latitude": 40.457302,
-          "longitude": -79.912735,
-          "bearing": 244.0,
-          "speed": 1.78816
+        "trip": {
+          "tripId": "6234020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "64"
         },
-        "timestamp": "1733271802",
+        "position": {
+          "latitude": 40.450096,
+          "longitude": -79.9298,
+          "bearing": 155.0,
+          "speed": 2.2352
+        },
+        "timestamp": "1733451182",
         "vehicle": {
-          "id": "6652"
+          "id": "6447"
         }
       }
     },
     {
       "id": "235",
       "vehicle": {
-        "position": {
-          "latitude": 40.501785,
-          "longitude": -80.021866,
-          "bearing": 134.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "700020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "51"
         },
-        "timestamp": "1733272200",
+        "position": {
+          "latitude": 40.410892,
+          "longitude": -79.990135,
+          "bearing": 19.0,
+          "speed": 8.04672
+        },
+        "timestamp": "1733451205",
         "vehicle": {
-          "id": "6410"
+          "id": "6446"
         }
       }
     },
@@ -4174,29 +4174,34 @@
       "id": "236",
       "vehicle": {
         "position": {
-          "latitude": 40.52785,
-          "longitude": -80.00804,
-          "bearing": 92.0,
+          "latitude": 40.36618,
+          "longitude": -80.10444,
+          "bearing": 289.0,
           "speed": 0.0
         },
-        "timestamp": "1733272207",
+        "timestamp": "1733451182",
         "vehicle": {
-          "id": "6412"
+          "id": "6325"
         }
       }
     },
     {
       "id": "237",
       "vehicle": {
-        "position": {
-          "latitude": 40.43031,
-          "longitude": -79.884514,
-          "bearing": 180.0,
-          "speed": 13.4112
+        "trip": {
+          "tripId": "1156020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "93"
         },
-        "timestamp": "1733272221",
+        "position": {
+          "latitude": 40.40762,
+          "longitude": -79.92648,
+          "bearing": 195.0,
+          "speed": 0.0
+        },
+        "timestamp": "1733451185",
         "vehicle": {
-          "id": "6654"
+          "id": "6328"
         }
       }
     },
@@ -4204,29 +4209,34 @@
       "id": "238",
       "vehicle": {
         "position": {
-          "latitude": 40.363083,
-          "longitude": -79.93116,
-          "bearing": 97.0,
-          "speed": 0.0
+          "latitude": 40.49874,
+          "longitude": -80.0205,
+          "bearing": 340.0,
+          "speed": 9.83488
         },
-        "timestamp": "1733272203",
+        "timestamp": "1733451181",
         "vehicle": {
-          "id": "6533"
+          "id": "6207"
         }
       }
     },
     {
       "id": "239",
       "vehicle": {
+        "trip": {
+          "tripId": "14123020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "12"
+        },
         "position": {
-          "latitude": 40.45711,
-          "longitude": -79.91339,
-          "bearing": 269.0,
+          "latitude": 40.442802,
+          "longitude": -79.998245,
+          "bearing": 73.0,
           "speed": 0.0
         },
-        "timestamp": "1733272206",
+        "timestamp": "1733451181",
         "vehicle": {
-          "id": "6653"
+          "id": "6206"
         }
       }
     },
@@ -4234,69 +4244,64 @@
       "id": "240",
       "vehicle": {
         "position": {
-          "latitude": 40.441128,
-          "longitude": -79.85874,
-          "bearing": 228.0,
-          "speed": 18.32864
+          "latitude": 40.362286,
+          "longitude": -79.93028,
+          "bearing": 126.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272210",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "3259"
+          "id": "6327"
         }
       }
     },
     {
       "id": "241",
       "vehicle": {
-        "trip": {
-          "tripId": "7740020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "61D"
-        },
         "position": {
-          "latitude": 40.437992,
-          "longitude": -79.93333,
-          "bearing": 52.0,
-          "speed": 8.9408
+          "latitude": 40.501396,
+          "longitude": -80.02285,
+          "bearing": 48.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272208",
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "3257"
+          "id": "6209"
         }
       }
     },
     {
       "id": "242",
       "vehicle": {
-        "trip": {
-          "tripId": "5544020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "91"
-        },
         "position": {
-          "latitude": 40.497047,
-          "longitude": -79.89096,
-          "bearing": 9.0,
-          "speed": 4.4704
+          "latitude": 40.405636,
+          "longitude": -80.09069,
+          "bearing": 119.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272209",
+        "timestamp": "1733451186",
         "vehicle": {
-          "id": "6403"
+          "id": "5911"
         }
       }
     },
     {
       "id": "243",
       "vehicle": {
-        "position": {
-          "latitude": 40.44115,
-          "longitude": -80.005554,
-          "bearing": 67.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "11041020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "G2"
         },
-        "timestamp": "1733272204",
+        "position": {
+          "latitude": 40.422047,
+          "longitude": -80.08035,
+          "bearing": 12.0,
+          "speed": 13.85824
+        },
+        "timestamp": "1733451197",
         "vehicle": {
-          "id": "6645"
+          "id": "5912"
         }
       }
     },
@@ -4304,114 +4309,99 @@
       "id": "244",
       "vehicle": {
         "trip": {
-          "tripId": "13927020",
+          "tripId": "10754020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "74"
+          "routeId": "59"
         },
         "position": {
-          "latitude": 40.461514,
-          "longitude": -79.92508,
-          "bearing": 115.0,
-          "speed": 0.0
+          "latitude": 40.39449,
+          "longitude": -79.82024,
+          "bearing": 151.0,
+          "speed": 13.4112
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451206",
         "vehicle": {
-          "id": "6644"
+          "id": "6340"
         }
       }
     },
     {
       "id": "245",
       "vehicle": {
-        "trip": {
-          "tripId": "11254020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "71A"
-        },
         "position": {
-          "latitude": 40.443893,
-          "longitude": -79.95556,
-          "bearing": 226.0,
+          "latitude": 40.457188,
+          "longitude": -79.91329,
+          "bearing": 248.0,
           "speed": 0.0
         },
-        "timestamp": "1733272226",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6647"
+          "id": "6461"
         }
       }
     },
     {
       "id": "246",
       "vehicle": {
-        "position": {
-          "latitude": 40.272903,
-          "longitude": -79.88602,
-          "bearing": 43.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "3205020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "74"
         },
-        "timestamp": "1733272221",
+        "position": {
+          "latitude": 40.449375,
+          "longitude": -79.90119,
+          "bearing": 208.0,
+          "speed": 1.34112
+        },
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "6526"
+          "id": "6342"
         }
       }
     },
     {
       "id": "247",
       "vehicle": {
-        "trip": {
-          "tripId": "12645020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "61A"
-        },
         "position": {
-          "latitude": 40.4408,
-          "longitude": -79.93587,
-          "bearing": 144.0,
-          "speed": 12.517119
+          "latitude": 40.45693,
+          "longitude": -79.91167,
+          "bearing": 340.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272216",
+        "timestamp": "1733451200",
         "vehicle": {
-          "id": "6528"
+          "id": "6462"
         }
       }
     },
     {
       "id": "248",
       "vehicle": {
-        "trip": {
-          "tripId": "902020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "77"
-        },
         "position": {
-          "latitude": 40.45434,
-          "longitude": -79.953545,
-          "bearing": 335.0,
+          "latitude": 40.366394,
+          "longitude": -80.10446,
+          "bearing": 58.0,
           "speed": 0.0
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6649"
+          "id": "6220"
         }
       }
     },
     {
       "id": "249",
       "vehicle": {
-        "trip": {
-          "tripId": "418020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "91"
-        },
         "position": {
-          "latitude": 40.458904,
-          "longitude": -79.97116,
-          "bearing": 47.0,
-          "speed": 8.04672
+          "latitude": 40.50107,
+          "longitude": -80.02224,
+          "bearing": 229.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272230",
+        "timestamp": "1733451202",
         "vehicle": {
-          "id": "6406"
+          "id": "6102"
         }
       }
     },
@@ -4419,44 +4409,54 @@
       "id": "250",
       "vehicle": {
         "position": {
-          "latitude": 40.456734,
-          "longitude": -79.91238,
-          "bearing": 81.0,
-          "speed": 4.4704
+          "latitude": 40.361835,
+          "longitude": -79.930595,
+          "bearing": 314.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272214",
+        "timestamp": "1733451185",
         "vehicle": {
-          "id": "6648"
+          "id": "6344"
         }
       }
     },
     {
       "id": "251",
       "vehicle": {
-        "position": {
-          "latitude": 40.391945,
-          "longitude": -79.93463,
-          "bearing": 342.0,
-          "speed": 13.85824
+        "trip": {
+          "tripId": "4335020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "2"
         },
-        "timestamp": "1733272216",
+        "position": {
+          "latitude": 40.452755,
+          "longitude": -80.003624,
+          "bearing": 345.0,
+          "speed": 3.1292799
+        },
+        "timestamp": "1733451206",
         "vehicle": {
-          "id": "6529"
+          "id": "6101"
         }
       }
     },
     {
       "id": "252",
       "vehicle": {
-        "position": {
-          "latitude": 40.525265,
-          "longitude": -80.00916,
-          "bearing": 0.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "354020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "31"
         },
-        "timestamp": "1733272214",
+        "position": {
+          "latitude": 40.36772,
+          "longitude": -80.104065,
+          "bearing": 233.0,
+          "speed": 13.4112
+        },
+        "timestamp": "1733451193",
         "vehicle": {
-          "id": "6408"
+          "id": "6222"
         }
       }
     },
@@ -4464,19 +4464,19 @@
       "id": "253",
       "vehicle": {
         "trip": {
-          "tripId": "10754020",
+          "tripId": "5699020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "59"
+          "routeId": "67"
         },
         "position": {
-          "latitude": 40.349762,
-          "longitude": -79.931335,
-          "bearing": 81.0,
-          "speed": 14.30528
+          "latitude": 40.44685,
+          "longitude": -79.89427,
+          "bearing": 113.0,
+          "speed": 8.04672
         },
-        "timestamp": "1733272215",
+        "timestamp": "1733451191",
         "vehicle": {
-          "id": "6540"
+          "id": "6464"
         }
       }
     },
@@ -4484,39 +4484,34 @@
       "id": "254",
       "vehicle": {
         "trip": {
-          "tripId": "3210020",
+          "tripId": "12639020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "22"
+          "routeId": "67"
         },
         "position": {
-          "latitude": 40.48048,
-          "longitude": -80.07259,
-          "bearing": 330.0,
-          "speed": 0.0
+          "latitude": 40.43893,
+          "longitude": -79.7649,
+          "bearing": 180.0,
+          "speed": 4.91744
         },
-        "timestamp": "1733272229",
+        "timestamp": "1733451206",
         "vehicle": {
-          "id": "6421"
+          "id": "6467"
         }
       }
     },
     {
       "id": "255",
       "vehicle": {
-        "trip": {
-          "tripId": "12010020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "87"
-        },
         "position": {
-          "latitude": 40.46244,
-          "longitude": -79.95962,
-          "bearing": 78.0,
-          "speed": 10.72896
+          "latitude": 40.36635,
+          "longitude": -80.10462,
+          "bearing": 55.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272220",
+        "timestamp": "1733451194",
         "vehicle": {
-          "id": "6542"
+          "id": "6225"
         }
       }
     },
@@ -4524,54 +4519,54 @@
       "id": "256",
       "vehicle": {
         "trip": {
-          "tripId": "4965020",
+          "tripId": "12506020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "61A"
+          "routeId": "77"
         },
         "position": {
-          "latitude": 40.40894,
-          "longitude": -79.90568,
-          "bearing": 264.0,
-          "speed": 10.72896
+          "latitude": 40.46174,
+          "longitude": -79.86085,
+          "bearing": 152.0,
+          "speed": 2.68224
         },
-        "timestamp": "1733272224",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6541"
+          "id": "6466"
         }
       }
     },
     {
       "id": "257",
       "vehicle": {
-        "trip": {
-          "tripId": "6560020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "8"
-        },
         "position": {
-          "latitude": 40.507717,
-          "longitude": -80.0297,
-          "bearing": 8.0,
-          "speed": 13.85824
+          "latitude": 40.44709,
+          "longitude": -80.01999,
+          "bearing": 349.0,
+          "speed": 0.0
         },
-        "timestamp": "1733272228",
+        "timestamp": "1733451180",
         "vehicle": {
-          "id": "6414"
+          "id": "6103"
         }
       }
     },
     {
       "id": "258",
       "vehicle": {
-        "position": {
-          "latitude": 40.362293,
-          "longitude": -79.93118,
-          "bearing": 135.0,
-          "speed": 0.44704
+        "trip": {
+          "tripId": "6352020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "6"
         },
-        "timestamp": "1733272177",
+        "position": {
+          "latitude": 40.477264,
+          "longitude": -79.99976,
+          "bearing": 147.0,
+          "speed": 4.02336
+        },
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6534"
+          "id": "6337"
         }
       }
     },
@@ -4579,19 +4574,19 @@
       "id": "259",
       "vehicle": {
         "trip": {
-          "tripId": "9581020",
+          "tripId": "8808020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "Y47"
+          "routeId": "67"
         },
         "position": {
-          "latitude": 40.382465,
-          "longitude": -79.99584,
-          "bearing": 290.0,
-          "speed": 0.89408
+          "latitude": 40.4428,
+          "longitude": -79.74399,
+          "bearing": 323.0,
+          "speed": 12.517119
         },
-        "timestamp": "1733272223",
+        "timestamp": "1733451201",
         "vehicle": {
-          "id": "6537"
+          "id": "6458"
         }
       }
     },
@@ -4599,1232 +4594,67 @@
       "id": "260",
       "vehicle": {
         "trip": {
-          "tripId": "13335020",
+          "tripId": "7043020",
           "scheduleRelationship": "SCHEDULED",
-          "routeId": "38"
+          "routeId": "57"
         },
         "position": {
-          "latitude": 40.382168,
-          "longitude": -80.044044,
-          "bearing": 9.0,
-          "speed": 0.0
+          "latitude": 40.434425,
+          "longitude": -79.98876,
+          "bearing": 265.0,
+          "speed": 13.4112
         },
-        "timestamp": "1733272221",
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6418"
+          "id": "6336"
         }
       }
     },
     {
       "id": "261",
       "vehicle": {
-        "position": {
-          "latitude": 40.405434,
-          "longitude": -80.0909,
-          "bearing": 119.0,
-          "speed": 0.0
+        "trip": {
+          "tripId": "3124020",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "87"
         },
-        "timestamp": "1733272210",
+        "position": {
+          "latitude": 40.485798,
+          "longitude": -79.94452,
+          "bearing": 64.0,
+          "speed": 9.83488
+        },
+        "timestamp": "1733451203",
         "vehicle": {
-          "id": "6417"
+          "id": "6457"
         }
       }
     },
     {
       "id": "262",
       "vehicle": {
-        "trip": {
-          "tripId": "12910020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "86"
-        },
         "position": {
-          "latitude": 40.456436,
-          "longitude": -79.93925,
-          "bearing": 123.0,
-          "speed": 6.7056
-        },
-        "timestamp": "1733272228",
-        "vehicle": {
-          "id": "6550"
-        }
-      }
-    },
-    {
-      "id": "263",
-      "vehicle": {
-        "trip": {
-          "tripId": "12627020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "87"
-        },
-        "position": {
-          "latitude": 40.48281,
-          "longitude": -79.9513,
-          "bearing": 148.0,
-          "speed": 3.57632
-        },
-        "timestamp": "1733272230",
-        "vehicle": {
-          "id": "6553"
-        }
-      }
-    },
-    {
-      "id": "264",
-      "vehicle": {
-        "trip": {
-          "tripId": "5292020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "17"
-        },
-        "position": {
-          "latitude": 40.481606,
-          "longitude": -80.03459,
-          "bearing": 76.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272209",
-        "vehicle": {
-          "id": "6310"
-        }
-      }
-    },
-    {
-      "id": "265",
-      "vehicle": {
-        "trip": {
-          "tripId": "2426020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "51"
-        },
-        "position": {
-          "latitude": 40.342712,
-          "longitude": -79.944435,
-          "bearing": 334.0,
-          "speed": 12.517119
-        },
-        "timestamp": "1733272219",
-        "vehicle": {
-          "id": "6431"
-        }
-      }
-    },
-    {
-      "id": "266",
-      "vehicle": {
-        "position": {
-          "latitude": 40.456684,
-          "longitude": -79.91255,
-          "bearing": 359.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272211",
-        "vehicle": {
-          "id": "6555"
-        }
-      }
-    },
-    {
-      "id": "267",
-      "vehicle": {
-        "trip": {
-          "tripId": "1371020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "58"
-        },
-        "position": {
-          "latitude": 40.44484,
-          "longitude": -79.94288,
-          "bearing": 203.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272213",
-        "vehicle": {
-          "id": "6554"
-        }
-      }
-    },
-    {
-      "id": "268",
-      "vehicle": {
-        "trip": {
-          "tripId": "10843020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "P3"
-        },
-        "position": {
-          "latitude": 40.45827,
-          "longitude": -79.92821,
-          "bearing": 252.0,
-          "speed": 16.54048
-        },
-        "timestamp": "1733272210",
-        "vehicle": {
-          "id": "6546"
-        }
-      }
-    },
-    {
-      "id": "269",
-      "vehicle": {
-        "trip": {
-          "tripId": "12387020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "86"
-        },
-        "position": {
-          "latitude": 40.45548,
-          "longitude": -79.88795,
-          "bearing": 16.0,
-          "speed": 6.7056
-        },
-        "timestamp": "1733272217",
-        "vehicle": {
-          "id": "6545"
-        }
-      }
-    },
-    {
-      "id": "270",
-      "vehicle": {
-        "position": {
-          "latitude": 40.35655,
-          "longitude": -80.11346,
-          "bearing": 208.0,
-          "speed": 6.2585597
-        },
-        "timestamp": "1733272228",
-        "vehicle": {
-          "id": "6424"
-        }
-      }
-    },
-    {
-      "id": "271",
-      "vehicle": {
-        "trip": {
-          "tripId": "7931020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "16"
-        },
-        "position": {
-          "latitude": 40.48979,
-          "longitude": -80.047615,
-          "bearing": 321.0,
-          "speed": 10.72896
-        },
-        "timestamp": "1733272224",
-        "vehicle": {
-          "id": "6306"
-        }
-      }
-    },
-    {
-      "id": "272",
-      "vehicle": {
-        "trip": {
-          "tripId": "1806020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "20"
-        },
-        "position": {
-          "latitude": 40.504253,
-          "longitude": -80.13206,
-          "bearing": 302.0,
-          "speed": 14.752319
-        },
-        "timestamp": "1733272222",
-        "vehicle": {
-          "id": "6427"
-        }
-      }
-    },
-    {
-      "id": "273",
-      "vehicle": {
-        "position": {
-          "latitude": 40.479637,
-          "longitude": -79.92213,
-          "bearing": 297.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272218",
-        "vehicle": {
-          "id": "6548"
-        }
-      }
-    },
-    {
-      "id": "274",
-      "vehicle": {
-        "trip": {
-          "tripId": "750020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "75"
-        },
-        "position": {
-          "latitude": 40.458004,
-          "longitude": -79.91819,
-          "bearing": 311.0,
-          "speed": 1.34112
-        },
-        "timestamp": "1733272217",
-        "vehicle": {
-          "id": "6547"
-        }
-      }
-    },
-    {
-      "id": "275",
-      "vehicle": {
-        "position": {
-          "latitude": 40.44621,
-          "longitude": -79.98875,
-          "bearing": 100.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272203",
-        "vehicle": {
-          "id": "6305"
-        }
-      }
-    },
-    {
-      "id": "276",
-      "vehicle": {
-        "position": {
-          "latitude": 40.366653,
-          "longitude": -80.10413,
-          "bearing": 56.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272220",
-        "vehicle": {
-          "id": "6426"
-        }
-      }
-    },
-    {
-      "id": "277",
-      "vehicle": {
-        "trip": {
-          "tripId": "11511020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "82"
-        },
-        "position": {
-          "latitude": 40.464176,
-          "longitude": -79.90085,
-          "bearing": 71.0,
-          "speed": 8.04672
-        },
-        "timestamp": "1733272228",
-        "vehicle": {
-          "id": "6549"
-        }
-      }
-    },
-    {
-      "id": "278",
-      "vehicle": {
-        "position": {
-          "latitude": 40.45199,
-          "longitude": -79.969635,
-          "bearing": 62.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272222",
-        "vehicle": {
-          "id": "6440"
-        }
-      }
-    },
-    {
-      "id": "279",
-      "vehicle": {
-        "trip": {
-          "tripId": "4829020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "51"
-        },
-        "position": {
-          "latitude": 40.348778,
-          "longitude": -79.9447,
-          "bearing": 200.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272209",
-        "vehicle": {
-          "id": "6443"
-        }
-      }
-    },
-    {
-      "id": "280",
-      "vehicle": {
-        "position": {
-          "latitude": 40.501186,
-          "longitude": -80.0224,
-          "bearing": 228.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272226",
-        "vehicle": {
-          "id": "6201"
-        }
-      }
-    },
-    {
-      "id": "281",
-      "vehicle": {
-        "position": {
-          "latitude": 40.350574,
-          "longitude": -79.89559,
-          "bearing": 296.0,
-          "speed": 11.62304
-        },
-        "timestamp": "1733272226",
-        "vehicle": {
-          "id": "6442"
-        }
-      }
-    },
-    {
-      "id": "282",
-      "vehicle": {
-        "position": {
-          "latitude": 40.366776,
-          "longitude": -80.10402,
-          "bearing": 54.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272218",
-        "vehicle": {
-          "id": "6323"
-        }
-      }
-    },
-    {
-      "id": "283",
-      "vehicle": {
-        "position": {
-          "latitude": 40.517456,
-          "longitude": -80.036804,
-          "bearing": 327.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272226",
-        "vehicle": {
-          "id": "5908"
-        }
-      }
-    },
-    {
-      "id": "284",
-      "vehicle": {
-        "trip": {
-          "tripId": "8228020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "1"
-        },
-        "position": {
-          "latitude": 40.585796,
-          "longitude": -79.77696,
-          "bearing": 197.0,
-          "speed": 11.176
-        },
-        "timestamp": "1733272215",
-        "vehicle": {
-          "id": "5909"
-        }
-      }
-    },
-    {
-      "id": "285",
-      "vehicle": {
-        "trip": {
-          "tripId": "11108020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "58"
-        },
-        "position": {
-          "latitude": 40.423164,
-          "longitude": -79.93986,
-          "bearing": 84.0,
-          "speed": 11.176
-        },
-        "timestamp": "1733272215",
-        "vehicle": {
-          "id": "6557"
-        }
-      }
-    },
-    {
-      "id": "286",
-      "vehicle": {
-        "position": {
-          "latitude": 40.39866,
-          "longitude": -79.92249,
-          "bearing": 42.0,
-          "speed": 10.72896
-        },
-        "timestamp": "1733272230",
-        "vehicle": {
-          "id": "6436"
-        }
-      }
-    },
-    {
-      "id": "287",
-      "vehicle": {
-        "position": {
-          "latitude": 40.501152,
-          "longitude": -80.02194,
-          "bearing": 160.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272221",
-        "vehicle": {
-          "id": "6314"
-        }
-      }
-    },
-    {
-      "id": "288",
-      "vehicle": {
-        "position": {
-          "latitude": 40.362152,
-          "longitude": -79.93092,
-          "bearing": 128.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272203",
-        "vehicle": {
-          "id": "6435"
-        }
-      }
-    },
-    {
-      "id": "289",
-      "vehicle": {
-        "position": {
-          "latitude": 40.362095,
-          "longitude": -79.930885,
-          "bearing": 125.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733271914",
-        "vehicle": {
-          "id": "6438"
-        }
-      }
-    },
-    {
-      "id": "290",
-      "vehicle": {
-        "trip": {
-          "tripId": "680020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "55"
-        },
-        "position": {
-          "latitude": 40.350067,
-          "longitude": -79.87287,
-          "bearing": 275.0,
-          "speed": 4.4704
-        },
-        "timestamp": "1733272218",
-        "vehicle": {
-          "id": "6437"
-        }
-      }
-    },
-    {
-      "id": "291",
-      "vehicle": {
-        "position": {
-          "latitude": 40.517574,
-          "longitude": -80.03694,
-          "bearing": 285.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272224",
-        "vehicle": {
-          "id": "6316"
-        }
-      }
-    },
-    {
-      "id": "292",
-      "vehicle": {
-        "position": {
-          "latitude": 40.451244,
-          "longitude": -79.92608,
-          "bearing": 241.0,
-          "speed": 6.7056
-        },
-        "timestamp": "1733272218",
-        "vehicle": {
-          "id": "6558"
-        }
-      }
-    },
-    {
-      "id": "293",
-      "vehicle": {
-        "trip": {
-          "tripId": "1982020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "39"
-        },
-        "position": {
-          "latitude": 40.426907,
-          "longitude": -80.0052,
-          "bearing": 8.0,
+          "latitude": 40.44433,
+          "longitude": -79.99155,
+          "bearing": 230.0,
           "speed": 8.49376
         },
-        "timestamp": "1733272218",
-        "vehicle": {
-          "id": "6319"
-        }
-      }
-    },
-    {
-      "id": "294",
-      "vehicle": {
-        "trip": {
-          "tripId": "5150020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "93"
-        },
-        "position": {
-          "latitude": 40.442844,
-          "longitude": -79.95689,
-          "bearing": 46.0,
-          "speed": 3.1292799
-        },
-        "timestamp": "1733272199",
-        "vehicle": {
-          "id": "6331"
-        }
-      }
-    },
-    {
-      "id": "295",
-      "vehicle": {
-        "position": {
-          "latitude": 40.457275,
-          "longitude": -79.9133,
-          "bearing": 109.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272207",
-        "vehicle": {
-          "id": "6452"
-        }
-      }
-    },
-    {
-      "id": "296",
-      "vehicle": {
-        "trip": {
-          "tripId": "14094020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "67"
-        },
-        "position": {
-          "latitude": 40.44394,
-          "longitude": -79.99435,
-          "bearing": 84.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272210",
-        "vehicle": {
-          "id": "6451"
-        }
-      }
-    },
-    {
-      "id": "297",
-      "vehicle": {
-        "trip": {
-          "tripId": "12676020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "Y49"
-        },
-        "position": {
-          "latitude": 40.344086,
-          "longitude": -79.94382,
-          "bearing": 275.0,
-          "speed": 9.38784
-        },
-        "timestamp": "1733272221",
-        "vehicle": {
-          "id": "6330"
-        }
-      }
-    },
-    {
-      "id": "298",
-      "vehicle": {
-        "position": {
-          "latitude": 40.477634,
-          "longitude": -79.96873,
-          "bearing": 214.0,
-          "speed": 13.4112
-        },
-        "timestamp": "1733272208",
-        "vehicle": {
-          "id": "6454"
-        }
-      }
-    },
-    {
-      "id": "299",
-      "vehicle": {
-        "trip": {
-          "tripId": "9306020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "1"
-        },
-        "position": {
-          "latitude": 40.562294,
-          "longitude": -79.773735,
-          "bearing": 341.0,
-          "speed": 18.32864
-        },
-        "timestamp": "1733272230",
-        "vehicle": {
-          "id": "6211"
-        }
-      }
-    },
-    {
-      "id": "300",
-      "vehicle": {
-        "position": {
-          "latitude": 40.45687,
-          "longitude": -79.91356,
-          "bearing": 125.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272204",
-        "vehicle": {
-          "id": "6453"
-        }
-      }
-    },
-    {
-      "id": "301",
-      "vehicle": {
-        "trip": {
-          "tripId": "6005020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "61B"
-        },
-        "position": {
-          "latitude": 40.43806,
-          "longitude": -79.99353,
-          "bearing": 4.0,
-          "speed": 9.83488
-        },
-        "timestamp": "1733272219",
-        "vehicle": {
-          "id": "6335"
-        }
-      }
-    },
-    {
-      "id": "302",
-      "vehicle": {
-        "position": {
-          "latitude": 40.502014,
-          "longitude": -80.02272,
-          "bearing": 355.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272201",
-        "vehicle": {
-          "id": "6214"
-        }
-      }
-    },
-    {
-      "id": "303",
-      "vehicle": {
-        "trip": {
-          "tripId": "729020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "39"
-        },
-        "position": {
-          "latitude": 40.43182,
-          "longitude": -80.00433,
-          "bearing": 187.0,
-          "speed": 4.91744
-        },
-        "timestamp": "1733272209",
-        "vehicle": {
-          "id": "5917"
-        }
-      }
-    },
-    {
-      "id": "304",
-      "vehicle": {
-        "trip": {
-          "tripId": "7299020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "64"
-        },
-        "position": {
-          "latitude": 40.434067,
-          "longitude": -79.92293,
-          "bearing": 184.0,
-          "speed": 4.91744
-        },
-        "timestamp": "1733272222",
-        "vehicle": {
-          "id": "6446"
-        }
-      }
-    },
-    {
-      "id": "305",
-      "vehicle": {
-        "position": {
-          "latitude": 40.587715,
-          "longitude": -80.02768,
-          "bearing": 78.0,
-          "speed": 11.176
-        },
-        "timestamp": "1733272208",
-        "vehicle": {
-          "id": "6207"
-        }
-      }
-    },
-    {
-      "id": "306",
-      "vehicle": {
-        "position": {
-          "latitude": 40.45713,
-          "longitude": -79.913864,
-          "bearing": 116.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272210",
-        "vehicle": {
-          "id": "6449"
-        }
-      }
-    },
-    {
-      "id": "307",
-      "vehicle": {
-        "position": {
-          "latitude": 40.362347,
-          "longitude": -79.93114,
-          "bearing": 359.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272204",
-        "vehicle": {
-          "id": "6328"
-        }
-      }
-    },
-    {
-      "id": "308",
-      "vehicle": {
-        "trip": {
-          "tripId": "399020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "64"
-        },
-        "position": {
-          "latitude": 40.454933,
-          "longitude": -79.93267,
-          "bearing": 335.0,
-          "speed": 6.7056
-        },
-        "timestamp": "1733272228",
-        "vehicle": {
-          "id": "6327"
-        }
-      }
-    },
-    {
-      "id": "309",
-      "vehicle": {
-        "trip": {
-          "tripId": "6228020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "31"
-        },
-        "position": {
-          "latitude": 40.424255,
-          "longitude": -80.06617,
-          "bearing": 29.0,
-          "speed": 12.517119
-        },
-        "timestamp": "1733272225",
-        "vehicle": {
-          "id": "5912"
-        }
-      }
-    },
-    {
-      "id": "310",
-      "vehicle": {
-        "trip": {
-          "tripId": "8125020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "61C"
-        },
-        "position": {
-          "latitude": 40.408817,
-          "longitude": -79.90713,
-          "bearing": 264.0,
-          "speed": 4.02336
-        },
-        "timestamp": "1733272226",
-        "vehicle": {
-          "id": "6340"
-        }
-      }
-    },
-    {
-      "id": "311",
-      "vehicle": {
-        "trip": {
-          "tripId": "8004020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "67"
-        },
-        "position": {
-          "latitude": 40.4425,
-          "longitude": -79.87835,
-          "bearing": 292.0,
-          "speed": 8.04672
-        },
-        "timestamp": "1733272230",
-        "vehicle": {
-          "id": "6461"
-        }
-      }
-    },
-    {
-      "id": "312",
-      "vehicle": {
-        "position": {
-          "latitude": 40.457413,
-          "longitude": -79.91272,
-          "bearing": 264.0,
-          "speed": 8.04672
-        },
-        "timestamp": "1733272226",
-        "vehicle": {
-          "id": "6342"
-        }
-      }
-    },
-    {
-      "id": "313",
-      "vehicle": {
-        "position": {
-          "latitude": 40.456944,
-          "longitude": -79.91376,
-          "bearing": 121.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272216",
-        "vehicle": {
-          "id": "6463"
-        }
-      }
-    },
-    {
-      "id": "314",
-      "vehicle": {
-        "position": {
-          "latitude": 40.44604,
-          "longitude": -79.9891,
-          "bearing": 49.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272219",
-        "vehicle": {
-          "id": "6220"
-        }
-      }
-    },
-    {
-      "id": "315",
-      "vehicle": {
-        "position": {
-          "latitude": 40.49011,
-          "longitude": -79.87011,
-          "bearing": 38.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272215",
-        "vehicle": {
-          "id": "6462"
-        }
-      }
-    },
-    {
-      "id": "316",
-      "vehicle": {
-        "trip": {
-          "tripId": "13572020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "24"
-        },
-        "position": {
-          "latitude": 40.467705,
-          "longitude": -80.0671,
-          "bearing": 341.0,
-          "speed": 0.89408
-        },
-        "timestamp": "1733272225",
-        "vehicle": {
-          "id": "6222"
-        }
-      }
-    },
-    {
-      "id": "317",
-      "vehicle": {
-        "trip": {
-          "tripId": "7358020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "77"
-        },
-        "position": {
-          "latitude": 40.44134,
-          "longitude": -80.00499,
-          "bearing": 71.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272212",
-        "vehicle": {
-          "id": "6464"
-        }
-      }
-    },
-    {
-      "id": "318",
-      "vehicle": {
-        "position": {
-          "latitude": 40.4568,
-          "longitude": -79.91352,
-          "bearing": 116.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272231",
-        "vehicle": {
-          "id": "6343"
-        }
-      }
-    },
-    {
-      "id": "319",
-      "vehicle": {
-        "trip": {
-          "tripId": "3348020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "15"
-        },
-        "position": {
-          "latitude": 40.455914,
-          "longitude": -80.00447,
-          "bearing": 255.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272223",
-        "vehicle": {
-          "id": "6104"
-        }
-      }
-    },
-    {
-      "id": "320",
-      "vehicle": {
-        "position": {
-          "latitude": 40.44129,
-          "longitude": -80.06875,
-          "bearing": 12.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272225",
-        "vehicle": {
-          "id": "6225"
-        }
-      }
-    },
-    {
-      "id": "321",
-      "vehicle": {
-        "position": {
-          "latitude": 40.445793,
-          "longitude": -79.989555,
-          "bearing": 227.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272202",
-        "vehicle": {
-          "id": "6103"
-        }
-      }
-    },
-    {
-      "id": "322",
-      "vehicle": {
-        "trip": {
-          "tripId": "11609020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "61C"
-        },
-        "position": {
-          "latitude": 40.437828,
-          "longitude": -79.93113,
-          "bearing": 84.0,
-          "speed": 8.04672
-        },
-        "timestamp": "1733272207",
-        "vehicle": {
-          "id": "3504"
-        }
-      }
-    },
-    {
-      "id": "323",
-      "vehicle": {
-        "position": {
-          "latitude": 40.362186,
-          "longitude": -79.9315,
-          "bearing": 1.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272226",
-        "vehicle": {
-          "id": "3503"
-        }
-      }
-    },
-    {
-      "id": "324",
-      "vehicle": {
-        "trip": {
-          "tripId": "6293020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "87"
-        },
-        "position": {
-          "latitude": 40.485046,
-          "longitude": -79.94657,
-          "bearing": 60.0,
-          "speed": 3.1292799
-        },
-        "timestamp": "1733272222",
-        "vehicle": {
-          "id": "6458"
-        }
-      }
-    },
-    {
-      "id": "325",
-      "vehicle": {
-        "position": {
-          "latitude": 40.5045,
-          "longitude": -80.028,
-          "bearing": 303.0,
-          "speed": 9.38784
-        },
-        "timestamp": "1733272208",
-        "vehicle": {
-          "id": "6215"
-        }
-      }
-    },
-    {
-      "id": "326",
-      "vehicle": {
-        "position": {
-          "latitude": 40.50317,
-          "longitude": -80.222305,
-          "bearing": 168.0,
-          "speed": 6.7056
-        },
-        "timestamp": "1733272214",
+        "timestamp": "1733451206",
         "vehicle": {
           "id": "5920"
         }
       }
     },
     {
-      "id": "327",
+      "id": "263",
       "vehicle": {
         "position": {
-          "latitude": 40.36633,
-          "longitude": -80.1042,
-          "bearing": 285.0,
-          "speed": 0.0
+          "latitude": 40.362347,
+          "longitude": -79.92897,
+          "bearing": 325.0,
+          "speed": 3.57632
         },
-        "timestamp": "1733272202",
-        "vehicle": {
-          "id": "6217"
-        }
-      }
-    },
-    {
-      "id": "328",
-      "vehicle": {
-        "position": {
-          "latitude": 40.457417,
-          "longitude": -79.9131,
-          "bearing": 255.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272226",
-        "vehicle": {
-          "id": "6459"
-        }
-      }
-    },
-    {
-      "id": "329",
-      "vehicle": {
-        "trip": {
-          "tripId": "12107020",
-          "scheduleRelationship": "SCHEDULED",
-          "routeId": "48"
-        },
-        "position": {
-          "latitude": 40.42725,
-          "longitude": -79.96849,
-          "bearing": 111.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272224",
-        "vehicle": {
-          "id": "6219"
-        }
-      }
-    },
-    {
-      "id": "330",
-      "vehicle": {
-        "position": {
-          "latitude": 40.362362,
-          "longitude": -79.93056,
-          "bearing": 129.0,
-          "speed": 0.0
-        },
-        "timestamp": "1733272226",
+        "timestamp": "1733451202",
         "vehicle": {
           "id": "3508"
         }
