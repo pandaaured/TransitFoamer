@@ -1,4 +1,7 @@
-
+// This module handles the use of data external to the GTFS static definition.
+// It is primarily used currently to import the output of my script which
+// returns bus stops and the routes which serve them. Data unfortunately in 
+// JSON currently. 
 pub mod extdata_gtfs {    
     use std::collections::HashMap;
     use std::fs::File;
@@ -94,6 +97,7 @@ pub mod dict_gtfs {
     }
     
     fn path_io_helper(path: String) -> String {
+        println!("{}", path);
         let contents : String = 
            fs::read_to_string(path)
               .expect("Should have been able to read the file");
