@@ -7,6 +7,7 @@ use std::collections::HashMap;
 pub mod staticfeed;
 pub mod realtime;
 pub mod search;
+pub mod feedmessage;
 
 
 
