@@ -3,12 +3,9 @@ pub mod fetch {
     // use gtfs_realtime::VehiclePosition;
     // use gtfs_realtime::VehicleDescriptor;    
     use gtfs_realtime::{TripUpdate, trip_update::StopTimeUpdate};
-    // use gtfs_realtime::TripDescriptor;
     use std::collections::HashMap;
     use chrono::Local;
 
-    use crate::search::deoption;
-    use crate::search::fields;
     use crate::search::utilities;
 
     pub fn result (vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>,
@@ -27,55 +24,44 @@ pub mod fetch {
     fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
                 data: HashMap<String, HashMap<String, Vec<String>>>) {
         for trip in trips {
-            // Primary element in this function, all others derive from it.
-            let unit: TripUpdate = deoption::trip_update(trip.trip_update);
-            // Secondary elements.
-            let route: String = fields::get_route_id(unit.trip.clone());
+            // Primary element.
+            let unit: TripUpdate = trip.trip_update.unwrap();
+            // Secondary element.
+            let route: String = unit.trip.route_id.unwrap();
             if number == route {
-                let vehicle_id: String = fields::get_vehicle_id(deoption::vehicle_descriptor(unit.vehicle));
-                let stop_time_update: Vec<StopTimeUpdate> = unit.stop_time_update;
+                // Remaining elements. Not computed unless condition is met.
+                let vehicle_id: String = unit.vehicle.unwrap()
+                                             .id.unwrap();
+                let stop_time_update: Vec<StopTimeUpdate> = unit.stop_time_update.clone();
                 if !stop_time_update.is_empty() {
-                    let first_stop = stop_time_update[0].clone();
-                    let stop_id = deoption::stop_id(first_stop.stop_id);
+                    let first_stop: StopTimeUpdate = stop_time_update[0].clone();
+                    let stop_id: String = first_stop.stop_id
+                                                    .unwrap().clone();
                     let stop_name = data["stops"][&stop_id][2].clone();
-                    let trip_id: String = fields::get_trip_id(unit.trip);
-                    let headsign = data["trips"].get(&trip_id).clone();
+                    let trip_id: String = unit.trip.trip_id.unwrap();
+                    let headsign = data["trips"].get(&trip_id)
+                                                              .unwrap();
                     if first_stop.arrival != None {
-                        let arrival_event = deoption::stop_time_event(first_stop.arrival);
-                        let arrival = deoption::time(arrival_event.time);
+                        let arrival = first_stop.arrival.unwrap()
+                                                     .time.unwrap();
                         let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
-                        let headsign_vec: Vec<String> = match headsign {
-                            None => vec![],
-                            Some(value) => {value.to_vec()},
-                        };
-                        if headsign_vec.is_empty() {
-                        println!("\x1b[0;31m{route}\x1b[0m {vehicle_id}");
-                            println!("    arrives at {stop_name}");
-                        } else {
-                            let destination: String = headsign_vec[3].clone();
-                            println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
-                            println!("    arrives at {stop_name} at {formatted}");
+                        let destination: String = headsign[3].clone();
+                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} 
+                                  is in transit to {stop_name} \x1b[0m");
+                        println!("    arrives at {stop_name} at {formatted}");
                         }
-                    }
+                    
                     if first_stop.departure != None {
-                        let departure_event = deoption::stop_time_event(first_stop.departure);
-                        let departure = deoption::time(departure_event.time);
+                        let departure = first_stop.departure.unwrap()
+                                                       .time.unwrap();
                         let formatted: chrono::DateTime<Local> = utilities::time_converter(departure);
-                        let headsign_vec: Vec<String> = match headsign {
-                            None => vec![],
-                            Some(value) => {value.to_vec()},
-                        };
-                        if headsign_vec.is_empty() {
-                        println!("\x1b[0;31m{route}\x1b[0m {vehicle_id}");
-                            println!("    arrives at {stop_name}");
-                        } else {
-                            let destination: String = headsign_vec[3].clone();
-                            println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
-                            println!("    departs from {stop_name} at {formatted}");
-                        }
+                        let destination: String = headsign[3].clone();
+                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
+                        println!("    departs from {stop_name} at {formatted}");
                     }
-                }
             }
+                
+        }
         }
     }   
 
@@ -83,50 +69,40 @@ pub mod fetch {
                 last: &str, data: HashMap<String, HashMap<String, Vec<String>>>) {
         for trip in trips {
             // Primary element in this function, all others derive from it.
-            let unit: TripUpdate = deoption::trip_update(trip.trip_update);
+            let unit: TripUpdate = trip.trip_update.unwrap();
             // Secondary elements.
-            let vehicle_id: String = fields::get_vehicle_id(deoption::vehicle_descriptor(unit.vehicle));
+            let vehicle_id: String = unit.vehicle.unwrap()
+                                         .id.unwrap();            
+            // Remaining elements. Not computed unless condition is met.
             if utilities::within_bounds(vehicle_id.clone(), first, last) {
-                let route: String = fields::get_route_id(unit.trip.clone());
+                let route: String = unit.trip.route_id.unwrap();
                 let stop_time_update: Vec<StopTimeUpdate> = unit.stop_time_update;
-                let first_stop = stop_time_update[0].clone();
-                let stop_id = deoption::stop_id(first_stop.stop_id);
-                let stop_name = data["stops"][&stop_id][2].clone();
-                let trip_id: String = fields::get_trip_id(unit.trip);
-                let headsign = data["trips"].get(&trip_id).clone();
+                    let first_stop: StopTimeUpdate = stop_time_update[0].clone();
+                    let stop_id: String = first_stop.stop_id
+                                                    .unwrap()
+                                                    .clone();
+                    let stop_name = data["stops"][&stop_id][2].clone();
+                    let trip_id: String = unit.trip.trip_id.unwrap();
+                    let headsign = data["trips"].get(&trip_id)
+                                                              .unwrap();
                 if first_stop.arrival != None {
-                    let arrival_event = deoption::stop_time_event(first_stop.arrival);
-                    let arrival = deoption::time(arrival_event.time);
-                    let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
-                    let headsign_vec: Vec<String> = match headsign {
-                        None => vec![],
-                        Some(value) => {value.to_vec()},
-                    };
-                    if headsign_vec.is_empty() {
-                    println!("\x1b[0;31m{route}\x1b[0m {vehicle_id}");
-                        println!("    arrives at {stop_name}");
-                    } else {
-                        let destination: String = headsign_vec[3].clone();
-                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
+                    let arrival = first_stop.arrival.unwrap()
+                                                     .time.unwrap();
+                        let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
+                        let destination: String = headsign[3].clone();
+                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} 
+                                 is in transit to {stop_name} \x1b[0m");
                         println!("    arrives at {stop_name} at {formatted}");
-                    }
+                    
                 }
                 if first_stop.departure != None {
-                    let departure_event = deoption::stop_time_event(first_stop.departure);
-                    let departure = deoption::time(departure_event.time);
+                    let departure = first_stop.departure.unwrap()
+                                                   .time.unwrap();
                     let formatted: chrono::DateTime<Local> = utilities::time_converter(departure);
-                    let headsign_vec: Vec<String> = match headsign {
-                        None => vec![],
-                        Some(value) => {value.to_vec()},
-                    };
-                    if headsign_vec.is_empty() {
-                    println!("\x1b[0;31m{route}\x1b[0m {vehicle_id}");
-                        println!("    arrives at {stop_name}");
-                    } else {
-                        let destination: String = headsign_vec[3].clone();
-                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
-                        println!("    departs from {stop_name} at {formatted}");
-                    }
+                    let destination: String = headsign[3].clone();
+                    println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} 
+                             is in transit to {stop_name} \x1b[0m");
+                    println!("    departs from {stop_name} at {formatted}");
                 }
             }
         }
@@ -138,182 +114,7 @@ pub mod fetch {
         }
 
 }
-
-
-mod fields {
-    use gtfs_realtime::VehicleDescriptor;
-    use gtfs_realtime::TripDescriptor;
-    use gtfs_realtime::trip_update::StopTimeUpdate;
-    use gtfs_realtime::trip_update::StopTimeEvent;
-
-    use crate::search::deoption;
-
-    pub fn get_vehicle_id (entity: VehicleDescriptor) -> String {
-        // println!("Calling get_vehicle_id");
-        let id: String = deoption::id(entity.id);
-        id
-    }
     
-    pub fn get_trip_id (entity: TripDescriptor) -> String {
-        // println!("Calling get_trip_id");
-        let trip_id: String = deoption::trip_id(entity.trip_id);
-        trip_id
-    }
-    
-    pub fn get_route_id (entity: TripDescriptor) -> String {
-        // println!("Calling get_route_id");
-        let route_id: String = deoption::route_id(entity.route_id);
-        route_id
-    }
-    
-    // fn get_direction_id (entity: VehiclePosition) -> String {
-    //     // println!("Calling get_direction_id");
-    
-    //     let trip: TripDescriptor = trip_descriptor(entity.trip);
-    //     let direction_id: String = direction_id(trip.trip_id);
-    
-    //     direction_id
-    // }
-    
-    // fn get_stop_id (entity: StopTimeUpdate) -> String {
-    //     let stop
-    // }
-
-
-    pub fn _get_arrival (entity: StopTimeUpdate) -> i64 {
-        let stop: StopTimeEvent = deoption::stop_time_event(entity.arrival);
-        let time = deoption::time(stop.time);
-
-        time
-    }
-}
-
-mod deoption {
-    use gtfs_realtime::VehicleDescriptor;
-    use gtfs_realtime::TripDescriptor;
-    use gtfs_realtime::TripUpdate;
-    use gtfs_realtime::trip_update::StopTimeEvent;
-    use gtfs_realtime::trip_update::StopTimeUpdate;
-
-
-
-    // pub fn vehicle_position (entity: Option<VehiclePosition>) -> VehiclePosition {
-    //     let position : VehiclePosition = match entity {
-    //         None => panic!("This wasn't a vehicle position."),
-    //         Some(position) => {position}
-    //     };
-
-    //     position
-    // }
-
-    pub fn stop_time_event (entity: Option<StopTimeEvent>) -> StopTimeEvent {
-        let stop_time_event : StopTimeEvent = match entity {
-            None => panic!("This wasn't a stop_time_event."),
-            Some(stop_time_event) => {stop_time_event}
-        };
-
-        stop_time_event
-    }
-
-    pub fn _stop_time_update (entity: Option<StopTimeUpdate>) -> StopTimeUpdate {
-        let stop_time_update : StopTimeUpdate = match entity {
-            None => panic!("This wasn't a stop_time_event."),
-            Some(stop_time_update) => {stop_time_update}
-        };
-
-        stop_time_update
-    }
-
-    pub fn trip_id (entity: Option<String>) -> String {
-        let trip_id : String = match entity {
-            None => panic!("This wasn't a trip_id."),
-            Some(trip_id) => {trip_id}
-        };
-    
-        trip_id
-    }
-    
-    pub fn route_id (entity: Option<String>) -> String {
-        let route_id : String = match entity {
-            None => panic!("This wasn't a route_id."),
-            Some(route_id) => {route_id}
-        };
-    
-        route_id
-    }
-    
-    // pub fn direction_id (entity: Option<String>) -> String {
-    //     let direction_id : String = match entity {
-    //         None => panic!("This wasn't an id."),
-    //         Some(direction_id) => {direction_id}
-    //     };
-    //     direction_id
-    // }
-
-    pub fn id (entity: Option<String>) -> String {
-        let id : String = match entity {
-            None => panic!("This wasn't an id."),
-            Some(id) => {id}
-        };
-    
-        id
-    }
-
-    pub fn stop_id (entity: Option<String>) -> String {
-        let stop_id : String = match entity {
-            None => panic!("This wasn't a stop sequence."),
-            Some(stop_id) => {stop_id}
-        };
-    
-        stop_id
-    }
-
-    pub fn _trip_descriptor (entity: Option<TripDescriptor>) -> TripDescriptor {
-        let descriptor : TripDescriptor = match entity {
-            None => panic!("This wasn't a trip descriptor."),
-            Some(descriptor) => {descriptor}
-        };
-    
-        descriptor
-    }
-        
-    pub fn _stop_sequence (entity: Option<u32>) -> u32 {
-        let stop_sequence : u32 = match entity {
-            None => panic!("This wasn't a stop sequence."),
-            Some(stop_sequence) => {stop_sequence}
-        };
-    
-        stop_sequence
-    }
-
-    pub fn vehicle_descriptor (entity: Option<VehicleDescriptor>) -> VehicleDescriptor {
-        let descriptor : VehicleDescriptor = match entity {
-            None => panic!("This wasn't a vehicle descriptor."),
-            Some(descriptor) => {descriptor}
-        };
-    
-        descriptor
-    }
-
-    pub fn trip_update (entity: Option<TripUpdate>) -> TripUpdate {
-        let trip_update : TripUpdate = match entity {
-            None => panic!("This wasn't a trip update."),
-            Some(trip_update) => {trip_update}
-        };
-    
-        trip_update
-    }
-
-    pub fn time (entity: Option<i64>) -> i64 {
-        let time : i64 = match entity {
-            None => panic!("This wasn't a trip update."),
-            Some(time) => {time}
-        };
-    
-        time
-    }
-}
-
 mod utilities {
     use chrono::{TimeZone, Local};
 
