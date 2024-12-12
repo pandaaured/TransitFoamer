@@ -30,6 +30,7 @@ TransitFoamer_Rust
      |----search.rs
      |----(static)
           |- *(Remark 2)
+          |----index.txt
 ```
 
 ### Remark 1

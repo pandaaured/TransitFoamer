@@ -9,10 +9,11 @@ use gtfs_realtime::FeedMessage;
 // -------- BEGIN PROGRAM CODE -------- //
 
 pub async fn requester(city: &str, function: &str) -> FeedMessage {
-    
+    println!("{:?}", city);
     let urls = urls(city);
     let url = urls[function];
     let response: Response = reqwest::get(url).await.unwrap();
+    println!("{:?}", response);
     let bytes = response.bytes().await.unwrap();
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> = 
         prost::Message::decode(bytes.as_ref());
@@ -23,14 +24,12 @@ pub async fn requester(city: &str, function: &str) -> FeedMessage {
 
 fn urls(city: &str) -> HashMap<&str, &str> {
     let mut urls: HashMap<&str, &str> = HashMap::new();
-
-
-    if city == "pgh" {
+    if city == "/pittsburgh/prt/" {
         urls.insert("vehicles-bus", "https://truetime.portauthority.org/gtfsrt-bus/vehicles");
         urls.insert("trips-bus", "https://truetime.portauthority.org/gtfsrt-bus/trips");
         urls.insert("vehicles-train", "https://truetime.portauthority.org/gtfsrt-train/vehicles");
         urls.insert("trips-train", "https://truetime.portauthority.org/gtfsrt-train/trips");
-    } else if city == "satx" {
+    } else if city == "/san_antonio/via/" {
         urls.insert("vehicles-bus", "http://gtfs.viainfo.net/vehicle/vehiclepositions.pb");
         urls.insert("trips-bus", "https://gtfs.viainfo.net/tripupdate/tripupdates.pb");
     } else {

@@ -126,16 +126,8 @@ pub mod path_gtfs {
     
     fn file_path(city: &str, file: &str) -> String {
         let mut string: String = "src/static".to_string();
-    
-        if city == "satx" { 
-          string.push_str("/san_antonio/via/");
-        } else if city == "pgh" {
-          string.push_str("/pittsburgh/prt/");
-        } else if city == "chicago" {
-          string.push_str("/chicago/cta/");
-        } else {
-            panic!("Not a valid city!");
-        }
+        string.push_str(city);
+
     
         if file == "agency" {
             string.push_str("agency.txt");
@@ -159,10 +151,19 @@ pub mod path_gtfs {
             string.push_str("stops.txt");
         } else if file == "stop_times" {
             string.push_str("stop_times.txt");  
+        } else if file == "timepoints" {
+            string.push_str("timepoints.txt");  
         } else if file == "transfers" {
             string.push_str("transfers.txt");
         } else if file == "trips" {
             string.push_str("trips.txt");
+        } else if file == "direction_names_exceptions" {
+            string.push_str("direction_names_exceptions.txt");  
+        } else if file == "stop_order_exceptions" {
+            string.push_str("stop_order_exceptions.txt");  
+        } else if file == "modifications" {
+            string.push_str("modifications.txt");  
+
         } else {
             panic!("Not a valid city!");
         }
@@ -173,7 +174,7 @@ pub mod path_gtfs {
     fn city_files(city: &str) -> Vec<&str> {
         println!("Checking city input: you inputted \x1b[0;31m{}\x1b[0m", city);
         let mut files: Vec<&str> = vec![];
-        if city == "satx" {
+        if city == "/san_antonio/via/" {
             files.push("agency");
             files.push("calendar");
             files.push("calendar_dates");
@@ -183,7 +184,7 @@ pub mod path_gtfs {
             files.push("stop_times");
             files.push("transfers");
             files.push("trips");
-        } else if city == "pgh" {
+        } else if city == "/pittsburgh/prt/" {
             files.push("agency");
             files.push("calendar");
             files.push("calendar_dates");
@@ -197,6 +198,127 @@ pub mod path_gtfs {
             files.push("stops");
             files.push("transfers");
             files.push("trips");
+        } else if city == "/seattle/king_county/" {
+            files.push("agency");
+            files.push("calendar");
+            files.push("calendar_dates");
+            files.push("fare_attributes");
+            files.push("fare_rules");
+            files.push("feed_info");
+            files.push("routes");
+            files.push("shapes");
+            files.push("stop_times");
+            files.push("stops");
+            files.push("transfers");
+            files.push("trips");            
+        } else if city == "/chicago/cta/" {
+            files.push("agency");
+            files.push("calendar");
+            files.push("calendar_dates");
+            files.push("frequencies");
+            files.push("routes");
+            files.push("shapes");
+            files.push("stops");
+            files.push("transfers");
+            files.push("trips");      
+        } else if city == "/san_francisco/muni/" {
+            files.push("agency");
+            files.push("calendar");
+            files.push("calendar_dates");
+            files.push("directions");
+            files.push("fare_attributes");
+            files.push("fare_rules");
+            files.push("routes");
+            files.push("shapes");
+            files.push("stop_times");
+            files.push("stops");
+            files.push("timepoints");
+            files.push("trips"); 
+        } else if city == "/seattle/community/" {
+            files.push("agency");
+            files.push("calendar");
+            files.push("calendar_dates");
+            files.push("direction_names_exceptions");
+            files.push("feed_info");
+            files.push("routes");
+            files.push("shapes");
+            files.push("stop_order_exceptions");
+            files.push("stops");
+            files.push("transfers");
+            files.push("trips");             
+        } else if city == "/seattle/everett/" {
+            files.push("agency");
+            files.push("calendar");
+            files.push("calendar_dates");
+            files.push("feed_info");
+            files.push("routes");
+            files.push("shapes");
+            files.push("stop_times");
+            files.push("stops");
+            files.push("trips");              
+        } else if city == "/seattle/ferries/" {
+            files.push("agency");
+            files.push("calendar");
+            files.push("fare_attributes");
+            files.push("fare_rules");
+            files.push("feed_info");
+            files.push("routes");
+            files.push("shapes");
+            files.push("stop_times");
+            files.push("stops");
+            files.push("trips");      
+        } else if city == "/seattle/intercity/" {
+            files.push("agency");
+            files.push("calendar_dates");
+            files.push("fare_attributes");
+            files.push("feed_info");
+            files.push("routes");
+            files.push("shapes");
+            files.push("stop_times");
+            files.push("stops");
+            files.push("transfers");               
+            files.push("trips");               
+        } else if city == "/seattle/monorail/" {
+            files.push("agency");
+            files.push("calendar_dates");
+            files.push("calendar");
+            files.push("fare_attributes");
+            files.push("feed_info");
+            files.push("routes");
+            files.push("shapes");
+            files.push("stop_times");
+            files.push("stops");
+            files.push("transfers");               
+            files.push("trips");           
+        } else if city == "/seattle/pierce/" {
+            files.push("calendar_dates");
+            files.push("calendar");
+            files.push("fare_attributes");
+            files.push("fare_rules");
+            files.push("feed_info");
+            files.push("routes");
+            files.push("shapes");
+            files.push("stop_times");
+            files.push("stops");              
+            files.push("trips");                
+        } else if city == "/seattle/sound_transit/" {
+            files.push("agency");
+            files.push("alternate_stop_names_exceptions");
+            files.push("calendar");
+            files.push("calendar_dates");
+            files.push("direction_names_exceptions");
+            files.push("facilities_properties_definitions");
+            files.push("facilities_properties");
+            files.push("facilities");
+            files.push("fare_attributes");
+            files.push("fare_rules");
+            files.push("feed_info");
+            files.push("modifications");
+            files.push("routes");
+            files.push("shapes");
+            files.push("stop_times");
+            files.push("stops");
+            files.push("trips");    
         } else {
             panic!("Not a valid city!");
         }

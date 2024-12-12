@@ -8,20 +8,7 @@ pub mod fetch {
 
     use crate::search::utilities;
 
-    pub fn result (vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>,
-            data: HashMap<String, HashMap<String, Vec<String>>>, 
-            function: &str, number: &str, number2: &str,
-            stops: HashMap<String, Vec<String>> ) {
-        if function == "route" {
-            on_route(vehicles, trips, number, data);
-        } else if function == "stop" {
-            at_stop(vehicles, trips, number, data, stops);
-        } else if function == "range" {
-            in_range(vehicles, trips, number, number2, data);
-        }
-    }
-
-    fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
+    pub fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
                 data: HashMap<String, HashMap<String, Vec<String>>>) {
         for trip in trips {
             // Primary element.
@@ -65,7 +52,7 @@ pub mod fetch {
         }
     }   
 
-    fn in_range(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, first: &str,
+    pub fn in_range(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, first: &str,
                 last: &str, data: HashMap<String, HashMap<String, Vec<String>>>) {
         for trip in trips {
             // Primary element in this function, all others derive from it.
@@ -112,7 +99,6 @@ pub mod fetch {
          _data: HashMap<String, HashMap<String, Vec<String>>>, _stops: HashMap<String, Vec<String>>) {
 
         }
-
 }
     
 mod utilities {
