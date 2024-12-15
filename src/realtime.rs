@@ -9,11 +9,9 @@ use gtfs_realtime::FeedMessage;
 // -------- BEGIN PROGRAM CODE -------- //
 
 pub async fn requester(city: &str, function: &str) -> FeedMessage {
-    println!("{:?}", city);
     let urls = urls(city);
     let url = urls[function];
     let response: Response = reqwest::get(url).await.unwrap();
-    println!("{:?}", response);
     let bytes = response.bytes().await.unwrap();
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> = 
         prost::Message::decode(bytes.as_ref());

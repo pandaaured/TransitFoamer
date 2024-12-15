@@ -85,11 +85,11 @@ pub mod dict_gtfs {
             } else if function == "stop_times" {
                 key = w[0].clone();
             } else if function == "stops" {
-                key = w[0].clone();
+                key = w[10].clone();
             } else if function == "transfers" {
                 key = w[0].clone();
             } else if function == "trips" {
-                key = w[0].clone();
+                key = w[8].clone();
             }
             map.insert(key.to_string(), w);
         }
@@ -181,6 +181,7 @@ pub mod path_gtfs {
             files.push("feed_info");
             files.push("routes");
             files.push("shapes");
+            files.push("stops");
             files.push("stop_times");
             files.push("transfers");
             files.push("trips");
@@ -327,15 +328,10 @@ pub mod path_gtfs {
     }    
 }
 
-// println!("{}", collection[0]);
+// #[cfg(test)]
+// mod tests {
+//     use std::fs;
+//     use std::collections::HashMap;
+//     use super::*;
 
-// let header = &collection[0];
-// let iter : Vec<&str> = header.split(',').collect();
-// assert!(!iter.is_empty());
-    
-// let len = &iter.len();
-// println!("{}", len);
-        
-// let reference = vec!["route_id", "service_id", "trip_id", 
-//     "trip_headsign", "trip_short_name", "direction_id", "block_id",
-//     "shape_id", "wheelchair_accessible", "bikes_allowed"];
+// }

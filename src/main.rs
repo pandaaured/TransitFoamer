@@ -9,16 +9,17 @@ pub mod staticfeed;
 pub mod realtime;
 pub mod search;
 pub mod feedmessage;
-
-
+pub mod scripts;
 
 #[tokio::main]
 async fn main() {
     let args: Vec<String> = env::args().collect();
-    println!("{:?}", args);
-
     let import: String = fs::read_to_string("src/static/index.txt")
                             .expect("Should have been able to read file");
+    data(args, import).await
+}
+
+async fn data(args: Vec<String>, import: String) {
     let import_lines = import.lines();
     if args.len() == 1 {
         for line in import_lines {
@@ -44,25 +45,22 @@ async fn main() {
                     staticfeed::dict_gtfs::static_data_vector(input_links);
 
                 let buses = realtime::requester(&city_path, "vehicles-bus");
-                let trips = realtime::requester(&city_path, "trips-bus");
+                // let trips = realtime::requester(&city_path, "trips-bus");
                 let buses: FeedMessage = buses.await;
-                let trips: FeedMessage = trips.await;
+                // let trips: FeedMessage = trips.await;
                 let busdata : Vec<FeedEntity> = buses.entity;
-                let tripdata: Vec<FeedEntity> = trips.entity;
+                // let tripdata: Vec<FeedEntity> = trips.entity;
 
-                if function == "range" {
-                    let first = &args[3];
-                    let last = &args[4];
-                    search::fetch::in_range(busdata, tripdata, first, last, static_data);
-                } else if function == "route" {
+                // if function == "range" {
+                //     let first = &args[3];
+                //     let last = &args[4];
+                //     search::fetch::in_range(busdata, tripdata, first, last, static_data);
+                // } else 
+                if function == "route" {
                     let route = &args[3];
-                    search::fetch::on_route(busdata, tripdata, route, static_data);
-                }
+                    search::fetch::on_route_vdata(busdata, route, static_data);
+                }       
             }
         }
     }
-
-
 }
-
-
