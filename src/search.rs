@@ -89,7 +89,6 @@ pub mod fetch {
         }
     } 
 
-
     pub fn on_route_vdata(vehicles: Vec<FeedEntity>, number: &str, 
                           data: HashMap<String, HashMap<String, Vec<String>>>) {
         for vehicle in vehicles {
@@ -129,6 +128,7 @@ pub mod fetch {
             }
         }
     }
+    
 }
     
 mod utilities {
