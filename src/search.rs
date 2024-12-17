@@ -5,8 +5,6 @@ pub mod fetch {
     use std::collections::HashMap;
     use chrono::Local;
 
-    use crate::search::utilities;
-
     pub fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
                 data: HashMap<String, HashMap<String, Vec<String>>>) {
         for trip in trips {
@@ -129,12 +127,54 @@ pub mod fetch {
         }
     }
     
-}
-    
+    pub fn in_range_vdata(vehicles: Vec<FeedEntity>, first: &str,
+                    last: &str, data: HashMap<String, HashMap<String, Vec<String>>>) {
+        for vehicle in vehicles {
+            // Primary element in this function, all others derive from it.
+            let unit: VehiclePosition = vehicle.vehicle.unwrap();
+            // Secondary elements.
+            let vehicle_id: String = unit.vehicle.unwrap()
+                                        .id.unwrap();            
+            // Remaining elements. Not computed unless condition is met.
+            if utilities::within_bounds(vehicle_id.clone(), first, last) {
+                let route: String = unit.trip
+                                        .clone()
+                                        .unwrap()
+                                        .route_id
+                                        .unwrap();                    
+                let stop_id: String = unit.stop_id.clone()
+                                          .unwrap();
+                let stop_name = data["stops"][&stop_id][2]
+                                        .clone();
+                let trip_id: String = unit.trip
+                                          .unwrap()
+                                          .trip_id
+                                          .unwrap();
+                let headsign = data["trips"].get(&trip_id)
+                                                          .unwrap();
+
+                let destination: String = data["trips"]
+                                          .get(&trip_id).unwrap()[5]
+                                          .clone();
+                if unit.stop_id != None {
+                    let current_stop = unit.stop_id.unwrap().to_string();
+                    let current_stop_name = &data["stops"]
+                                                    .get(&current_stop)
+                                                    .unwrap()[8];
+                    println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {current_stop_name} \x1b[0m");
+
+                } else {
+                    println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} \x1b[0m");
+                }
+                }
+            }
+        }
+   
 mod utilities {
     use chrono::{TimeZone, Local};
 
     fn string_to_int(input: String) -> i64 {
+        println!("{}", input);
         let conv: i64 = input.parse().expect("Converted to integer");
         conv
     }
@@ -151,4 +191,6 @@ mod utilities {
         let date_time: chrono::DateTime<Local> = Local.timestamp_opt(input, 0).unwrap();
         date_time
     }
+}
+
 }

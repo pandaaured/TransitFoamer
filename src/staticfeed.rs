@@ -45,6 +45,12 @@ pub mod extdata_gtfs {
 pub mod dict_gtfs {
     use std::collections::HashMap;
     use std::fs;
+    use std::slice::Iter;
+    use crate::staticfeed::enum_file::File;
+    use crate::staticfeed::enum_file::Size;
+    use crate::staticfeed::enum_file::is_one;
+    use crate::staticfeed::enum_file::get_first;
+    use crate::staticfeed::enum_file::get_second;
 
     pub fn static_data_vector(path_data: HashMap<String, String>) -> HashMap<String, HashMap<String, Vec<String>>> {
         let mut static_data: HashMap<String, HashMap<String, Vec<String>>> = HashMap::new();
@@ -58,41 +64,54 @@ pub mod dict_gtfs {
     fn path_io(function: String, path: String) -> HashMap<String, Vec<String>> {
         let mut map : HashMap<String, Vec<String>> = HashMap::new();
         let data: String = path_io_helper(path);
-        let iterator = data.split('\n');
-        for i in iterator {
-            let v: Vec<&str> = i.split(',').collect();
-            let w : Vec<String> = v.into_iter().map(|x| x.to_string()).collect();
-            let mut key = String::new();
-            assert!(!w.is_empty());
-            if function == "agency" {       // Use pattern matching in a rewrite.
-                key = w[0].clone();
-            } else if function == "calendar" {
-                key = w[0].clone();
-            } else if function == "calendar_dates" {
-                key = w[1].clone();
-            } else if function == "fare_attributes" {
-                key = w[0].clone();
-            } else if function == "fare_rules" {
-                key = w[0].clone();
-            } else if function == "feed_info" {
-                key = w[0].clone();
-            } else if function == "frequencies" {
-                key = w[0].clone();
-            } else if function == "routes" {
-                key = w[0].clone();
-            } else if function == "shapes" {
-                key = w[0].clone();
-            } else if function == "stop_times" {
-                key = w[0].clone();
-            } else if function == "stops" {
-                key = w[10].clone();
-            } else if function == "transfers" {
-                key = w[0].clone();
-            } else if function == "trips" {
-                key = w[8].clone();
+        let mut iterator = data.split('\n');
+        let header: Vec<&str> = iterator.next().unwrap().split(',').collect();
+        let header_iter = header.iter();
+        let index = match function_to_enum(function.clone()) {
+            File::Agency => Size::One(find_index("agency_id", &header_iter).unwrap()),
+            File::Calendar => Size::One(find_index("service_id", &header_iter).unwrap()),
+            File::CalendarDates => Size::One(find_index("service_id", &header_iter).unwrap()),
+            File::FareAttributes => Size::One(find_index("service_id", &header_iter).unwrap()),
+            File::FareRules => Size::One(find_index("service_id", &header_iter).unwrap()),
+            File::FeedInfo => Size::One(find_index("feed_publisher_name", &header_iter).unwrap()),
+            File::Frequencies => Size::One(find_index("service_id", &header_iter).unwrap()),
+            File::Routes => Size::One(find_index("route_id", &header_iter).unwrap()),
+            File::Shapes => Size::One(find_index("shape_id", &header_iter).unwrap()),
+            File::StopTimes => Size::Two(find_index("trip_id", &header_iter).unwrap(), 
+                                         find_index("stop_sequence", &header_iter).unwrap()),
+            File::Stops => Size::One(find_index("stop_id", &header_iter).unwrap()),
+            File::Transfers => Size::One(find_index("from_stop_id", &header_iter).unwrap()),
+            File::Trips => Size::One(find_index("trip_id", &header_iter).unwrap()),
+        };
+
+        if is_one(&index) {
+            let key_to_insert = match index {
+                Size::One(x) => x,
+                Size::Two(x, _) => x,
+            };
+            for i in iterator {
+                let v: Vec<&str> = i.split(',').collect();
+                let w : Vec<String> = v.into_iter().map(|x| x.to_string()).collect();
+                let key = &w[key_to_insert];
+                map.insert(key.clone(), w);
             }
-            map.insert(key.to_string(), w);
+        } else {
+            let key_elem_one = get_first(&index);
+            let key_elem_two = get_second(&index);
+            for i in iterator {
+                let v: Vec<&str> = i.split(',').collect();
+                let w : Vec<String> = v.into_iter().map(|x| x.to_string()).collect();
+                let key_pt_1 = &w[key_elem_one];
+                let key_pt_2 = &w[key_elem_two];
+                let mut str = String::from("(");
+                str.push_str(key_pt_1.to_string().as_str());
+                str.push(',');
+                str.push_str(key_pt_2.to_string().as_str());
+                str.push(')');
+                map.insert(str.clone(), w);
+            }
         }
+        
         map
     }
     
@@ -102,6 +121,44 @@ pub mod dict_gtfs {
            fs::read_to_string(path)
               .expect("Should have been able to read the file");
         contents 
+    }
+
+    fn function_to_enum(function: String) -> crate::staticfeed::enum_file::File {
+        use crate::staticfeed::enum_file::File;        
+        if function == "agency" {
+            return File::Agency;        // Use pattern matching in a rewrite.
+        } else if function == "calendar" { 
+            return File::Calendar;        // Use pattern matching in a rewrite.
+        } else if function == "calendar_dates" {
+            return File::CalendarDates;        // Use pattern matching in a rewrite.
+        } else if function == "fare_attributes" { 
+            return File::FareAttributes;        // Use pattern matching in a rewrite.
+        } else if function == "fare_rules" {
+            return File::FareRules;
+        } else if function == "feed_info" {            
+            return File::FeedInfo;
+        } else if function == "frequencies" {
+            return File::Frequencies;
+        } else if function == "routes" {
+            return File::Routes;
+        } else if function == "shapes" {
+            return File::Shapes;
+        } else if function == "stop_times" {
+            return File::StopTimes;
+        } else if function == "stops" {
+            return File::Stops;
+        } else if function == "transfers" {
+            return File::Transfers;
+        } else if function == "trips" {
+            return File::Trips;
+        } else {
+            panic!();
+        }
+    }
+
+    fn find_index(keyword: &str, header: &Iter<'_, &str>) -> Option<usize> {
+        let value = header.clone().position(|&x| x == keyword);
+        value
     }
 }
 
@@ -328,10 +385,47 @@ pub mod path_gtfs {
     }    
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use std::fs;
-//     use std::collections::HashMap;
-//     use super::*;
+pub mod enum_file {
+    pub enum File {
+        Agency,
+        CalendarDates,
+        Calendar,
+        FareAttributes,
+        FareRules,
+        FeedInfo,
+        Frequencies,
+        Routes,
+        Shapes,
+        StopTimes,
+        Stops,
+        Transfers,
+        Trips
+    }
 
-// }
+    pub enum Size {
+        One(usize),
+        Two(usize, usize)
+    }
+
+    pub fn is_one(entry : &Size) -> bool {
+        match entry {
+            Size::One(_) => true,
+            Size::Two(_, _) => false,
+        }
+    }
+
+    pub fn get_first(entry: &Size) -> usize {
+        match entry {
+            Size::One(x) => *x,
+            Size::Two(x, _) => *x,
+        }
+    }
+
+    pub fn get_second(entry: &Size) -> usize {
+        match entry {
+            Size::One(x) => *x,
+            Size::Two(_, y) => *y,
+        }
+    }
+
+}
