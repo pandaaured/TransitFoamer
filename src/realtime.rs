@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-// use prost::Message;
 use reqwest::Response;
 use gtfs_realtime::FeedMessage;
 

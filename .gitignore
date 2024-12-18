@@ -3,4 +3,6 @@
 static/
 /out
 .idea/
-/data/via
+/data/
+index.html
+styles.css

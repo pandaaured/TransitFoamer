@@ -45,14 +45,12 @@ async fn data(args: Vec<String>, import: String) {
                 let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
                     staticfeed::dict_gtfs::static_data_vector(input_links);
 
-                // println!("{:#?}", static_data["routes"]);
-
                 let buses = realtime::requester(&city_path, "vehicles-bus");
                 let buses: FeedMessage = buses.await;
                 let busdata : Vec<FeedEntity> = buses.entity;
                 // let trips = realtime::requester(&city_path, "trips-bus");
                 // let trips: FeedMessage = trips.await;
-                // let tripdata: Vec<FeedEntity> = trips.entity;
+                // let tripdata: Vec<FeedEntity> = trips.entity; 
 
                 if function == "range" {
                     let first = &args[3];
