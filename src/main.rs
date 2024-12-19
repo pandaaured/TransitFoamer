@@ -1,13 +1,13 @@
 use std::env;
-use std::collections::HashMap;
+// use std::collections::HashMap;
 use std::fs;
 use gtfs_realtime::FeedMessage;
 use gtfs_realtime::FeedEntity;
 // use gtfs_realtime::VehiclePosition;
 
 
-pub mod staticfeed;
-pub mod realtime;
+pub mod gtfsstatic;
+pub mod gtfsrt;
 pub mod search;
 pub mod feedmessage;
 pub mod scripts;
@@ -39,13 +39,13 @@ async fn data(args: Vec<String>, import: String) {
             if values[0] == &args[1] {
                 let city_path: &str = values[1];
                 let function = &args[2];
-                let input_links: HashMap<String, String> = staticfeed::path_gtfs::static_data(&city_path); 
+                // let input_links: HashMap<String, String> = gtfsstatic::paths::static_data(&city_path); 
                 // let routes_per_stop = staticfeed::extdata_gtfs::routes_per_stop(&city_path);
 
-                let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
-                    staticfeed::dict_gtfs::static_data_vector(input_links);
+                // let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
+                //     gtfsstatic::dict_gtfs::static_data_vector(input_links);
 
-                let buses = realtime::requester(&city_path, "vehicles-bus");
+                let buses = gtfsrt::requester(&city_path, "vehicles-bus");
                 let buses: FeedMessage = buses.await;
                 let busdata : Vec<FeedEntity> = buses.entity;
                 // let trips = realtime::requester(&city_path, "trips-bus");
@@ -55,11 +55,11 @@ async fn data(args: Vec<String>, import: String) {
                 if function == "range" {
                     let first = &args[3];
                     let last = &args[4];
-                    search::fetch::in_range_vdata(busdata, first, last, static_data);
+                    search::fetch::in_range_vdata(busdata, first, last, city_path);
                 } else 
                 if function == "route" {
                     let route = &args[3];
-                    search::fetch::on_route_vdata(busdata, route, static_data);
+                    search::fetch::on_route_vdata(busdata, route, city_path);
                 }       
             }
         }

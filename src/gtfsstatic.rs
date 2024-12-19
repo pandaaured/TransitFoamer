@@ -2,55 +2,55 @@
 // It is primarily used currently to import the output of my script which
 // returns bus stops and the routes which serve them. Data unfortunately in 
 // JSON currently. 
-pub mod extdata_gtfs {    
-    use std::collections::HashMap;
-    use std::fs::File;
-    use std::io::Read;
+// pub mod extdata_gtfs {    
+//     use std::collections::HashMap;
+//     use std::fs::File;
+//     use std::io::Read;
 
-    #[derive(Debug, serde::Deserialize)]
-    struct Data {
-        stops: HashMap<String, Vec<String>>,
-    }
+//     #[derive(Debug, serde::Deserialize)]
+//     struct Data {
+//         stops: HashMap<String, Vec<String>>,
+//     }
 
-    pub fn routes_per_stop(city: &str) -> HashMap<String, Vec<String>> {
-        let file_path = file_path(city);
-        let mut file = File::open(file_path).unwrap();
-        let mut data = String::new();
-        file.read_to_string(&mut data).unwrap();
-        let json: Data = serde_json::from_str(&mut data).expect("Should work");
-        let hash_data: HashMap<String, Vec<String>> = json.stops;
+//     pub fn routes_per_stop(city: &str) -> HashMap<String, Vec<String>> {
+//         let file_path = file_path(city);
+//         let mut file = File::open(file_path).unwrap();
+//         let mut data = String::new();
+//         file.read_to_string(&mut data).unwrap();
+//         let json: Data = serde_json::from_str(&mut data).expect("Should work");
+//         let hash_data: HashMap<String, Vec<String>> = json.stops;
 
-        hash_data   
-    }
+//         hash_data   
+//     }
 
-    fn file_path(city: &str) -> String {
-        let mut string: String = "data/".to_string();
+//     fn file_path(city: &str) -> String {
+//         let mut string: String = "data/".to_string();
     
-        if city == "satx" { 
-          string.push_str("/via/");
-        } else if city == "pgh" {
-          string.push_str("/prt/");
-        } else if city == "chicago" {
-          string.push_str("/cta/");
-        } else {
-            panic!("Not a valid city!");
-        }
+//         if city == "satx" { 
+//           string.push_str("/via/");
+//         } else if city == "pgh" {
+//           string.push_str("/prt/");
+//         } else if city == "chicago" {
+//           string.push_str("/cta/");
+//         } else {
+//             panic!("Not a valid city!");
+//         }
 
-        string.push_str("routesperstop.json");
+//         string.push_str("routesperstop.json");
     
-        string
-    }
-}
+//         string
+//     }
+// }
 
 pub mod dict_gtfs {
     use std::collections::HashMap;
     use std::fs;
     use std::slice::Iter;
-    use crate::staticfeed::enum_file::File;
-    use crate::staticfeed::enum_file::Size;
-    use crate::staticfeed::enum_file::is_one;
-    use crate::staticfeed::enum_file::get_first;
-    use crate::staticfeed::enum_file::get_second;
+    use crate::gtfsstatic::enum_file::File;
+    use crate::gtfsstatic::enum_file::Size;
+    use crate::gtfsstatic::enum_file::is_one;
+    use crate::gtfsstatic::enum_file::get_first;
+    use crate::gtfsstatic::enum_file::get_second;
 
     pub fn static_data_vector(path_data: HashMap<String, String>) -> HashMap<String, HashMap<String, Vec<String>>> {
         let mut static_data: HashMap<String, HashMap<String, Vec<String>>> = HashMap::new();
@@ -61,7 +61,7 @@ pub mod dict_gtfs {
         static_data
     }
     
-    fn path_io(function: String, path: String) -> HashMap<String, Vec<String>> {
+    pub fn path_io(function: String, path: String) -> HashMap<String, Vec<String>> {
         let mut map : HashMap<String, Vec<String>> = HashMap::new();
         let data: String = path_io_helper(path);
         let mut iterator = data.split('\n');
@@ -116,15 +116,15 @@ pub mod dict_gtfs {
     }
     
     fn path_io_helper(path: String) -> String {
-        println!("{}", path);
+        // println!("{}", path);
         let contents : String = 
            fs::read_to_string(path)
               .expect("Should have been able to read the file");
         contents 
     }
 
-    fn function_to_enum(function: String) -> crate::staticfeed::enum_file::File {
-        use crate::staticfeed::enum_file::File;        
+    fn function_to_enum(function: String) -> crate::gtfsstatic::enum_file::File {
+        use crate::gtfsstatic::enum_file::File;        
         if function == "agency" {
             return File::Agency;        // Use pattern matching in a rewrite.
         } else if function == "calendar" { 
@@ -162,7 +162,7 @@ pub mod dict_gtfs {
     }
 }
 
-pub mod path_gtfs {
+pub mod paths {
     use std::collections::HashMap;
     pub fn static_data(city: &str) -> HashMap<String, String> {
 
@@ -181,7 +181,7 @@ pub mod path_gtfs {
         file_paths
     }
     
-    fn file_path(city: &str, file: &str) -> String {
+    pub fn file_path(city: &str, file: &str) -> String {
         let mut string: String = "src/static".to_string();
         string.push_str(city);
 
@@ -228,7 +228,7 @@ pub mod path_gtfs {
         string
     }
     
-    fn city_files(city: &str) -> Vec<&str> {
+    pub fn city_files(city: &str) -> Vec<&str> {
         println!("Checking city input: you inputted \x1b[0;31m{}\x1b[0m", city);
         let mut files: Vec<&str> = vec![];
         if city == "/san_antonio/via/" {
@@ -385,6 +385,8 @@ pub mod path_gtfs {
     }    
 }
 
+// This is used for pattern matching the file so that a long chain of if-elses 
+// is not necessary. 
 pub mod enum_file {
     pub enum File {
         Agency,
@@ -427,5 +429,4 @@ pub mod enum_file {
             Size::Two(_, y) => *y,
         }
     }
-
 }

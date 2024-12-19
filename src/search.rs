@@ -5,6 +5,7 @@ pub mod fetch {
     use std::collections::HashMap;
     use chrono::Local;
     use crate::search::utilities;
+    use crate::gtfsstatic;
 
     pub fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
                 data: HashMap<String, HashMap<String, Vec<String>>>) {
@@ -88,36 +89,51 @@ pub mod fetch {
         }
     } 
 
-    pub fn on_route_vdata(vehicles: Vec<FeedEntity>, number: &str, 
-                          data: HashMap<String, HashMap<String, Vec<String>>>) {
+    pub fn on_route_vdata(vehicles: Vec<FeedEntity>, number: &str, city: &str) {
         for vehicle in vehicles {
             // Primary element.
             let unit: VehiclePosition = vehicle.vehicle.unwrap();
-            // Secondary element.
-            if unit.trip.clone() != None {
-                let route: String = unit.trip.clone()
-                                    .unwrap()
-                                    .route_id
-                                    .unwrap();
+            // Two types of vehicles:
+            // (a) vehicle running a route
+            // (b) vehicle not running a route. 
+            if unit.trip.clone() != None {      // Checks which type of vehicle
+                let route: String = unit.trip
+                                        .clone()
+                                        .unwrap()
+                                        .route_id 
+                                        // Mandatory field of TripDescriptor. 
+                                        .unwrap();
                 if number == route {
                     // Remaining elements. Not computed unless condition is met.
                     let vehicle_id: String = unit.vehicle
                                                     .unwrap()
-                                                    .id
+                                                    .id // The bus number. 
                                                     .unwrap();  
                     let trip_id: String = unit.trip
                                                 .unwrap()
                                                 .trip_id
-                                                .unwrap();
-                    let destination: String = data["trips"]
-                                            .get(&trip_id).unwrap()[5]
-                                            .clone();
+                                                .unwrap(); // The trip ID. 
+                    // Here we get specifically the "trips" section of GTFS
+                    let path_to_trips = gtfsstatic::paths::file_path(city, "trips");
+                    let static_trips: HashMap<String, Vec<String>> = gtfsstatic::dict_gtfs::path_io("trips".to_string(), path_to_trips);
 
+                    // let static_trips_header = &static_trips["trip_id"];
+                    // let index = static_trips_header.iter()
+                    //                                       .position(|x| x == "trip_headsign")
+                    //                                       .unwrap();
+                    // // Appropriate piece of information for destinations. 
+                    let static_trips_trip_id = &static_trips[&trip_id];
+                    let destination = &static_trips_trip_id[5];   
                     if unit.stop_id != None {
-                        let current_stop = unit.stop_id.unwrap().to_string();
-                        let current_stop_name = &data["stops"]
-                                                        .get(&current_stop)
-                                                        .unwrap()[8];
+                        let stop_id = unit.stop_id;
+                        let current_stop = stop_id.unwrap().to_string();
+                        let path_to_stops = gtfsstatic::paths::file_path(city, "stops");
+                        let static_stops = gtfsstatic::dict_gtfs::path_io("stops".to_string(), path_to_stops);
+                        let static_stops_stop_id = &static_stops[&current_stop];
+                        // let index = static_stops_stop_id.iter()
+                        //                                                  .position(|x| x == "stop_name")
+                        //                                                  .unwrap();
+                        let current_stop_name = &static_stops_stop_id[8];
                         println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {current_stop_name} \x1b[0m");
 
                     } else {
@@ -129,7 +145,7 @@ pub mod fetch {
     }
     
     pub fn in_range_vdata(vehicles: Vec<FeedEntity>, first: &str,
-                    last: &str, data: HashMap<String, HashMap<String, Vec<String>>>) {
+                    last: &str, city: &str) {
         for vehicle in vehicles {
             // Primary element in this function, all others derive from it.
             let unit: VehiclePosition = vehicle.vehicle.unwrap();
@@ -148,14 +164,20 @@ pub mod fetch {
                                           .unwrap()
                                           .trip_id
                                           .unwrap();
-                    let destination: String = data["trips"]
-                                        .get(&trip_id).unwrap()[5]
-                                        .clone();
+                    let path_to_trips = gtfsstatic::paths::file_path(city, "trips");
+                    let static_trips: HashMap<String, Vec<String>> = gtfsstatic::dict_gtfs::path_io("trips".to_string(), path_to_trips);
+                    let static_trips_trip_id = &static_trips[&trip_id];
+                    let destination = &static_trips_trip_id[5];   
                     if unit.stop_id != None {
-                        let current_stop = unit.stop_id.unwrap().to_string();
-                        let current_stop_name = &data["stops"]
-                                                        .get(&current_stop)
-                                                        .unwrap()[8];
+                        let stop_id = unit.stop_id;
+                        let current_stop = stop_id.unwrap().to_string();
+                        let path_to_stops = gtfsstatic::paths::file_path(city, "stops");
+                        let static_stops = gtfsstatic::dict_gtfs::path_io("stops".to_string(), path_to_stops);
+                        let static_stops_stop_id = &static_stops[&current_stop];
+                        // let index = static_stops_stop_id.iter()
+                        //                                                  .position(|x| x == "stop_name")
+                        //                                                  .unwrap();
+                        let current_stop_name = &static_stops_stop_id[8];
                         println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {current_stop_name} \x1b[0m");
     
                     } else {
