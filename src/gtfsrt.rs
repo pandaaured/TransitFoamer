@@ -14,9 +14,8 @@ pub async fn requester(city: &str, function: &str) -> FeedMessage {
     let bytes = response.bytes().await.unwrap();
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> = 
         prost::Message::decode(bytes.as_ref());
-    let data = data.unwrap();
     
-    data
+    data.unwrap()
 }
 
 fn urls(city: &str) -> HashMap<&str, &str> {

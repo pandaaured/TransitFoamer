@@ -42,28 +42,34 @@
 //     }
 // }
 
-pub mod dict_gtfs {
+pub mod data {
     use std::collections::HashMap;
     use std::fs;
     use std::slice::Iter;
-    use crate::gtfsstatic::enum_file::File;
-    use crate::gtfsstatic::enum_file::Size;
-    use crate::gtfsstatic::enum_file::is_one;
-    use crate::gtfsstatic::enum_file::get_first;
-    use crate::gtfsstatic::enum_file::get_second;
+    use crate::gtfsstatic::{paths, enum_file::{File, Size, is_one, get_first, get_second}};
 
-    pub fn static_data_vector(path_data: HashMap<String, String>) -> HashMap<String, HashMap<String, Vec<String>>> {
+
+    pub fn static_data_all(path_data: HashMap<String, String>) -> HashMap<String, HashMap<String, Vec<String>>> {
         let mut static_data: HashMap<String, HashMap<String, Vec<String>>> = HashMap::new();
         for path in path_data {
-            let foo = path_io(path.0.clone(), path.1);
-            static_data.insert(path.0.clone(), foo);
+            let key = path_io(path.0.clone(), path.1);
+            static_data.insert(path.0.clone(), key);
         }
         static_data
     }
-    
+    /// Given a valid city and a file name that exists in that city's static definition,
+    /// this function returns a HashMap whose keys are the file's associated keys and 
+    /// whose values are lines of the file that you can access. 
+    pub fn static_data(city: &str, function: String) -> HashMap<String, Vec<String>> {
+        let file_path = paths::file_path(city, function.clone());
+        let ingest_data = read_to_string(file_path);
+        let data = hashmap_populate(ingest_data, function);
+        data
+    }
+
     pub fn path_io(function: String, path: String) -> HashMap<String, Vec<String>> {
         let mut map : HashMap<String, Vec<String>> = HashMap::new();
-        let data: String = path_io_helper(path);
+        let data: String = read_to_string(path);
         let mut iterator = data.split('\n');
         let header: Vec<&str> = iterator.next().unwrap().split(',').collect();
         let header_iter = header.iter();
@@ -115,12 +121,65 @@ pub mod dict_gtfs {
         map
     }
     
-    fn path_io_helper(path: String) -> String {
+    fn read_to_string(path: String) -> String {
         // println!("{}", path);
         let contents : String = 
            fs::read_to_string(path)
               .expect("Should have been able to read the file");
         contents 
+    }
+
+    fn hashmap_populate(data: String, function: String) -> HashMap<String, 
+    Vec<String>> {
+        let mut map: HashMap<String, Vec<String>> = HashMap::new();
+        let mut iterator = data.split('\n');
+        let header: Vec<&str> = iterator.next().unwrap().split(',').collect();
+        let header_iter = header.iter();
+        let index = match function_to_enum(function.clone()) {
+            File::Agency => Size::One(find_index("agency_id", &header_iter).unwrap()),
+            File::Calendar => Size::One(find_index("service_id", &header_iter).unwrap()),
+            File::CalendarDates => Size::One(find_index("service_id", &header_iter).unwrap()),
+            File::FareAttributes => Size::One(find_index("service_id", &header_iter).unwrap()),
+            File::FareRules => Size::One(find_index("service_id", &header_iter).unwrap()),
+            File::FeedInfo => Size::One(find_index("feed_publisher_name", &header_iter).unwrap()),
+            File::Frequencies => Size::One(find_index("service_id", &header_iter).unwrap()),
+            File::Routes => Size::One(find_index("route_id", &header_iter).unwrap()),
+            File::Shapes => Size::One(find_index("shape_id", &header_iter).unwrap()),
+            File::StopTimes => Size::Two(find_index("trip_id", &header_iter).unwrap(), 
+                                         find_index("stop_sequence", &header_iter).unwrap()),
+            File::Stops => Size::One(find_index("stop_id", &header_iter).unwrap()),
+            File::Transfers => Size::One(find_index("from_stop_id", &header_iter).unwrap()),
+            File::Trips => Size::One(find_index("trip_id", &header_iter).unwrap()),
+        };
+
+        if is_one(&index) {
+            let key_to_insert = match index {
+                Size::One(x) => x,
+                Size::Two(x, _) => x,
+            };
+            for i in iterator {
+                let v: Vec<&str> = i.split(',').collect();
+                let w : Vec<String> = v.into_iter().map(|x| x.to_string()).collect();
+                let key = &w[key_to_insert];
+                map.insert(key.clone(), w);
+            }
+        } else {
+            let key_elem_one = get_first(&index);
+            let key_elem_two = get_second(&index);
+            for i in iterator {
+                let v: Vec<&str> = i.split(',').collect();
+                let w : Vec<String> = v.into_iter().map(|x| x.to_string()).collect();
+                let key_pt_1 = &w[key_elem_one];
+                let key_pt_2 = &w[key_elem_two];
+                let mut str = String::from("(");
+                str.push_str(key_pt_1.to_string().as_str());
+                str.push(',');
+                str.push_str(key_pt_2.to_string().as_str());
+                str.push(')');
+                map.insert(str.clone(), w);
+            }
+        }
+        map
     }
 
     fn function_to_enum(function: String) -> crate::gtfsstatic::enum_file::File {
@@ -173,15 +232,15 @@ pub mod paths {
         let mut file_paths : HashMap<String, String> = HashMap::new();
     
         for file in files {
-            file_paths.insert(file.to_string(), file_path(city, file));
+            file_paths.insert(file.to_string(), file_path(city, file.to_string()));
         }
         println!("All files to import have been imported.");
-    
+
         assert!(file_paths.len() == *length);
         file_paths
     }
     
-    pub fn file_path(city: &str, file: &str) -> String {
+    pub fn file_path(city: &str, file: String) -> String {
         let mut string: String = "src/static".to_string();
         string.push_str(city);
 

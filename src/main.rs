@@ -36,7 +36,7 @@ async fn data(args: Vec<String>, import: String) {
     } else {
         for line in import_lines {
             let values: Vec<&str> = line.split(',').collect();
-            if values[0] == &args[1] {
+            if values[0] == args[1] {
                 let city_path: &str = values[1];
                 let function = &args[2];
                 // let input_links: HashMap<String, String> = gtfsstatic::paths::static_data(&city_path); 
@@ -53,13 +53,23 @@ async fn data(args: Vec<String>, import: String) {
                 // let tripdata: Vec<FeedEntity> = trips.entity; 
 
                 if function == "range" {
-                    let first = &args[3];
-                    let last = &args[4];
-                    search::fetch::in_range_vdata(busdata, first, last, city_path);
-                } else 
-                if function == "route" {
-                    let route = &args[3];
-                    search::fetch::on_route_vdata(busdata, route, city_path);
+                    let items: Vec<&str> = args[3].split(',')
+                                                  .collect();
+                                                          
+                    for range in items {
+                        let pair: Vec<&str> = range.split('-').collect();
+                        let first = pair[0];
+                        let last = pair[1];
+                        search::fetch::in_range_vdata(busdata.clone(), first, last, city_path);
+                    }
+
+                } else if function == "route" {
+                    let routes: Vec<&str> = args[3].split(',')
+                                                  .collect();
+                    for route in routes {
+                        search::fetch::on_route_vdata(busdata.clone(), route, city_path);
+
+                    }
                 }       
             }
         }
