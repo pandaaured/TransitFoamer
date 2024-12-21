@@ -1,93 +1,73 @@
 pub mod fetch {
-    use gtfs_realtime::{FeedEntity, VehiclePosition, TripUpdate, trip_update::StopTimeUpdate};
-    use std::collections::HashMap;
+    use crate::{gtfsstatic, search::utilities};
     use chrono::Local;
-    use crate::{search::utilities, gtfsstatic};
+    use gtfs_realtime::{trip_update::StopTimeUpdate, FeedEntity, TripUpdate, VehiclePosition};
+    use std::collections::HashMap;
 
-    pub fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
-                city: &str) {
-        let static_trips: HashMap<String, Vec<String>> = 
+    pub fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str, city: &str) {
+        let static_trips: HashMap<String, Vec<String>> =
             gtfsstatic::data::static_data(city, "trips");
-        let static_stops: HashMap<String, Vec<String>> = 
+        let static_stops: HashMap<String, Vec<String>> =
             gtfsstatic::data::static_data(city, "stops");
         for trip in trips {
             let unit: TripUpdate = trip.trip_update.unwrap();
             let route: String = unit.trip.route_id.unwrap();
             if number == route {
-                let vehicle_id: String = unit.vehicle
-                                             .unwrap()
-                                             .id
-                                             .unwrap();
+                let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
                 let stop_time_update: Vec<StopTimeUpdate> = unit.stop_time_update.clone();
                 if !stop_time_update.is_empty() {
                     let first_stop: StopTimeUpdate = stop_time_update[0].clone();
-                    let stop_id: String = first_stop.stop_id
-                                                    .unwrap()
-                                                    .clone();
+                    let stop_id: String = first_stop.stop_id.unwrap().clone();
                     let stop_name = &static_stops[&stop_id][2];
                     let trip_id: String = unit.trip.trip_id.unwrap();
                     let headsign = &static_trips[&trip_id];
                     if first_stop.arrival.is_some() {
-                        let arrival = first_stop.arrival
-                                                     .unwrap()
-                                                     .time
-                                                     .unwrap();
-                        let formatted: chrono::DateTime<Local> = 
-                            utilities::time_converter(arrival);
-                        let destination: String = headsign[3].clone();
-                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
-                        println!("    arrives at {stop_name} at {formatted}");
-                        }
-                    if first_stop.departure.is_some() {
-                        let departure = first_stop.departure
-                                                       .unwrap()
-                                                       .time
-                                                       .unwrap();
-                        let formatted: chrono::DateTime<Local> = utilities::time_converter(departure);
-                        let destination: String = headsign[3].clone();
-                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
-                        println!("    departs from {stop_name} at {formatted}");
-                    }
-                }    
-            }
-        }
-    }   
-
-    pub fn in_range(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, first: &str,
-                last: &str, data: HashMap<String, HashMap<String, Vec<String>>>) {
-        for trip in trips {
-            let unit: TripUpdate = trip.trip_update
-                                       .unwrap();
-            let vehicle_id: String = unit.vehicle
-                                         .unwrap()
-                                         .id
-                                          .unwrap();            
-            if utilities::within_bounds(vehicle_id.clone(), first, last) {
-                let route: String = unit.trip.route_id.unwrap();
-                let stop_time_update: Vec<StopTimeUpdate> = unit.stop_time_update;
-                    let first_stop: StopTimeUpdate = stop_time_update[0].clone();
-                    let stop_id: String = first_stop.stop_id
-                                                    .unwrap()
-                                                    .clone();
-                    let stop_name = data["stops"][&stop_id][2].clone();
-                    let trip_id: String = unit.trip
-                                              .trip_id
-                                              .unwrap();
-                    let headsign = data["trips"].get(&trip_id)
-                                                              .unwrap();
-                if first_stop.arrival.is_some() {
-                    let arrival = first_stop.arrival
-                                                 .unwrap()
-                                                 .time
-                                                 .unwrap();
+                        let arrival = first_stop.arrival.unwrap().time.unwrap();
                         let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
                         let destination: String = headsign[3].clone();
                         println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
                         println!("    arrives at {stop_name} at {formatted}");
+                    }
+                    if first_stop.departure.is_some() {
+                        let departure = first_stop.departure.unwrap().time.unwrap();
+                        let formatted: chrono::DateTime<Local> =
+                            utilities::time_converter(departure);
+                        let destination: String = headsign[3].clone();
+                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
+                        println!("    departs from {stop_name} at {formatted}");
+                    }
+                }
+            }
+        }
+    }
+
+    pub fn in_range(
+        _vehicles: Vec<FeedEntity>,
+        trips: Vec<FeedEntity>,
+        first: &str,
+        last: &str,
+        data: HashMap<String, HashMap<String, Vec<String>>>,
+    ) {
+        for trip in trips {
+            let unit: TripUpdate = trip.trip_update.unwrap();
+            let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
+            if utilities::within_bounds(vehicle_id.clone(), first, last) {
+                let route: String = unit.trip.route_id.unwrap();
+                let stop_time_update: Vec<StopTimeUpdate> = unit.stop_time_update;
+                let first_stop: StopTimeUpdate = stop_time_update[0].clone();
+                let stop_id: String = first_stop.stop_id.unwrap().clone();
+                let stop_name = data["stops"][&stop_id][2].clone();
+                let trip_id: String = unit.trip.trip_id.unwrap();
+                let headsign = data["trips"].get(&trip_id).unwrap();
+                if first_stop.arrival.is_some() {
+                    let arrival = first_stop.arrival.unwrap().time.unwrap();
+                    let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
+                    let destination: String = headsign[3].clone();
+                    println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
+                    println!("    arrives at {stop_name} at {formatted}");
                 }
                 if first_stop.departure.is_some() {
-                    let departure = first_stop.departure.unwrap()
-                                                   .time.unwrap();
+                    let departure = first_stop.departure.unwrap().time.unwrap();
                     let formatted: chrono::DateTime<Local> = utilities::time_converter(departure);
                     let destination: String = headsign[3].clone();
                     println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
@@ -95,86 +75,70 @@ pub mod fetch {
                 }
             }
         }
-    } 
+    }
 
     pub fn on_route_vdata(vehicles: Vec<FeedEntity>, number: &str, city: &str) {
-        let static_trips: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "trips");
-        let static_stops: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "stops");
+        let static_trips: HashMap<String, Vec<String>> =
+            gtfsstatic::data::static_data(city, "trips");
+        let static_stops: HashMap<String, Vec<String>> =
+            gtfsstatic::data::static_data(city, "stops");
         for vehicle in vehicles {
             let unit: VehiclePosition = vehicle.vehicle.unwrap();
-            if unit.trip.clone().is_some() {      // Checks which type of vehicle
-                let route: String = unit.trip
-                                        .clone()
-                                        .unwrap()
-                                        .route_id 
-                                        .unwrap();
+            if unit.trip.clone().is_some() {
+                // Checks which type of vehicle
+                let route: String = unit.trip.clone().unwrap().route_id.unwrap();
                 if number == route {
-                    let vehicle_id: String = unit.vehicle
-                                                 .unwrap()
-                                                 .id 
-                                                 .unwrap();  
-                    let trip_id: String = unit.trip
-                                              .unwrap()
-                                              .trip_id
-                                              .unwrap(); // The trip ID. 
+                    let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
+                    let trip_id: String = unit.trip.unwrap().trip_id.unwrap(); // The trip ID.
                     let static_trips_trip_id = &static_trips[&trip_id];
-                    let destination = &static_trips_trip_id[5];   
+                    let destination = &static_trips_trip_id[5];
                     if unit.stop_id.is_some() {
                         let stop_id = unit.stop_id;
                         let current_stop = stop_id.unwrap().to_string();
                         let static_stops_stop_id = &static_stops[&current_stop];
                         let current_stop_name = &static_stops_stop_id[8];
                         println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {current_stop_name} \x1b[0m");
-
                     } else {
-                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} \x1b[0m");
+                        println!(
+                            "\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} \x1b[0m"
+                        );
                     }
                 }
             }
         }
     }
-    
-    pub fn in_range_vdata(vehicles: Vec<FeedEntity>, first: &str,
-                    last: &str, city: &str) {
-        let static_trips: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "trips");
-        let static_stops: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "stops");
+
+    pub fn in_range_vdata(vehicles: Vec<FeedEntity>, first: &str, last: &str, city: &str) {
+        let static_trips: HashMap<String, Vec<String>> =
+            gtfsstatic::data::static_data(city, "trips");
+        let static_stops: HashMap<String, Vec<String>> =
+            gtfsstatic::data::static_data(city, "stops");
         for vehicle in vehicles {
             let unit: VehiclePosition = vehicle.vehicle.unwrap();
-            let vehicle_id: String = unit.vehicle
-                                         .unwrap()
-                                         .id
-                                         .unwrap();            
+            let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
             if utilities::within_bounds(vehicle_id.clone(), first, last) && unit.trip.is_some() {
-                let route: String = unit.trip
-                                        .clone()
-                                        .unwrap()
-                                        .route_id
-                                        .unwrap();                    
-                let trip_id: String = unit.trip
-                                            .unwrap()
-                                            .trip_id
-                                            .unwrap();
+                let route: String = unit.trip.clone().unwrap().route_id.unwrap();
+                let trip_id: String = unit.trip.unwrap().trip_id.unwrap();
                 let static_trips_trip_id = &static_trips[&trip_id];
-                let destination = &static_trips_trip_id[5];   
+                let destination = &static_trips_trip_id[5];
                 if unit.stop_id.is_some() {
                     let stop_id = unit.stop_id;
                     let current_stop = stop_id.unwrap().to_string();
                     let static_stops_stop_id = &static_stops[&current_stop];
                     let current_stop_name = &static_stops_stop_id[8];
                     println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {current_stop_name} \x1b[0m");
-
                 } else {
-                    println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} \x1b[0m");
+                    println!(
+                        "\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} \x1b[0m"
+                    );
                 }
-                
-            }                        
+            }
         }
     }
-
 }
 
 mod utilities {
-    use chrono::{TimeZone, Local};
+    use chrono::{Local, TimeZone};
 
     fn string_to_int(input: String) -> i64 {
         let conv: i64 = input.parse().expect("Converted to integer");
@@ -182,7 +146,7 @@ mod utilities {
     }
 
     pub fn within_bounds(input: String, left: &str, right: &str) -> bool {
-        for int in string_to_int(left.to_string())..string_to_int(right.to_string())+1 {
+        for int in string_to_int(left.to_string())..string_to_int(right.to_string()) + 1 {
             if int.to_string() == input {
                 return true;
             }

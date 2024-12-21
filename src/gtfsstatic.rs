@@ -1,6 +1,6 @@
 pub mod data {
-    use std::{fs, collections::HashMap, slice::Iter};
-    use crate::gtfsstatic::enum_file::{File, Size, is_one, get_first, get_second};
+    use crate::gtfsstatic::enum_file::{get_first, get_second, is_one, File, Size};
+    use std::{collections::HashMap, fs, slice::Iter};
 
     pub fn static_data(city: &str, function: &str) -> HashMap<String, Vec<String>> {
         let file_path = file_path(city, function);
@@ -9,14 +9,12 @@ pub mod data {
     }
 
     fn read_to_string(path: String) -> String {
-        let contents : String = 
-           fs::read_to_string(path)
-              .expect("Should have been able to read the file");
-        contents 
+        let contents: String =
+            fs::read_to_string(path).expect("Should have been able to read the file");
+        contents
     }
 
-    fn hashmap_populate(data: String, function: &str) -> HashMap<String, 
-    Vec<String>> {
+    fn hashmap_populate(data: String, function: &str) -> HashMap<String, Vec<String>> {
         let mut map: HashMap<String, Vec<String>> = HashMap::new();
         let mut iterator = data.split('\n');
         let header: Vec<&str> = iterator.next().unwrap().split(',').collect();
@@ -31,8 +29,10 @@ pub mod data {
             File::Frequencies => Size::One(find_index("service_id", &header_iter).unwrap()),
             File::Routes => Size::One(find_index("route_id", &header_iter).unwrap()),
             File::Shapes => Size::One(find_index("shape_id", &header_iter).unwrap()),
-            File::StopTimes => Size::Two(find_index("trip_id", &header_iter).unwrap(), 
-                                         find_index("stop_sequence", &header_iter).unwrap()),
+            File::StopTimes => Size::Two(
+                find_index("trip_id", &header_iter).unwrap(),
+                find_index("stop_sequence", &header_iter).unwrap(),
+            ),
             File::Stops => Size::One(find_index("stop_id", &header_iter).unwrap()),
             File::Transfers => Size::One(find_index("from_stop_id", &header_iter).unwrap()),
             File::Trips => Size::One(find_index("trip_id", &header_iter).unwrap()),
@@ -45,7 +45,7 @@ pub mod data {
             };
             for i in iterator {
                 let v: Vec<&str> = i.split(',').collect();
-                let w : Vec<String> = v.into_iter().map(|x| x.to_string()).collect();
+                let w: Vec<String> = v.into_iter().map(|x| x.to_string()).collect();
                 let key = &w[key_to_insert];
                 map.insert(key.clone(), w);
             }
@@ -54,7 +54,7 @@ pub mod data {
             let key_elem_two = get_second(&index);
             for i in iterator {
                 let v: Vec<&str> = i.split(',').collect();
-                let w : Vec<String> = v.into_iter().map(|x| x.to_string()).collect();
+                let w: Vec<String> = v.into_iter().map(|x| x.to_string()).collect();
                 let key_pt_1 = &w[key_elem_one];
                 let key_pt_2 = &w[key_elem_two];
                 let mut str = String::from("(");
@@ -76,8 +76,7 @@ pub mod data {
 
         string
     }
-    
-    
+
     fn find_index(keyword: &str, header: &Iter<'_, &str>) -> Option<usize> {
         header.clone().position(|&x| x == keyword)
     }
@@ -106,7 +105,7 @@ pub mod data {
 
 pub mod enum_file {
     pub enum File {
-        Agency, 
+        Agency,
         CalendarDates,
         Calendar,
         FareAttributes,
@@ -118,15 +117,15 @@ pub mod enum_file {
         StopTimes,
         Stops,
         Transfers,
-        Trips
+        Trips,
     }
 
     pub enum Size {
         One(usize),
-        Two(usize, usize)
+        Two(usize, usize),
     }
 
-    pub fn is_one(entry : &Size) -> bool {
+    pub fn is_one(entry: &Size) -> bool {
         match entry {
             Size::One(_) => true,
             Size::Two(_, _) => false,
