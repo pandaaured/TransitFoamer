@@ -54,6 +54,8 @@ async fn data(args: Vec<String>, import: String) {
                     for route in routes {
                         search::fetch::on_route_vdata(busdata.clone(), route, city_path);
                     }
+                } else if function == "routes" {
+                    gtfsstatic::service::routes(city_path);
                 }
             }
         }

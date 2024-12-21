@@ -2,9 +2,6 @@ use gtfs_realtime::FeedMessage;
 use reqwest::Response;
 use std::collections::HashMap;
 
-// use std::process::Command;  // Use this if we use the python script.
-// use std::fs;
-
 // -------- BEGIN PROGRAM CODE -------- //
 
 pub async fn requester(city: &str, function: &str) -> FeedMessage {
@@ -46,9 +43,22 @@ fn urls(city: &str) -> HashMap<&str, &str> {
             "trips-bus",
             "https://gtfs.viainfo.net/tripupdate/tripupdates.pb",
         );
+        urls.insert("alerts", "https://gtfs.viainfo.net/alerts/alerts.pb");
+    } else if city == "/seattle/king_county/" {
+        urls.insert(
+            "trips",
+            "https://s3.amazonaws.com/kcm-alerts-realtime-prod/tripupdates.pb",
+        );
+        urls.insert(
+            "vehicles",
+            "https://s3.amazonaws.com/kcm-alerts-realtime-prod/vehiclepositions.pb",
+        );
+        urls.insert(
+            "alerts",
+            "https://s3.amazonaws.com/kcm-alerts-realtime-prod/alerts.pb",
+        );
     } else {
         panic!("Wrong city");
     }
-
     urls
 }

@@ -1,20 +1,27 @@
+// -------- BEGIN PROGRAM CODE -------- //
+
+/* This module deals with getting usable data out of the GTFS Static files
+which each agency uses to define their schedule statically.  */
+
 pub mod data {
-    use crate::gtfsstatic::enum_file::{get_first, get_second, is_one, File, Size};
-    use std::{collections::HashMap, fs, slice::Iter};
+    use crate::gtfsstatic::{
+        utils,
+        which::{get_first, get_second, is_one, File, Size},
+    };
+    use std::{collections::HashMap, slice::Iter};
 
     pub fn static_data(city: &str, function: &str) -> HashMap<String, Vec<String>> {
-        let file_path = file_path(city, function);
-        let ingest_data = read_to_string(file_path);
+        let file_path = utils::file_path(city, function);
+        let ingest_data = utils::read_to_string(file_path);
         hashmap_populate(ingest_data, function)
     }
 
-    fn read_to_string(path: String) -> String {
-        let contents: String =
-            fs::read_to_string(path).expect("Should have been able to read the file");
-        contents
+    pub fn static_data_unprocessed(city: &str, function: &str) -> String {
+        let file_path = utils::file_path(city, function);
+        utils::read_to_string(file_path)
     }
 
-    fn hashmap_populate(data: String, function: &str) -> HashMap<String, Vec<String>> {
+    pub fn hashmap_populate(data: String, function: &str) -> HashMap<String, Vec<String>> {
         let mut map: HashMap<String, Vec<String>> = HashMap::new();
         let mut iterator = data.split('\n');
         let header: Vec<&str> = iterator.next().unwrap().split(',').collect();
@@ -68,15 +75,6 @@ pub mod data {
         map
     }
 
-    fn file_path(city: &str, file: &str) -> String {
-        let mut string: String = "src/static".to_string();
-        string.push_str(city);
-        string.push_str(file);
-        string.push_str(".txt");
-
-        string
-    }
-
     fn find_index(keyword: &str, header: &Iter<'_, &str>) -> Option<usize> {
         header.clone().position(|&x| x == keyword)
     }
@@ -103,7 +101,26 @@ pub mod data {
     }
 }
 
-pub mod enum_file {
+/* This module deals with presenting information about the system's routes and
+services to the user. */
+
+pub mod service {
+    use crate::gtfsstatic::data;
+
+    pub fn routes(city: &str) {
+        let routes = data::static_data(city, "routes");
+        let mut route_list: Vec<&String> = routes.keys().collect();
+        route_list.sort();
+
+        let number_of_routes = route_list.len();
+        println!("This transit network has {} routes", number_of_routes);
+        for route in route_list {
+            println!(" {} {}", route, routes[route][0])
+        }
+    }
+}
+
+pub mod which {
     pub enum File {
         Agency,
         CalendarDates,
@@ -144,5 +161,32 @@ pub mod enum_file {
             Size::One(x) => *x,
             Size::Two(_, y) => *y,
         }
+    }
+}
+
+pub mod utils {
+    use crate::gtfsstatic::data;
+    use std::collections::HashMap;
+    use std::fs;
+
+    pub fn static_data(city: &str, function: &str) -> HashMap<String, Vec<String>> {
+        let file_path = file_path(city, function);
+        let ingest_data = read_to_string(file_path);
+        data::hashmap_populate(ingest_data, function)
+    }
+
+    pub fn file_path(city: &str, file: &str) -> String {
+        let mut string: String = "src/static".to_string();
+        string.push_str(city);
+        string.push_str(file);
+        string.push_str(".txt");
+
+        string
+    }
+
+    pub fn read_to_string(path: String) -> String {
+        let contents: String =
+            fs::read_to_string(path).expect("Should have been able to read the file");
+        contents
     }
 }
