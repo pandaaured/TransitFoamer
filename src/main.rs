@@ -9,7 +9,6 @@ use gtfs_realtime::FeedEntity;
 pub mod gtfsstatic;
 pub mod gtfsrt;
 pub mod search;
-pub mod feedmessage;
 pub mod scripts;
 
 #[tokio::main]
@@ -39,13 +38,7 @@ async fn data(args: Vec<String>, import: String) {
             if values[0] == args[1] {
                 let city_path: &str = values[1];
                 let function = &args[2];
-                // let input_links: HashMap<String, String> = gtfsstatic::paths::static_data(&city_path); 
-                // let routes_per_stop = staticfeed::extdata_gtfs::routes_per_stop(&city_path);
-
-                // let static_data: HashMap<String, HashMap<String, Vec<String>>> = 
-                //     gtfsstatic::dict_gtfs::static_data_vector(input_links);
-
-                let buses = gtfsrt::requester(&city_path, "vehicles-bus");
+                let buses = gtfsrt::requester(city_path, "vehicles-bus");
                 let buses: FeedMessage = buses.await;
                 let busdata : Vec<FeedEntity> = buses.entity;
                 // let trips = realtime::requester(&city_path, "trips-bus");

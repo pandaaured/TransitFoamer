@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use reqwest::Response;
+use std::collections::HashMap;
 use gtfs_realtime::FeedMessage;
 
 // use std::process::Command;  // Use this if we use the python script.
@@ -34,46 +34,3 @@ fn urls(city: &str) -> HashMap<&str, &str> {
     
     urls
 }
-
-// Functions assume we are using the Python GTFS thingy.
-
-// fn data_grab(city: &str, function: &str) -> String {
-//     let path = data_to_import(city);
-//     let contents : String = 
-//     fs::read_to_string(path[function])
-//        .expect("Should have been able to read the file");
-
-//     contents
-// }
-
-// fn data_to_import(city: &str) -> HashMap<&str, &str> {
-//     let mut files: HashMap<&str, &str> = HashMap::new();
-//     if city == "satx" {
-//         files.insert("vehicles-bus", "data/via/vehicles-bus.txt");
-//         files.insert("trips-bus", "data/via/trips-bus.txt");
-//     } else if city == "pgh" {
-//         files.insert("vehicles-bus", "data/prt/vehicles-bus.txt");
-//         files.insert("vehicles-train", "data/prt/vehicles-train.txt");
-//         files.insert("trips-bus", "data/prt/trips-bus.txt");
-//         files.insert("trips-train", "data/prt/trips-train.txt");
-//     }
-//     files
-// }
-
-// pub fn caller(city: &str) {
-//     let file_name = file_name(city);
-//     let python3_child = {Command::new("python3")
-//         .arg(file_name)
-//         .output()
-//         .expect("failed to execute process")};
-//  }
-
-// fn file_name(city: &str) -> String {
-//     let mut file = "fetchers/".to_string();
-//     file.push_str(city);
-//     file.push_str(".py");
-
-//     file
-// }
-
-

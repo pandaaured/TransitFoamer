@@ -7,9 +7,9 @@ pub mod fetch {
     pub fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str,
                 city: &str) {
         let static_trips: HashMap<String, Vec<String>> = 
-            gtfsstatic::data::static_data(city, "trips".to_string());
+            gtfsstatic::data::static_data(city, "trips");
         let static_stops: HashMap<String, Vec<String>> = 
-            gtfsstatic::data::static_data(city, "stops".to_string());
+            gtfsstatic::data::static_data(city, "stops");
         for trip in trips {
             let unit: TripUpdate = trip.trip_update.unwrap();
             let route: String = unit.trip.route_id.unwrap();
@@ -98,8 +98,8 @@ pub mod fetch {
     } 
 
     pub fn on_route_vdata(vehicles: Vec<FeedEntity>, number: &str, city: &str) {
-        let static_trips: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "trips".to_string());
-        let static_stops: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "stops".to_string());
+        let static_trips: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "trips");
+        let static_stops: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "stops");
         for vehicle in vehicles {
             let unit: VehiclePosition = vehicle.vehicle.unwrap();
             if unit.trip.clone().is_some() {      // Checks which type of vehicle
@@ -136,15 +136,15 @@ pub mod fetch {
     
     pub fn in_range_vdata(vehicles: Vec<FeedEntity>, first: &str,
                     last: &str, city: &str) {
-        let static_trips: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "trips".to_string());
-        let static_stops: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "stops".to_string());
+        let static_trips: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "trips");
+        let static_stops: HashMap<String, Vec<String>> = gtfsstatic::data::static_data(city, "stops");
         for vehicle in vehicles {
             let unit: VehiclePosition = vehicle.vehicle.unwrap();
             let vehicle_id: String = unit.vehicle
                                          .unwrap()
                                          .id
                                          .unwrap();            
-            if utilities::within_bounds(vehicle_id.clone(), first, last) && unit.trip != None {
+            if utilities::within_bounds(vehicle_id.clone(), first, last) && unit.trip.is_some() {
                 let route: String = unit.trip
                                         .clone()
                                         .unwrap()
