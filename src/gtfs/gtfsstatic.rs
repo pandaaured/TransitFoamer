@@ -1,12 +1,13 @@
-// -------- BEGIN PROGRAM CODE -------- //
+// -------- BEGIN MODULE CODE -------- //
 
 /* This module deals with getting usable data out of the GTFS Static files
 which each agency uses to define their schedule statically.  */
 
 pub mod data {
-    use crate::gtfsstatic::{
+    use crate::gtfs::gtfsstatic::{
         utils,
         which::{get_first, get_second, is_one, File, Size},
+        data
     };
     use std::{collections::HashMap, slice::Iter};
 
@@ -75,7 +76,7 @@ pub mod data {
         map
     }
 
-    fn find_index(keyword: &str, header: &Iter<'_, &str>) -> Option<usize> {
+    pub fn find_index(keyword: &str, header: &Iter<'_, &str>) -> Option<usize> {
         header.clone().position(|&x| x == keyword)
     }
 
@@ -99,13 +100,61 @@ pub mod data {
 
         file
     }
+
+    pub fn trips_per_route(city: &str) -> HashMap<String, Vec<String>> {
+        let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
+        let trips: HashMap<String, Vec<String>> =
+            data::static_data(city, "trips");
+        for item in trips {
+            let route = item.1[1].clone();
+            let trip_id = item.0;
+            if trips_per_route.contains_key(&route.clone()) {
+                let mut vector = trips_per_route[&route.clone()].clone();
+                vector.push(trip_id.clone());
+                trips_per_route.insert(route.clone(), vector.clone());
+            } else {
+                trips_per_route.insert(route, vec![trip_id]);
+            }
+        }
+        
+        trips_per_route
+    }
+
+    pub fn stops_per_trip(city: &str) -> HashMap<String, Vec<String>> {
+        let mut stops_per_trip: HashMap<String, Vec<String>> = HashMap::new();
+        let stop_times: HashMap<String, Vec<String>> =
+        data::static_data(city, "stop_times");
+        for item in stop_times {
+            let stop_id = item.1[3].clone();
+            let trip_id = item.1[0].clone();
+            if stops_per_trip.contains_key(&trip_id.clone()) {
+                let mut vector = stops_per_trip[&trip_id.clone()].clone();
+                vector.push(stop_id.clone());
+                stops_per_trip.insert(trip_id.clone(), vector.clone());
+            } else {
+                stops_per_trip.insert(trip_id, vec![stop_id]);
+            }
+        }
+        dbg!(&stops_per_trip);
+        stops_per_trip
+    }
+
+    pub fn routes_per_stop(city: &str) {
+        let mut routes_per_stop: HashMap<String, Vec<String>> = HashMap::new();
+        let stops_per_trip = stops_per_trip(&city);
+        let trips_per_route = trips_per_route(&city);
+        
+
+    }
+
+
 }
 
 /* This module deals with presenting information about the system's routes and
 services to the user. */
 
 pub mod service {
-    use crate::gtfsstatic::data;
+    use crate::gtfs::gtfsstatic::data;
 
     pub fn routes(city: &str) {
         let routes = data::static_data(city, "routes");
@@ -116,6 +165,70 @@ pub mod service {
         println!("This transit network has {} routes", number_of_routes);
         for route in route_list {
             println!(" {} {}", route, routes[route][0])
+        }
+    }
+}
+
+/* This module deals with mapping the keywords used by the GTFS static feed and
+ensures that indices return information that the program wants to display */
+
+pub mod bindings {
+    pub fn routes(city: &str, token: &str) -> usize {
+        match token {
+            "route_number" => match city {
+                "/chicago/cta/" => 2,
+                "/pittsburgh/prt/" => 0,
+                "/san_antonio/via/" => 5,
+                _ => panic!(),
+            },
+            "route_name_long" => match city {
+                "/chicago/cta/" => 2,
+                "/pittsburgh/prt/" => 3,
+                "/san_antonio/via/" => 0,
+                _ => panic!(),
+            },
+            _ => panic!(),
+        }
+    }
+
+    pub fn stops(city: &str, token: &str) -> usize {
+        match token {
+            "stop_id" => match city {
+                "/chicago/cta/" => 0,
+                "/pittsburgh/prt/" => 0,
+                "/san_antonio/via/" => 10,
+                _ => panic!(),
+            },
+            "stop_name" => match city {
+                "/chicago/cta/" => 2,
+                "/pittsburgh/prt/" => 2,
+                "/san_antonio/via/" => 8,
+                _ => panic!(),
+            },
+            _ => panic!(),
+        }
+    }
+
+    pub fn trips(city: &str, token: &str) -> usize {
+        match token {
+            "route_id" => match city {
+                "/chicago/cta/" => 0,
+                "/pittsburgh/prt/" => 1,
+                "/san_antonio/via/" => 2,
+                _ => panic!(),
+            },
+            "trip_id" => match city {
+                "/chicago/cta/" => 2,
+                "/pittsburgh/prt/" => 0,
+                "/san_antonio/via/" => 8,
+                _ => panic!(),
+            },
+            "trip_headsign" => match city {
+                "/pittsburgh/prt/" => 3,
+                "/san_antonio/via/" => 5,
+                _ => panic!(),
+            },
+            _ => panic!(),
         }
     }
 }
@@ -165,7 +278,7 @@ pub mod which {
 }
 
 pub mod utils {
-    use crate::gtfsstatic::data;
+    use crate::gtfs::gtfsstatic::data;
     use std::collections::HashMap;
     use std::fs;
 
@@ -190,3 +303,4 @@ pub mod utils {
         contents
     }
 }
+

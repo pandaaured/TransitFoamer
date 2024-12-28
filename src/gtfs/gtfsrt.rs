@@ -1,8 +1,8 @@
-use gtfs_realtime::FeedMessage;
+use std::collections::HashMap;   // std imports
+use gtfs_realtime::FeedMessage;  // other
 use reqwest::Response;
-use std::collections::HashMap;
 
-// -------- BEGIN PROGRAM CODE -------- //
+// -------- BEGIN MODULE CODE -------- //
 
 pub async fn requester(city: &str, function: &str) -> FeedMessage {
     let urls = urls(city);
@@ -11,7 +11,6 @@ pub async fn requester(city: &str, function: &str) -> FeedMessage {
     let bytes = response.bytes().await.unwrap();
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
         prost::Message::decode(bytes.as_ref());
-
     data.unwrap()
 }
 

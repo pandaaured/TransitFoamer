@@ -1,5 +1,5 @@
 pub mod fetch {
-    use crate::{gtfsstatic, search::utilities};
+    use crate::{gtfs::gtfsstatic, search::utilities};
     use chrono::Local;
     use gtfs_realtime::{trip_update::StopTimeUpdate, FeedEntity, TripUpdate, VehiclePosition};
     use std::collections::HashMap;
@@ -18,22 +18,24 @@ pub mod fetch {
                 if !stop_time_update.is_empty() {
                     let first_stop: StopTimeUpdate = stop_time_update[0].clone();
                     let stop_id: String = first_stop.stop_id.unwrap().clone();
-                    let stop_name = &static_stops[&stop_id][2];
+                    let stop_name =
+                        &static_stops[&stop_id][gtfsstatic::bindings::stops(city, "stop_name")];
                     let trip_id: String = unit.trip.trip_id.unwrap();
-                    let headsign = &static_trips[&trip_id];
+                    let static_stops_trip_id = &static_trips[&trip_id];
+                    let headsign = static_stops_trip_id
+                        [gtfsstatic::bindings::trips(city, "trip_headsign")]
+                    .clone();
                     if first_stop.arrival.is_some() {
                         let arrival = first_stop.arrival.unwrap().time.unwrap();
                         let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
-                        let destination: String = headsign[3].clone();
-                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
+                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
                         println!("    arrives at {stop_name} at {formatted}");
                     }
                     if first_stop.departure.is_some() {
                         let departure = first_stop.departure.unwrap().time.unwrap();
                         let formatted: chrono::DateTime<Local> =
                             utilities::time_converter(departure);
-                        let destination: String = headsign[3].clone();
-                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
+                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
                         println!("    departs from {stop_name} at {formatted}");
                     }
                 }
@@ -46,8 +48,12 @@ pub mod fetch {
         trips: Vec<FeedEntity>,
         first: &str,
         last: &str,
-        data: HashMap<String, HashMap<String, Vec<String>>>,
+        city: &str,
     ) {
+        let static_trips: HashMap<String, Vec<String>> =
+            gtfsstatic::data::static_data(city, "trips");
+        let static_stops: HashMap<String, Vec<String>> =
+            gtfsstatic::data::static_data(city, "stops");
         for trip in trips {
             let unit: TripUpdate = trip.trip_update.unwrap();
             let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
@@ -56,21 +62,24 @@ pub mod fetch {
                 let stop_time_update: Vec<StopTimeUpdate> = unit.stop_time_update;
                 let first_stop: StopTimeUpdate = stop_time_update[0].clone();
                 let stop_id: String = first_stop.stop_id.unwrap().clone();
-                let stop_name = data["stops"][&stop_id][2].clone();
+                let static_stops_stop_id = &static_stops[&stop_id];
+                let stop_name =
+                    static_stops_stop_id[gtfsstatic::bindings::stops(city, "stop_name")].clone();
                 let trip_id: String = unit.trip.trip_id.unwrap();
-                let headsign = data["trips"].get(&trip_id).unwrap();
+                let static_stops_trip_id = &static_trips[&trip_id];
+                let headsign = static_stops_trip_id
+                    [gtfsstatic::bindings::trips(city, "trip_headsign")]
+                .clone();
                 if first_stop.arrival.is_some() {
                     let arrival = first_stop.arrival.unwrap().time.unwrap();
                     let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
-                    let destination: String = headsign[3].clone();
-                    println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
+                    println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
                     println!("    arrives at {stop_name} at {formatted}");
                 }
                 if first_stop.departure.is_some() {
                     let departure = first_stop.departure.unwrap().time.unwrap();
                     let formatted: chrono::DateTime<Local> = utilities::time_converter(departure);
-                    let destination: String = headsign[3].clone();
-                    println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {stop_name} \x1b[0m");
+                    println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
                     println!("    departs from {stop_name} at {formatted}");
                 }
             }
@@ -91,12 +100,14 @@ pub mod fetch {
                     let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
                     let trip_id: String = unit.trip.unwrap().trip_id.unwrap(); // The trip ID.
                     let static_trips_trip_id = &static_trips[&trip_id];
-                    let destination = &static_trips_trip_id[5];
+                    let destination =
+                        &static_trips_trip_id[gtfsstatic::bindings::trips(city, "trip_headsign")];
                     if unit.stop_id.is_some() {
                         let stop_id = unit.stop_id;
                         let current_stop = stop_id.unwrap().to_string();
                         let static_stops_stop_id = &static_stops[&current_stop];
-                        let current_stop_name = &static_stops_stop_id[8];
+                        let current_stop_name =
+                            &static_stops_stop_id[gtfsstatic::bindings::stops(city, "stop_name")];
                         println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {current_stop_name} \x1b[0m");
                     } else {
                         println!(
@@ -120,12 +131,14 @@ pub mod fetch {
                 let route: String = unit.trip.clone().unwrap().route_id.unwrap();
                 let trip_id: String = unit.trip.unwrap().trip_id.unwrap();
                 let static_trips_trip_id = &static_trips[&trip_id];
-                let destination = &static_trips_trip_id[5];
+                let destination =
+                    &static_trips_trip_id[gtfsstatic::bindings::trips(city, "trip_headsign")];
                 if unit.stop_id.is_some() {
                     let stop_id = unit.stop_id;
                     let current_stop = stop_id.unwrap().to_string();
                     let static_stops_stop_id = &static_stops[&current_stop];
-                    let current_stop_name = &static_stops_stop_id[8];
+                    let current_stop_name =
+                        &static_stops_stop_id[gtfsstatic::bindings::stops(city, "stop_name")];
                     println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {current_stop_name} \x1b[0m");
                 } else {
                     println!(
