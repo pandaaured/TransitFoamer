@@ -12,9 +12,10 @@ pub async fn data(args: Vec<String>) {
 }
 
 async fn handle_args(import: String, args: Vec<String>) {
-    if args.len() == 1 {
+    println!("{:?}", args);
+    if args.len() == 1 {      // If you use just cargo run, then it displays the list of cities.
         has_length_one(import);
-    } else if args.len() == 3 {
+    } else if args.len() == 4 {
         has_length_three(import, args).await;
     } else {
         panic! {"Argument number {} is invalid. Sorry!", args.len()};

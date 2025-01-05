@@ -9,7 +9,7 @@ pub mod data {
         which::{get_first, get_second, is_one, File, Size},
         data
     };
-    use std::{collections::HashMap, slice::Iter};
+    use std::{collections::HashMap, collections::HashSet, slice::Iter};
 
     pub fn static_data(city: &str, function: &str) -> HashMap<String, Vec<String>> {
         let file_path = utils::file_path(city, function);
@@ -135,20 +135,42 @@ pub mod data {
                 stops_per_trip.insert(trip_id, vec![stop_id]);
             }
         }
-        dbg!(&stops_per_trip);
         stops_per_trip
     }
 
-    pub fn routes_per_stop(city: &str) {
-        let mut routes_per_stop: HashMap<String, Vec<String>> = HashMap::new();
-        let stops_per_trip = stops_per_trip(&city);
+    fn stops_per_route(city: &str) -> HashMap<String, HashSet<String>> {
+        let mut stops_per_route: HashMap<String, HashSet<String>> = HashMap::new();
+        let stops_per_trip: HashMap<String, Vec<String>> = stops_per_trip(&city);
         let trips_per_route = trips_per_route(&city);
-        
+        for item in trips_per_route {
+            let mut stops_set: HashSet<String> = HashSet::new();
+            let route = item.0;
+            let mut trips = item.1;
+            while !trips.is_empty() {
+                let elem = trips.pop();
+                if elem.is_some() {
+                    let elem = elem.unwrap();
+                    let stops: &Vec<String> = &stops_per_trip[&elem];
+                    while !stops.is_empty() {
+                        let mut stops_new = stops.clone();
+                        let stop = stops_new.pop();
+                        if stop.is_some() {
+                            stops_set.insert(stop.clone().unwrap());
+                        }
+                    }
+                }
+            }
+            stops_per_route.insert(route, stops_set);
+        }
+        stops_per_route
+    }
 
     }
 
+    
 
-}
+
+
 
 /* This module deals with presenting information about the system's routes and
 services to the user. */
