@@ -136,37 +136,178 @@ pub mod service {
 /* This module deals with mapping the routewords used by the GTFS static feed and
 ensures that indices return information that the program wants to display */
 
-pub mod bindings {
-    pub fn routes(city: &str, token: &str) -> usize {
-        match token {
-            "route_number" => match city {
-                "/chicago/cta/" => 2,
-                "/pittsburgh/prt/" => 0,
-                "/san_antonio/via/" => 5,
+/* REMARK: This is done manually because there are annoying discrepancies 
+between agencies and the functions that each keyword fulfills. */
+
+pub mod bindings { 
+    pub fn agency(city: &str, token: &str) -> usize {
+        match city {
+            "/pittsburgh/prt/" => match token {
+                "agency_id" => 0,
+                "agency_name" => 1,
+                "agency_url" => 2,
+                "agency_timezone" => 3,
+                "agency_lang" => 4,
+                "agency_phone" => 5,
+                "agency_fare_url" => 6,
                 _ => panic!(),
             },
-            "route_name_long" => match city {
-                "/chicago/cta/" => 2,
-                "/pittsburgh/prt/" => 3,
-                "/san_antonio/via/" => 0,
+            "/san_antonio/via/" => match token {
+                "agency_id" => 3,
+                "agency_name" => 4,
+                "agency_url" => 2,
+                "agency_timezone" => 5,
+                "agency_lang" => 6,
+                "agency_phone" => 0,
+                "agency_fare_url" => 1,
+                _ => panic!(),
+            },
+            _ => panic!(),
+        }
+    }
+    
+    pub fn calendar_dates(city: &str, token: &str) -> usize {
+        match city {
+            "/pittsburgh/prt/" => match token {
+                "service_id" => 0,
+                "date" => 1,
+                "exception_type" => 2,
+                _ => panic!(),
+            },
+            "/san_antonio/via/" => match token {
+                "service_id" => 0,
+                "date" => 1,
+                "exception_type" => 2,
                 _ => panic!(),
             },
             _ => panic!(),
         }
     }
 
-    pub fn stops(city: &str, token: &str) -> usize {
-        match token {
-            "stop_id" => match city {
-                "/chicago/cta/" => 0,
-                "/pittsburgh/prt/" => 0,
-                "/san_antonio/via/" => 10,
+    pub fn calendar(city: &str, token: &str) -> usize {
+        match city {
+            "/pittsburgh/prt/" => match token {
+                "service_id" => 0,
+                "start_date" => 8,
+                "end_date" => 9,
+                "monday" => 1,
+                "tuesday" => 2,
+                "wednesday" => 3,
+                "thursday" => 4,
+                "friday" => 5,
+                "saturday" => 6,
+                "sunday" => 7,
                 _ => panic!(),
             },
-            "stop_name" => match city {
-                "/chicago/cta/" => 2,
-                "/pittsburgh/prt/" => 2,
-                "/san_antonio/via/" => 8,
+            "/san_antonio/via/" => match token {
+                "service_id" => 0,
+                "start_date" => 1,
+                "end_date" => 2,
+                "monday" => 3,
+                "tuesday" => 4,
+                "wednesday" => 5,
+                "thursday" => 6,
+                "friday" => 7,
+                "saturday" => 8,
+                "sunday" => 9,
+                _ => panic!(),
+            },
+            _ => panic!(),
+        }
+    }
+    
+    pub fn routes(city: &str, token: &str) -> usize {
+        match city {
+            "/pittsburgh/prt/" => match token {
+                "route_id" => 0,
+                "agency_id" => 1,
+                "route_short_name" => 2,
+                "route_long_name" => 3,
+                "route_desc" => 4,
+                "route_type" => 5,
+                "route_url" => 6,
+                "route_color" => 7,
+                "route_text_color" => 8,
+                _ => panic!(),
+            },
+            "/san_antonio/via/" => match token {
+                "route_id" => 5,
+                "agency_id" => 4,
+                "route_short_name" => 8,
+                "route_long_name" => 0,
+                "route_desc" => 7,
+                "route_type" => 1,
+                "route_url" => 6,
+                "route_color" => 3,
+                "route_text_color" => 2,
+                _ => panic!(),
+            },
+            _ => panic!(),
+        }
+    }
+
+    pub fn stop_times(city: &str, token: &str) -> usize {
+        match city {
+            "/pittsburgh/prt/" => match token {
+                "trip_id" => 0,
+                "arrival_time" => 1,
+                "departure_time" => 2,
+                "stop_id" => 3,
+                "stop_sequence" => 4,
+                "stop_headsign" => 5,
+                "pickup_type" => 6,
+                "drop_off_type" => 7,
+                "shape_dist_traveled" => 8,
+                "timepoint" => 9,
+                _ => panic!(),
+            },
+            "/san_antonio/via/" => match token {
+                "trip_id" => 0,
+                "arrival_time" => 1,
+                "departure_time" => 2,
+                "stop_id" => 3,
+                "stop_sequence" => 4,
+                "stop_headsign" => 5, 
+                "pickup_type" => 6,
+                "drop_off_type" => 7,
+                "shape_dist_traveled" => 8,
+                "timepoint" => 9,
+                _ => panic!(),
+            },
+            _ => panic!(),
+        }   
+    }
+
+    pub fn stops(city: &str, token: &str) -> usize {
+        match city {
+            "/pittsburgh/prt/" => match token {
+                "stop_id" => 0,
+                "stop_code" => 1,
+                "stop_name" => 2,
+                "stop_desc" => 3,
+                "stop_lat" => 4,
+                "stop_lon" => 5,
+                "zone_id" => 6,
+                "stop_url" => 7,
+                "location_type" => 8,
+                "parent_station" => 9,
+                "stop_timezone" => 10,
+                "wheelchair_boarding" => 11,
+                _ => panic!(),
+            },
+            "/san_antonio/via/" => match token {
+                "stop_id" => 10,
+                "stop_code" => 2,
+                "stop_name" => 8,
+                "stop_desc" => 7,
+                "stop_lat" => 0,
+                "stop_lon" => 3,
+                "zone_id" => 11,
+                "stop_url" => 5,
+                "location_type" => 9,
+                "parent_station" => 6,
+                "stop_timezone" => 4,
+                "wheelchair_boarding" => 1,
                 _ => panic!(),
             },
             _ => panic!(),
@@ -174,22 +315,31 @@ pub mod bindings {
     }
 
     pub fn trips(city: &str, token: &str) -> usize {
-        match token {
-            "route_id" => match city {
-                "/chicago/cta/" => 0,
-                "/pittsburgh/prt/" => 1,
-                "/san_antonio/via/" => 2,
+        match city {
+            "/pittsburgh/prt/" => match token {
+                "trip_id" => 0,
+                "route_id" => 1,
+                "service_id" => 2,
+                "trip_headsign" => 3,
+                "trip_short_name" => 4,
+                "direction_id" => 5,
+                "block_id" => 6,
+                "shape_id" => 7,
+                "wheelchair_accessible" => 8,
+                "bikes_allowed" => 9,
                 _ => panic!(),
             },
-            "trip_id" => match city {
-                "/chicago/cta/" => 2,
-                "/pittsburgh/prt/" => 0,
-                "/san_antonio/via/" => 8,
-                _ => panic!(),
-            },
-            "trip_headsign" => match city {
-                "/pittsburgh/prt/" => 3,
-                "/san_antonio/via/" => 5,
+            "/san_antonio/via/" => match token {
+                "trip_id" => 8,
+                "route_id" => 2,
+                "service_id" => 7,
+                "trip_headsign" => 5,
+                "trip_short_name" => 9,
+                "direction_id" => 4,
+                "block_id" => 0,
+                "shape_id" => 6,
+                "wheelchair_accessible" => 3,
+                "bikes_allowed" => 1,
                 _ => panic!(),
             },
             _ => panic!(),
