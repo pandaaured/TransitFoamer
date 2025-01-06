@@ -100,72 +100,7 @@ pub mod data {
 
         file
     }
-
-    pub fn trips_per_route(city: &str) -> HashMap<String, Vec<String>> {
-        let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
-        let trips: HashMap<String, Vec<String>> =
-            data::static_data(city, "trips");
-        for item in trips {
-            let route = item.1[1].clone();
-            let trip_id = item.0;
-            if trips_per_route.contains_key(&route.clone()) {
-                let mut vector = trips_per_route[&route.clone()].clone();
-                vector.push(trip_id.clone());
-                trips_per_route.insert(route.clone(), vector.clone());
-            } else {
-                trips_per_route.insert(route, vec![trip_id]);
-            }
-        }
-        
-        trips_per_route
-    }
-
-    pub fn stops_per_trip(city: &str) -> HashMap<String, Vec<String>> {
-        let mut stops_per_trip: HashMap<String, Vec<String>> = HashMap::new();
-        let stop_times: HashMap<String, Vec<String>> =
-        data::static_data(city, "stop_times");
-        for item in stop_times {
-            let stop_id = item.1[3].clone();
-            let trip_id = item.1[0].clone();
-            if stops_per_trip.contains_key(&trip_id.clone()) {
-                let mut vector = stops_per_trip[&trip_id.clone()].clone();
-                vector.push(stop_id.clone());
-                stops_per_trip.insert(trip_id.clone(), vector.clone());
-            } else {
-                stops_per_trip.insert(trip_id, vec![stop_id]);
-            }
-        }
-        stops_per_trip
-    }
-
-    fn stops_per_route(city: &str) -> HashMap<String, HashSet<String>> {
-        let mut stops_per_route: HashMap<String, HashSet<String>> = HashMap::new();
-        let stops_per_trip: HashMap<String, Vec<String>> = stops_per_trip(&city);
-        let trips_per_route = trips_per_route(&city);
-        for item in trips_per_route {
-            let mut stops_set: HashSet<String> = HashSet::new();
-            let route = item.0;
-            let mut trips = item.1;
-            while !trips.is_empty() {
-                let elem = trips.pop();
-                if elem.is_some() {
-                    let elem = elem.unwrap();
-                    let stops: &Vec<String> = &stops_per_trip[&elem];
-                    while !stops.is_empty() {
-                        let mut stops_new = stops.clone();
-                        let stop = stops_new.pop();
-                        if stop.is_some() {
-                            stops_set.insert(stop.clone().unwrap());
-                        }
-                    }
-                }
-            }
-            stops_per_route.insert(route, stops_set);
-        }
-        stops_per_route
-    }
-
-    }
+}
 
     
 
@@ -180,18 +115,32 @@ pub mod service {
 
     pub fn routes(city: &str) {
         let routes = data::static_data(city, "routes");
+        let mut keys = routes.keys();
+
         let mut route_list: Vec<&String> = routes.keys().collect();
         route_list.sort();
 
         let number_of_routes = route_list.len();
         println!("This transit network has {} routes", number_of_routes);
         for route in route_list {
-            println!(" {} {}", route, routes[route][0])
+            if city == "/seattle/king_county/" {
+                let number = &routes[route][2];
+                let text = &routes[route][4];
+                println!("{} {}", number, text);
+            } else if city == "/pittsburgh/prt/" {
+                let number = &routes[route][0];
+                let text = &routes[route][3];
+                println!("{} {}", number, text);
+            } else if city == "/san_antonio/via/" {
+                let number = &routes[route][5];
+                let text = &routes[route][0];
+                println!("{} {}", number, text);
+            }
         }
     }
 }
 
-/* This module deals with mapping the keywords used by the GTFS static feed and
+/* This module deals with mapping the routewords used by the GTFS static feed and
 ensures that indices return information that the program wants to display */
 
 pub mod bindings {
