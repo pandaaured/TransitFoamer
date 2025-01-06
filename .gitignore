@@ -4,5 +4,6 @@ static/
 /out
 .idea/
 /data/
+/fetchers/
 index.html
 styles.css
