@@ -71,3 +71,5 @@ given route.
 + `cargo run -- <code> range <foo-bar>` generates a list of vehicles operating 
 where the vehicles are within vehicle IDs of `foo` and `bar`. NOTE: your vehicle 
 IDs must be numerical. 
++ `cargo run -- <code> stop <foo,bar>` generates a list of vehicles with real-time
+tracked arrivals at the inputted stop. Stop must be valid!

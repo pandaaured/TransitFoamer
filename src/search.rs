@@ -1,8 +1,57 @@
 pub mod fetch {
-    use crate::{gtfsstatic, search::utilities};
+    use crate::{gtfsstatic, script, search::utilities};
     use chrono::Local;
     use gtfs_realtime::{trip_update::StopTimeUpdate, FeedEntity, TripUpdate, VehiclePosition};
     use std::collections::HashMap;
+
+    // pub fn on_time_check(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, vehicle: &str, city: &str) {
+    //     let static_stops: HashMap<String, Vec<String>> =
+    //         gtfsstatic::data::static_data(city, "stops");
+    //     let static_trips: HashMap<String, Vec<String>> =
+    //         gtfsstatic::data::static_data(city, "trips");
+    //     for trip in trips {
+    //         if trip.trip_update.unwrap().vehicle.unwrap().id.unwrap() == vehicle {
+
+    //         }
+    //     }
+    // }
+
+    pub fn at_stop(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, stop: &str, city: &str) {
+        let static_stops: HashMap<String, Vec<String>> =
+            gtfsstatic::data::static_data(city, "stops");
+        let static_trips: HashMap<String, Vec<String>> =
+            gtfsstatic::data::static_data(city, "trips");
+
+        let routes_per_stop = script::list::routes_per_stop(city);
+        let mut key = String::new();
+        key.push_str(stop);
+
+        let routes = &routes_per_stop[&key];
+        println!("{:?}", routes);
+
+        for entity in trips {
+            let trip_update = entity.trip_update.unwrap();
+            if routes.contains(&trip_update.clone().trip.route_id.unwrap()) {
+                let stop_seq = trip_update.clone().stop_time_update;
+                for stop_in_feed in stop_seq {
+                    if stop_in_feed.stop_id.unwrap() == stop {
+                        let vehicle_id: String = trip_update.clone().vehicle.unwrap().id.unwrap();
+                        let route: String = trip_update.clone().trip.route_id.unwrap();
+                        let time = stop_in_feed.arrival.unwrap().time.unwrap();
+                        let trip_id: String = trip_update.clone().trip.trip_id.unwrap();
+                        let formatted: chrono::DateTime<Local> = utilities::time_converter(time);
+                        let static_stops_trip_id = &static_trips[&trip_id];
+                        let headsign = static_stops_trip_id
+                            [gtfsstatic::bindings::trips(city, "trip_headsign")]
+                        .clone();
+                        let stop_name =
+                            &static_stops[stop][gtfsstatic::bindings::stops(city, "stop_name")];
+                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} arrives at {stop_name} at {formatted} \x1b[0m");
+                    }
+                }
+            }
+        }
+    }
 
     pub fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str, city: &str) {
         let static_trips: HashMap<String, Vec<String>> =

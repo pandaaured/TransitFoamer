@@ -37,7 +37,7 @@ pub mod list {
         stops_per_trip
     }
 
-    pub fn stops_per_route(city: &str) -> HashMap<String, HashSet<String>> {
+    pub fn routes_per_stop(city: &str) -> HashMap<String, HashSet<String>> {
         let mut stops_per_route: HashMap<String, HashSet<String>> = HashMap::new();
 
         let static_stop_times: HashMap<String, Vec<String>> = data::static_data(city, "stop_times");
@@ -60,7 +60,6 @@ pub mod list {
                 stops_per_route.insert(stop_id.to_string(), set);
             }
         }
-
         stops_per_route
     }
 }
