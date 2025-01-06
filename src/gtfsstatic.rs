@@ -4,7 +4,7 @@
 which each agency uses to define their schedule statically.  */
 
 pub mod data {
-    use crate::gtfs::gtfsstatic::{
+    use crate::gtfsstatic::{
         utils,
         which::{get_first, get_second, is_one, File, Size},
     };
@@ -105,7 +105,7 @@ pub mod data {
 services to the user. */
 
 pub mod service {
-    use crate::gtfs::gtfsstatic::data;
+    use crate::gtfsstatic::data;
 
     pub fn routes(city: &str) {
         let routes = data::static_data(city, "routes");
@@ -242,7 +242,7 @@ pub mod which {
 }
 
 pub mod utils {
-    use crate::gtfs::gtfsstatic::data;
+    use crate::gtfsstatic::data;
     use std::collections::HashMap;
     use std::fs;
 

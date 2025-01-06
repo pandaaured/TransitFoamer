@@ -16,37 +16,58 @@ than I would have liked.
 
 The project directory looks something like this:
 ```
-TransitFoamer_Rust
-|----(data)
-     |- *(Remark 1)
-|----(fetchers)
-     |----gtfsrt_pb2.py
-     |- *(Remark 1)
+TransitFoamer
 |----(src)
      |----main.rs
-     |----feedmessage.rs
-     |----staticfeed.rs
-     |----realtime.rs
+     |----import.rs
+     |----script.rs
      |----search.rs
+     |----gtfsrt.rs
+     |----gtfsstatic.rs
      |----(static)
-          |- *(Remark 2)
+          |- *(Remark 1)
           |----index.txt
 ```
 
 ### Remark 1
-This folder is where I put data that I obtain from running separate scripts
-which I have stored in the folder `fetchers`. 
-
-### Remark 2 
 Inside the static folder, I have placed the GTFS static definitions for each 
 city I am interested in analyzing. The files are placed in directories like 
 `<city_name>/<org_abbrev>`: all files can be accessed from paths like this.
+The file `index.txt` looks something like this:
+```
+00,/pittsburgh/prt/,Pittsburgh
+01,/san_antonio/via/,San Antonio
+02,/seattle/king_county/,Seattle
+03,/chicago/cta/,Chicago
+04,/san_francisco/muni/,San Francisco
+```
+It contains three attributes: (1) input codes, (2) file paths, (3) city names.
+
+## Project Organization
++ `main.rs` passes off input handling logic to `import.rs`.
++ `gtfsstatic.rs` contains functions which generate GTFS static data from their
+definitions.
++ `gtfsrt.rs` contains functions which generate GTFS realtime data from their
+definitions.
++ `import.rs` contains input handling logic.
++ `search.rs` contains the features which get the data used to satisfy client
+requests.
++ `script.rs` gets specialized data from the static feed.
+
+## Configuration
+Cloning the repository: `git clone https://github.com/hauschkaured/TransitFoamer`.
+Once your working directory is the repo, enter `src` and run `mkdir static`.
+This folder is where you will place folders containing GTFS static feeds.
+Create an `index.txt` file as well. 
 
 ## Functionality
-Currently, there are two* working features. They are 
-+ Vehicles within a certain range (that is, `vehicle_id`s).
-+ Vehicles on a certain route (similarly, `vehicle_id`s).
+To run the program, enter the following command(s):
 
-## Future plans
-+ Converting python scripts to Rust.
-+ Predictions for a given stop.
++ `cargo run` generates a list of cities currently in your `index.txt`.
++ `cargo run -- <code> routes` generates a list of routes operated by a given
+transit agency.
++ `cargo run -- <code> route <foo>` generates a list of vehicles operating on a 
+given route.
++ `cargo run -- <code> range <foo-bar>` generates a list of vehicles operating 
+where the vehicles are within vehicle IDs of `foo` and `bar`. NOTE: your vehicle 
+IDs must be numerical. 

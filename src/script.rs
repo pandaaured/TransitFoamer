@@ -1,5 +1,5 @@
 pub mod list {
-    use crate::gtfs::gtfsstatic::data;
+    use crate::gtfsstatic::data;
     use std::collections::{HashMap, HashSet};
 
     pub fn trips_per_route(city: &str) -> HashMap<String, Vec<String>> {

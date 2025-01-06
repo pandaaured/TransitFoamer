@@ -1,5 +1,5 @@
 pub mod fetch {
-    use crate::{gtfs::gtfsstatic, search::utilities};
+    use crate::{gtfsstatic, search::utilities};
     use chrono::Local;
     use gtfs_realtime::{trip_update::StopTimeUpdate, FeedEntity, TripUpdate, VehiclePosition};
     use std::collections::HashMap;
