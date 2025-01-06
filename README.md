@@ -72,4 +72,5 @@ given route.
 where the vehicles are within vehicle IDs of `foo` and `bar`. NOTE: your vehicle 
 IDs must be numerical. 
 + `cargo run -- <code> stop <foo,bar>` generates a list of vehicles with real-time
-tracked arrivals at the inputted stop. Stop must be valid!
+tracked arrivals at the inputted stop. If the stop ID is valid, the function will
+operate normally. Otherwise, the program will panic.

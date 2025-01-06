@@ -22,6 +22,11 @@ pub mod fetch {
         let static_trips: HashMap<String, Vec<String>> =
             gtfsstatic::data::static_data(city, "trips");
 
+        // Let's check if it's a valid stop!
+        if !static_stops.contains_key(stop) {
+            panic!("Oops! The stop {stop} is not in the static feed definition.");
+        }
+
         let routes_per_stop = script::list::routes_per_stop(city);
         let mut key = String::new();
         key.push_str(stop);
