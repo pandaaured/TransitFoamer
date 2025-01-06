@@ -1,11 +1,10 @@
 pub mod list {
-    use std::collections::{HashMap, HashSet};
     use crate::gtfs::gtfsstatic::data;
+    use std::collections::{HashMap, HashSet};
 
     pub fn trips_per_route(city: &str) -> HashMap<String, Vec<String>> {
         let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
-        let trips: HashMap<String, Vec<String>> =
-            data::static_data(city, "trips");
+        let trips: HashMap<String, Vec<String>> = data::static_data(city, "trips");
         for item in trips {
             let route = item.1[1].clone();
             let trip_id = item.0;
@@ -17,14 +16,13 @@ pub mod list {
                 trips_per_route.insert(route, vec![trip_id]);
             }
         }
-        
+
         trips_per_route
     }
 
     pub fn stops_per_trip(city: &str) -> HashMap<String, Vec<String>> {
         let mut stops_per_trip: HashMap<String, Vec<String>> = HashMap::new();
-        let stop_times: HashMap<String, Vec<String>> =
-        data::static_data(city, "stop_times");
+        let stop_times: HashMap<String, Vec<String>> = data::static_data(city, "stop_times");
         for item in stop_times {
             let stop_id = item.1[3].clone();
             let trip_id = item.1[0].clone();
@@ -63,6 +61,6 @@ pub mod list {
             }
         }
 
-        stops_per_route        
+        stops_per_route
     }
 }

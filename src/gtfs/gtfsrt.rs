@@ -1,6 +1,6 @@
-use std::collections::HashMap;   // std imports
-use gtfs_realtime::FeedMessage;  // other
+use gtfs_realtime::FeedMessage; // other
 use reqwest::Response;
+use std::collections::HashMap; // std imports
 
 // -------- BEGIN MODULE CODE -------- //
 

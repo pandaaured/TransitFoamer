@@ -7,9 +7,8 @@ pub mod data {
     use crate::gtfs::gtfsstatic::{
         utils,
         which::{get_first, get_second, is_one, File, Size},
-        data
     };
-    use std::{collections::HashMap, collections::HashSet, slice::Iter};
+    use std::{collections::HashMap, slice::Iter};
 
     pub fn static_data(city: &str, function: &str) -> HashMap<String, Vec<String>> {
         let file_path = utils::file_path(city, function);
@@ -102,11 +101,6 @@ pub mod data {
     }
 }
 
-    
-
-
-
-
 /* This module deals with presenting information about the system's routes and
 services to the user. */
 
@@ -115,7 +109,6 @@ pub mod service {
 
     pub fn routes(city: &str) {
         let routes = data::static_data(city, "routes");
-        let mut keys = routes.keys();
 
         let mut route_list: Vec<&String> = routes.keys().collect();
         route_list.sort();
@@ -274,4 +267,3 @@ pub mod utils {
         contents
     }
 }
-

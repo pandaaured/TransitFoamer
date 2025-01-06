@@ -1,7 +1,6 @@
 use crate::{gtfs, search};
 use gtfs_realtime::{FeedEntity, FeedMessage};
 use std::fs;
-use gtfs::gtfsstatic;
 
 // -------- BEGIN MODULE CODE -------- //
 
@@ -13,7 +12,8 @@ pub async fn data(args: Vec<String>) {
 
 async fn handle_args(import: String, args: Vec<String>) {
     println!("{:?}", args);
-    if args.len() == 1 {      // If you use just cargo run, then it displays the list of cities.
+    if args.len() == 1 {
+        // If you use just cargo run, then it displays the list of cities.
         has_length_one(import);
     } else if args.len() == 3 {
         has_length_three(import, args).await;
@@ -41,11 +41,11 @@ async fn has_length_three(import: String, args: Vec<String>) {
         if values[0] == args[1] {
             let city_path: &str = values[1];
             let function = &args[2];
-            let city_call = match city_path {
-                "/san_antonio/via/" => import_data_sa(function, args.clone()).await,
-                _ => import_data_general(function, args.clone(), city_path).await,
-            };
-            println!("{:#?}", crate::script::list::stops_per_route(city_path));
+            if city_path == "/san_antonio/via/" {
+                import_data_sa(function, args.clone()).await;
+            } else {
+                import_data_general(function, args.clone(), city_path).await;
+            }
         }
     }
 }
@@ -57,11 +57,11 @@ async fn has_length_four(import: String, args: Vec<String>) {
         if values[0] == args[1] {
             let city_path: &str = values[1];
             let function = &args[2];
-            let city_call = match city_path {
-                "/san_antonio/via/" => import_data_sa(function, args.clone()).await,
-                _ => import_data_general(function, args.clone(), city_path).await,
-            };
-
+            if city_path == "/san_antonio/via/" {
+                import_data_sa(function, args.clone()).await;
+            } else {
+                import_data_general(function, args.clone(), city_path).await;
+            }
         }
     }
 }

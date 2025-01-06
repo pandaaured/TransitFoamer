@@ -1,8 +1,8 @@
 use std::env;
 pub mod gtfs;
 pub mod import;
-pub mod search;
 pub mod script;
+pub mod search;
 
 // -------- BEGIN PROGRAM CODE -------- //
 
