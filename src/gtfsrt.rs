@@ -26,6 +26,10 @@ fn urls(city: &str) -> HashMap<&str, &str> {
             "https://truetime.portauthority.org/gtfsrt-bus/trips",
         );
         urls.insert(
+            "alerts-bus",
+            "https://truetime.portauthority.org/gtfsrt-bus/alerts",
+        );
+        urls.insert(
             "vehicles-train",
             "https://truetime.portauthority.org/gtfsrt-train/vehicles",
         );
@@ -33,13 +37,17 @@ fn urls(city: &str) -> HashMap<&str, &str> {
             "trips-train",
             "https://truetime.portauthority.org/gtfsrt-train/trips",
         );
+        urls.insert(
+            "alerts-train",
+            "https://truetime.portauthority.org/gtfsrt-train/alerts",
+        );
     } else if city == "/san_antonio/via/" {
         urls.insert(
-            "vehicles-bus",
+            "vehicles",
             "http://gtfs.viainfo.net/vehicle/vehiclepositions.pb",
         );
         urls.insert(
-            "trips-bus",
+            "trips",
             "https://gtfs.viainfo.net/tripupdate/tripupdates.pb",
         );
         urls.insert("alerts", "https://gtfs.viainfo.net/alerts/alerts.pb");

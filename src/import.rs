@@ -1,5 +1,5 @@
 use crate::{gtfsrt, gtfsstatic, script, search};
-use gtfs_realtime::{FeedEntity, FeedMessage};
+use gtfs_realtime::FeedEntity;
 use std::fs;
 
 // -------- BEGIN MODULE CODE -------- //
@@ -68,11 +68,11 @@ async fn has_length_four(import: String, args: Vec<String>) {
 }
 
 async fn import_data_general(function: &String, args: Vec<String>, city_path: &str) -> String {
-    let buses = gtfsrt::requester(city_path, "vehicles-bus").await;
-    let busdata: Vec<FeedEntity> = buses.entity;
-    let trips = gtfsrt::requester(city_path, "trips-bus").await;
-    let tripdata: Vec<FeedEntity> = trips.entity;
     if function == "range" {
+        let buses = gtfsrt::requester(city_path, "vehicles-bus").await;
+        let busdata: Vec<FeedEntity> = buses.entity;
+        let trips = gtfsrt::requester(city_path, "trips-bus").await;
+        let tripdata: Vec<FeedEntity> = trips.entity;
         let items: Vec<&str> = args[3].split(',').collect();
         for range in items {
             let pair: Vec<&str> = range.split('-').collect();
@@ -81,15 +81,25 @@ async fn import_data_general(function: &String, args: Vec<String>, city_path: &s
             search::fetch::in_range(busdata.clone(), tripdata.clone(), first, last, city_path);
         }
     } else if function == "route" {
+        let buses = gtfsrt::requester(city_path, "vehicles-bus").await;
+        let busdata: Vec<FeedEntity> = buses.entity;
+        let trips = gtfsrt::requester(city_path, "trips-bus").await;
+        let tripdata: Vec<FeedEntity> = trips.entity;
         let routes: Vec<&str> = args[3].split(',').collect();
         for route in routes {
             search::fetch::on_route(busdata.clone(), tripdata.clone(), route, city_path);
         }
     } else if function == "stop" {
+        let buses = gtfsrt::requester(city_path, "vehicles-bus").await;
+        let busdata: Vec<FeedEntity> = buses.entity;
+        let trips = gtfsrt::requester(city_path, "trips-bus").await;
+        let tripdata: Vec<FeedEntity> = trips.entity;
         let stops: Vec<&str> = args[3].split(',').collect();
         for stop in stops {
             search::fetch::at_stop(busdata.clone(), tripdata.clone(), stop, city_path);
         }
+    } else if function == "routes" {
+        gtfsstatic::service::routes(city_path);
     } else {
         panic!("Not a valid function, sorry!");
     }
@@ -98,10 +108,9 @@ async fn import_data_general(function: &String, args: Vec<String>, city_path: &s
 }
 
 async fn import_data_sa(function: &String, args: Vec<String>) -> String {
-    let buses = gtfsrt::requester("/san_antonio/via/", "vehicles-bus");
-    let buses: FeedMessage = buses.await;
-    let busdata: Vec<FeedEntity> = buses.entity;
     if function == "range" {
+        let buses = gtfsrt::requester("/san_antonio/via/", "vehicles-bus").await;
+        let busdata: Vec<FeedEntity> = buses.entity;
         let items: Vec<&str> = args[3].split(',').collect();
         for range in items {
             let pair: Vec<&str> = range.split('-').collect();
@@ -110,6 +119,8 @@ async fn import_data_sa(function: &String, args: Vec<String>) -> String {
             search::fetch::in_range_vdata(busdata.clone(), first, last, "/san_antonio/via/");
         }
     } else if function == "route" {
+        let buses = gtfsrt::requester("/san_antonio/via/", "vehicles-bus").await;
+        let busdata: Vec<FeedEntity> = buses.entity;
         let routes: Vec<&str> = args[3].split(',').collect();
         for route in routes {
             search::fetch::on_route_vdata(busdata.clone(), route, "/san_antonio/via/");

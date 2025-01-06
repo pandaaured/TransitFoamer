@@ -19,12 +19,11 @@ pub mod fetch {
         let mut key = String::new();
         key.push_str(stop);
 
-        let stop_name =
-                            &static_stops[stop][gtfsstatic::bindings::stops(city, "stop_name")];
+        let stop_name = &static_stops[stop][gtfsstatic::bindings::stops(city, "stop_name")];
 
         let routes = &routes_per_stop[&key];
         println!("------------ STOP {stop}: {stop_name} ------------");
-        // println!("{:?}", routes); // List of routes serviced by the stop. 
+        // println!("{:?}", routes); // List of routes serviced by the stop.
 
         for entity in trips {
             let trip_update = entity.trip_update.unwrap();
@@ -207,13 +206,12 @@ pub mod process {
     //     }
     // }
 
-
     // pub fn trip_display_readable(trip_id: &str) {
     //     let static_trips: HashMap<String, Vec<String>> =
     //         gtfsstatic::data::static_data(city, "trips");
     //     let static_stops: HashMap<String, Vec<String>> =
     //         gtfsstatic::data::static_data(city, "stops");
-    //     let static_stop_times: HashMap<String, Vec<String>> = 
+    //     let static_stop_times: HashMap<String, Vec<String>> =
     //         gtfsstatic::data::static_data(city, "stop_times");
     //
     //     if !static_trips.contains_key(trip_id) {

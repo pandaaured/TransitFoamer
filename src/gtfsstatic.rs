@@ -105,7 +105,7 @@ pub mod data {
 services to the user. */
 
 pub mod service {
-    use crate::gtfsstatic::data;
+    use crate::gtfsstatic::{bindings, data};
 
     pub fn routes(city: &str) {
         let routes = data::static_data(city, "routes");
@@ -117,16 +117,12 @@ pub mod service {
         println!("This transit network has {} routes", number_of_routes);
         for route in route_list {
             if city == "/seattle/king_county/" {
-                let number = &routes[route][2];
-                let text = &routes[route][4];
+                let number = &routes[route][bindings::routes(city, "route_short_name")];
+                let text = &routes[route][bindings::routes(city, "route_desc")];
                 println!("{} {}", number, text);
-            } else if city == "/pittsburgh/prt/" {
-                let number = &routes[route][0];
-                let text = &routes[route][3];
-                println!("{} {}", number, text);
-            } else if city == "/san_antonio/via/" {
-                let number = &routes[route][5];
-                let text = &routes[route][0];
+            } else {
+                let number = &routes[route][bindings::routes(city, "route_id")];
+                let text = &routes[route][bindings::routes(city, "route_long_name")];
                 println!("{} {}", number, text);
             }
         }
@@ -136,10 +132,11 @@ pub mod service {
 /* This module deals with mapping the routewords used by the GTFS static feed and
 ensures that indices return information that the program wants to display */
 
-/* REMARK: This is done manually because there are annoying discrepancies 
-between agencies and the functions that each keyword fulfills. */
+/* REMARK: This is done manually because there are annoying discrepancies
+between agencies and the functions that each keyword fulfills. Requires that
+cities are placed in specific directories. */
 
-pub mod bindings { 
+pub mod bindings {
     pub fn agency(city: &str, token: &str) -> usize {
         match city {
             "/pittsburgh/prt/" => match token {
@@ -162,10 +159,20 @@ pub mod bindings {
                 "agency_fare_url" => 1,
                 _ => panic!(),
             },
+            "/seattle/king_county/" => match token {
+                "agency_id" => 0,
+                "agency_name" => 1,
+                "agency_url" => 2,
+                "agency_timezone" => 3,
+                "agency_lang" => 4,
+                "agency_phone" => 5,
+                "agency_fare_url" => 6,
+                _ => panic!(),
+            },
             _ => panic!(),
         }
     }
-    
+
     pub fn calendar_dates(city: &str, token: &str) -> usize {
         match city {
             "/pittsburgh/prt/" => match token {
@@ -175,6 +182,12 @@ pub mod bindings {
                 _ => panic!(),
             },
             "/san_antonio/via/" => match token {
+                "service_id" => 0,
+                "date" => 1,
+                "exception_type" => 2,
+                _ => panic!(),
+            },
+            "/seattle/king_county/" => match token {
                 "service_id" => 0,
                 "date" => 1,
                 "exception_type" => 2,
@@ -212,10 +225,23 @@ pub mod bindings {
                 "sunday" => 9,
                 _ => panic!(),
             },
+            "/seattle/king_county/" => match token {
+                "service_id" => 0,
+                "start_date" => 8,
+                "end_date" => 9,
+                "monday" => 1,
+                "tuesday" => 2,
+                "wednesday" => 3,
+                "thursday" => 4,
+                "friday" => 5,
+                "saturday" => 6,
+                "sunday" => 7,
+                _ => panic!(),
+            },
             _ => panic!(),
         }
     }
-    
+
     pub fn routes(city: &str, token: &str) -> usize {
         match city {
             "/pittsburgh/prt/" => match token {
@@ -240,6 +266,18 @@ pub mod bindings {
                 "route_url" => 6,
                 "route_color" => 3,
                 "route_text_color" => 2,
+                _ => panic!(),
+            },
+            "/seattle/king_county/" => match token {
+                "route_id" => 0,
+                "agency_id" => 1,
+                "route_short_name" => 2,
+                "route_long_name" => 3,
+                "route_desc" => 4,
+                "route_type" => 5,
+                "route_url" => 6,
+                "route_color" => 7,
+                "route_text_color" => 8,
                 _ => panic!(),
             },
             _ => panic!(),
@@ -267,7 +305,20 @@ pub mod bindings {
                 "departure_time" => 2,
                 "stop_id" => 3,
                 "stop_sequence" => 4,
-                "stop_headsign" => 5, 
+                "stop_headsign" => 5,
+                "pickup_type" => 6,
+                "drop_off_type" => 7,
+                "shape_dist_traveled" => 8,
+                "timepoint" => 9,
+                _ => panic!(),
+            },
+            "/seattle/king_county/" => match token {
+                "trip_id" => 0,
+                "arrival_time" => 1,
+                "departure_time" => 2,
+                "stop_id" => 3,
+                "stop_sequence" => 4,
+                "stop_headsign" => 5,
                 "pickup_type" => 6,
                 "drop_off_type" => 7,
                 "shape_dist_traveled" => 8,
@@ -275,7 +326,7 @@ pub mod bindings {
                 _ => panic!(),
             },
             _ => panic!(),
-        }   
+        }
     }
 
     pub fn stops(city: &str, token: &str) -> usize {
@@ -310,6 +361,21 @@ pub mod bindings {
                 "wheelchair_boarding" => 1,
                 _ => panic!(),
             },
+            "/seattle/king_county/" => match token {
+                "stop_id" => 0,
+                "stop_code" => 1,
+                "stop_name" => 2,
+                "stop_desc" => 3,
+                "stop_lat" => 4,
+                "stop_lon" => 5,
+                "zone_id" => 6,
+                "stop_url" => 7,
+                "location_type" => 8,
+                "parent_station" => 9,
+                "stop_timezone" => 10,
+                "wheelchair_boarding" => 11,
+                _ => panic!(),
+            },
             _ => panic!(),
         }
     }
@@ -340,6 +406,19 @@ pub mod bindings {
                 "shape_id" => 6,
                 "wheelchair_accessible" => 3,
                 "bikes_allowed" => 1,
+                _ => panic!(),
+            },
+            "/seattle/king_county/" => match token {
+                "trip_id" => 2,
+                "route_id" => 0,
+                "service_id" => 1,
+                "trip_headsign" => 3,
+                "trip_short_name" => 4,
+                "direction_id" => 5,
+                "block_id" => 6,
+                "shape_id" => 7,
+                "wheelchair_accessible" => 10,
+                "bikes_allowed" => 11,
                 _ => panic!(),
             },
             _ => panic!(),
