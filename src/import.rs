@@ -88,7 +88,6 @@ async fn import_data_general(function: &String, args: Vec<String>, city_path: &s
     } else if function == "stop" {
         let stops: Vec<&str> = args[3].split(',').collect();
         for stop in stops {
-            println!("{}", stop);
             search::fetch::at_stop(busdata.clone(), tripdata.clone(), stop, city_path);
         }
     } else {

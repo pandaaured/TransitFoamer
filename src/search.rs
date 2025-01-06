@@ -4,18 +4,6 @@ pub mod fetch {
     use gtfs_realtime::{trip_update::StopTimeUpdate, FeedEntity, TripUpdate, VehiclePosition};
     use std::collections::HashMap;
 
-    // pub fn on_time_check(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, vehicle: &str, city: &str) {
-    //     let static_stops: HashMap<String, Vec<String>> =
-    //         gtfsstatic::data::static_data(city, "stops");
-    //     let static_trips: HashMap<String, Vec<String>> =
-    //         gtfsstatic::data::static_data(city, "trips");
-    //     for trip in trips {
-    //         if trip.trip_update.unwrap().vehicle.unwrap().id.unwrap() == vehicle {
-
-    //         }
-    //     }
-    // }
-
     pub fn at_stop(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, stop: &str, city: &str) {
         let static_stops: HashMap<String, Vec<String>> =
             gtfsstatic::data::static_data(city, "stops");
@@ -31,8 +19,12 @@ pub mod fetch {
         let mut key = String::new();
         key.push_str(stop);
 
+        let stop_name =
+                            &static_stops[stop][gtfsstatic::bindings::stops(city, "stop_name")];
+
         let routes = &routes_per_stop[&key];
-        println!("{:?}", routes);
+        println!("------------ STOP {stop}: {stop_name} ------------");
+        // println!("{:?}", routes); // List of routes serviced by the stop. 
 
         for entity in trips {
             let trip_update = entity.trip_update.unwrap();
@@ -49,9 +41,7 @@ pub mod fetch {
                         let headsign = static_stops_trip_id
                             [gtfsstatic::bindings::trips(city, "trip_headsign")]
                         .clone();
-                        let stop_name =
-                            &static_stops[stop][gtfsstatic::bindings::stops(city, "stop_name")];
-                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} arrives at {stop_name} at {formatted} \x1b[0m");
+                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} arrives at {formatted} \x1b[0m");
                     }
                 }
             }
@@ -202,6 +192,34 @@ pub mod fetch {
             }
         }
     }
+}
+
+pub mod process {
+    // pub fn on_time_check(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, vehicle: &str, city: &str) {
+    //     let static_stops: HashMap<String, Vec<String>> =
+    //         gtfsstatic::data::static_data(city, "stops");
+    //     let static_trips: HashMap<String, Vec<String>> =
+    //         gtfsstatic::data::static_data(city, "trips");
+    //     for trip in trips {
+    //         if trip.trip_update.unwrap().vehicle.unwrap().id.unwrap() == vehicle {
+
+    //         }
+    //     }
+    // }
+
+
+    // pub fn trip_display_readable(trip_id: &str) {
+    //     let static_trips: HashMap<String, Vec<String>> =
+    //         gtfsstatic::data::static_data(city, "trips");
+    //     let static_stops: HashMap<String, Vec<String>> =
+    //         gtfsstatic::data::static_data(city, "stops");
+    //     let static_stop_times: HashMap<String, Vec<String>> = 
+    //         gtfsstatic::data::static_data(city, "stop_times");
+    //
+    //     if !static_trips.contains_key(trip_id) {
+    //         panic!("Please enter a valid trip_id.");
+    //     }
+    // }
 }
 
 mod utilities {
