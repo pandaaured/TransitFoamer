@@ -2,7 +2,6 @@ use std::env;
 pub mod gtfsrt;
 pub mod gtfsstatic;
 pub mod import;
-pub mod script;
 pub mod search;
 
 // -------- BEGIN PROGRAM CODE -------- //

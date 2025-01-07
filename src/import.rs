@@ -1,6 +1,6 @@
-use crate::{gtfsrt, gtfsstatic, script, search};
+use crate::{gtfsrt, gtfsstatic, search};
 use gtfs_realtime::FeedEntity;
-use std::fs;
+use std::{fs, str::Lines};
 
 // -------- BEGIN MODULE CODE -------- //
 
@@ -11,31 +11,37 @@ pub async fn data(args: Vec<String>) {
 }
 
 async fn handle_args(import: String, args: Vec<String>) {
-    println!("{:?}", args);
+    // println!("{:?}", args);
+    let import_lines = import.lines(); // Convert import and pass it as an argument.
+
     if args.len() == 1 {
         // If you use just cargo run, then it displays the list of cities.
-        has_length_one(import);
+        has_length_one(import_lines);
+    } else if args.len() == 2 {
+        has_length_two(import_lines, args);
     } else if args.len() == 3 {
-        has_length_three(import, args).await;
+        has_length_three(import_lines, args).await;
     } else if args.len() == 4 {
-        has_length_four(import, args).await;
+        has_length_four(import_lines, args).await;
     } else {
         panic! {"Argument number {} is invalid. Sorry!", args.len()};
     }
 }
 
-fn has_length_one(import: String) {
-    let import_lines = import.lines();
+fn has_length_one(import_lines: Lines<'_>) { // This is associated with no function (default)
     for line in import_lines {
         let values: Vec<&str> = line.split(',').collect();
-        let index = values[0];
+        let index = values[0];  // 
         let city = values[2];
         println!("[{}] is {}.", index, city);
     }
 }
 
-async fn has_length_three(import: String, args: Vec<String>) {
-    let import_lines = import.lines();
+fn has_length_two(_import: Lines<'_>, _args: Vec<String>) {
+    // This function will do something with just the city input in the future.
+}
+
+async fn has_length_three(import_lines: Lines<'_>, args: Vec<String>) {
     for line in import_lines {
         let values: Vec<&str> = line.split(',').collect();
         if values[0] == args[1] {
@@ -46,18 +52,18 @@ async fn has_length_three(import: String, args: Vec<String>) {
             } else {
                 import_data_general(function, args.clone(), city_path).await;
             }
-            script::list::routes_per_stop(city_path);
+            gtfsstatic::data::processing_layer_two::routes_per_stop(city_path);
         }
     }
 }
 
-async fn has_length_four(import: String, args: Vec<String>) {
-    let import_lines = import.lines();
+async fn has_length_four(import_lines: Lines<'_>, args: Vec<String>) {
     for line in import_lines {
         let values: Vec<&str> = line.split(',').collect();
         if values[0] == args[1] {
             let city_path: &str = values[1];
             let function = &args[2];
+            handle_things(function, args.clone(), city_path);
             if city_path == "/san_antonio/via/" {
                 import_data_sa(function, args.clone()).await;
             } else {
@@ -65,14 +71,55 @@ async fn has_length_four(import: String, args: Vec<String>) {
             }
         }
     }
+}
+
+
+fn handle_things(function: &str, args: Vec<String>, city_path: &str) {
+    if function == "range" {
+        handle_range(args, city_path);
+    } else if function == "route" {
+        handle_route(args, city_path);
+    } else if function == "stop" {
+        handle_stop(args, city_path);
+    } else if function == "routes" {
+        handle_routes(args, city_path);
+    }
+}
+
+async fn handle_range(args: Vec<String>, city_path: &str) {
+    let items: Vec<&str> = args[3].split(',').collect();
+    if city_path == "/pittsburgh/prt/" {
+        for range in items {
+            let pair: Vec<&str> = range.split('-').collect();
+            let first = pair[0];
+            let last = pair[1];
+            search::fetch::pittsburgh::in_range(first, last, "/pittsburgh/prt/");
+        }
+    } else if city_path == "/san_antonio/via/" {
+        for range in items {
+            let pair: Vec<&str> = range.split('-').collect();
+            let first = pair[0];
+            let last = pair[1];
+            search::fetch::san_antonio::in_range_vdata(first, last, "/san_antonio/via/");
+        }
+    }
+        
+}
+
+fn handle_route(args: Vec<String>, city_path: &str) {
+
+}
+
+fn handle_stop(args: Vec<String>, city_path: &str) {
+
+}
+
+fn handle_routes(args: Vec<String>, city_path: &str) {
+
 }
 
 async fn import_data_general(function: &String, args: Vec<String>, city_path: &str) -> String {
     if function == "range" {
-        let buses = gtfsrt::requester(city_path, "vehicles-bus").await;
-        let busdata: Vec<FeedEntity> = buses.entity;
-        let trips = gtfsrt::requester(city_path, "trips-bus").await;
-        let tripdata: Vec<FeedEntity> = trips.entity;
         let items: Vec<&str> = args[3].split(',').collect();
         for range in items {
             let pair: Vec<&str> = range.split('-').collect();
@@ -111,19 +158,13 @@ async fn import_data_sa(function: &String, args: Vec<String>) -> String {
     if function == "range" {
         let buses = gtfsrt::requester("/san_antonio/via/", "vehicles-bus").await;
         let busdata: Vec<FeedEntity> = buses.entity;
-        let items: Vec<&str> = args[3].split(',').collect();
-        for range in items {
-            let pair: Vec<&str> = range.split('-').collect();
-            let first = pair[0];
-            let last = pair[1];
-            search::fetch::in_range_vdata(busdata.clone(), first, last, "/san_antonio/via/");
-        }
+        
     } else if function == "route" {
         let buses = gtfsrt::requester("/san_antonio/via/", "vehicles-bus").await;
         let busdata: Vec<FeedEntity> = buses.entity;
         let routes: Vec<&str> = args[3].split(',').collect();
         for route in routes {
-            search::fetch::on_route_vdata(busdata.clone(), route, "/san_antonio/via/");
+            search::fetch::san_antonio::on_route_vdata(busdata.clone(), route, "/san_antonio/via/");
         }
     } else if function == "routes" {
         gtfsstatic::service::routes("/san_antonio/via/");
