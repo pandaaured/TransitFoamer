@@ -477,33 +477,6 @@ pub mod fetch {
     }
 }
 
-pub mod process {
-    // pub fn on_time_check(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, vehicle: &str, city: &str) {
-    //     let static_stops: HashMap<String, Vec<String>> =
-    //         gtfsstatic::data::static_data(city, "stops");
-    //     let static_trips: HashMap<String, Vec<String>> =
-    //         gtfsstatic::data::static_data(city, "trips");
-    //     for trip in trips {
-    //         if trip.trip_update.unwrap().vehicle.unwrap().id.unwrap() == vehicle {
-
-    //         }
-    //     }
-    // }
-
-    // pub fn trip_display_readable(trip_id: &str) {
-    //     let static_trips: HashMap<String, Vec<String>> =
-    //         gtfsstatic::data::static_data(city, "trips");
-    //     let static_stops: HashMap<String, Vec<String>> =
-    //         gtfsstatic::data::static_data(city, "stops");
-    //     let static_stop_times: HashMap<String, Vec<String>> =
-    //         gtfsstatic::data::static_data(city, "stop_times");
-    //
-    //     if !static_trips.contains_key(trip_id) {
-    //         panic!("Please enter a valid trip_id.");
-    //     }
-    // }
-}
-
 mod utilities {
     use chrono::{Local, TimeZone};
 
