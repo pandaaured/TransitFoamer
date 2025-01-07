@@ -139,3 +139,5 @@ async fn handle_stop(args: Vec<String>, city_path: &str) {
 async fn handle_routes(city_path: &str) {
     gtfsstatic::service::routes(city_path);
 }
+
+// -------- END MODULE CODE -------- //

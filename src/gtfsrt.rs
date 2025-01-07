@@ -69,3 +69,5 @@ fn urls(city: &str) -> HashMap<&str, &str> {
     }
     urls
 }
+
+// -------- END MODULE CODE -------- //
