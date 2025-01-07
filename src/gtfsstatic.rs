@@ -10,18 +10,18 @@ pub mod data {
             which::{get_first, get_second, is_one, File, Size},
         };
         use std::{collections::HashMap, slice::Iter};
-    
+
         pub fn static_data(city: &str, function: &str) -> HashMap<String, Vec<String>> {
             let file_path = utils::file_path(city, function);
             let ingest_data = utils::read_to_string(file_path);
             hashmap_populate(ingest_data, function)
         }
-    
+
         pub fn static_data_unprocessed(city: &str, function: &str) -> String {
             let file_path = utils::file_path(city, function);
             utils::read_to_string(file_path)
         }
-    
+
         pub fn hashmap_populate(data: String, function: &str) -> HashMap<String, Vec<String>> {
             let mut map: HashMap<String, Vec<String>> = HashMap::new();
             let mut iterator = data.split('\n');
@@ -33,7 +33,9 @@ pub mod data {
                 File::CalendarDates => Size::One(find_index("service_id", &header_iter).unwrap()),
                 File::FareAttributes => Size::One(find_index("service_id", &header_iter).unwrap()),
                 File::FareRules => Size::One(find_index("service_id", &header_iter).unwrap()),
-                File::FeedInfo => Size::One(find_index("feed_publisher_name", &header_iter).unwrap()),
+                File::FeedInfo => {
+                    Size::One(find_index("feed_publisher_name", &header_iter).unwrap())
+                }
                 File::Frequencies => Size::One(find_index("service_id", &header_iter).unwrap()),
                 File::Routes => Size::One(find_index("route_id", &header_iter).unwrap()),
                 File::Shapes => Size::One(find_index("shape_id", &header_iter).unwrap()),
@@ -45,7 +47,7 @@ pub mod data {
                 File::Transfers => Size::One(find_index("from_stop_id", &header_iter).unwrap()),
                 File::Trips => Size::One(find_index("trip_id", &header_iter).unwrap()),
             };
-    
+
             if is_one(&index) {
                 let key_to_insert = match index {
                     Size::One(x) => x,
@@ -75,11 +77,11 @@ pub mod data {
             }
             map
         }
-    
+
         pub fn find_index(keyword: &str, header: &Iter<'_, &str>) -> Option<usize> {
             header.clone().position(|&x| x == keyword)
         }
-    
+
         fn function_to_enum(function: &str) -> File {
             let file: File = match function {
                 "agency" => File::Agency,
@@ -97,18 +99,19 @@ pub mod data {
                 "trips" => File::Trips,
                 _ => panic!(),
             };
-    
+
             file
         }
     }
-    
+
     pub mod processing_layer_two {
-        use std::collections::{HashMap, HashSet};
         use crate::gtfsstatic::data::processing_layer_one;
+        use std::collections::{HashMap, HashSet};
 
         pub fn trips_per_route(city: &str) -> HashMap<String, Vec<String>> {
             let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
-            let trips: HashMap<String, Vec<String>> = processing_layer_one::static_data(city, "trips");
+            let trips: HashMap<String, Vec<String>> =
+                processing_layer_one::static_data(city, "trips");
             for item in trips {
                 let route = item.1[1].clone();
                 let trip_id = item.0;
@@ -126,7 +129,8 @@ pub mod data {
 
         pub fn stops_per_trip(city: &str) -> HashMap<String, Vec<String>> {
             let mut stops_per_trip: HashMap<String, Vec<String>> = HashMap::new();
-            let stop_times: HashMap<String, Vec<String>> = processing_layer_one::static_data(city, "stop_times");
+            let stop_times: HashMap<String, Vec<String>> =
+                processing_layer_one::static_data(city, "stop_times");
             for item in stop_times {
                 let stop_id = item.1[3].clone();
                 let trip_id = item.1[0].clone();
@@ -144,8 +148,10 @@ pub mod data {
         pub fn routes_per_stop(city: &str) -> HashMap<String, HashSet<String>> {
             let mut stops_per_route: HashMap<String, HashSet<String>> = HashMap::new();
 
-            let static_stop_times: HashMap<String, Vec<String>> = processing_layer_one::static_data(city, "stop_times");
-            let static_trips: HashMap<String, Vec<String>> = processing_layer_one::static_data(city, "trips");
+            let static_stop_times: HashMap<String, Vec<String>> =
+                processing_layer_one::static_data(city, "stop_times");
+            let static_trips: HashMap<String, Vec<String>> =
+                processing_layer_one::static_data(city, "trips");
 
             let keys = static_stop_times.keys();
 

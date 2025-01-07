@@ -1,42 +1,49 @@
 pub mod fetch {
     pub mod any_city {
-        use crate::{gtfsstatic, gtfsstatic::data, search::utilities};
+        use crate::{gtfsrt, gtfsstatic, gtfsstatic::data, search::utilities};
         use chrono::Local;
-        use gtfs_realtime::{trip_update::StopTimeUpdate, FeedEntity, TripUpdate};
+        use gtfs_realtime::{trip_update::StopTimeUpdate, TripUpdate};
         use std::collections::HashMap;
 
-        pub fn at_stop(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, stop: &str, city: &str) {
+        pub async fn at_stop(stop: &str, city: &str) {
+            // ---- STATIC DATA LAYER 1 ---- //
             let static_stops: HashMap<String, Vec<String>> =
                 data::processing_layer_one::static_data(city, "stops");
             let static_trips: HashMap<String, Vec<String>> =
                 data::processing_layer_one::static_data(city, "trips");
-    
+
+            // ---- REALTIME DATA ---- //
+            // let buses = gtfsrt::requester(city, "vehicles").await;
+            let trips = gtfsrt::requester(city, "trips").await;
+
             // Let's check if it's a valid stop!
             if !static_stops.contains_key(stop) {
                 panic!("Oops! The stop {stop} is not in the static feed definition.");
             }
-    
+
             let routes_per_stop = data::processing_layer_two::routes_per_stop(city);
             let mut key = String::new();
             key.push_str(stop);
-    
+
             let stop_name = &static_stops[stop][gtfsstatic::bindings::stops(city, "stop_name")];
-    
+
             let routes = &routes_per_stop[&key];
             println!("------------ STOP {stop}: {stop_name} ------------");
             // println!("{:?}", routes); // List of routes serviced by the stop.
-    
-            for entity in trips {
+
+            for entity in trips.entity {
                 let trip_update = entity.trip_update.unwrap();
                 if routes.contains(&trip_update.clone().trip.route_id.unwrap()) {
                     let stop_seq = trip_update.clone().stop_time_update;
                     for stop_in_feed in stop_seq {
                         if stop_in_feed.stop_id.unwrap() == stop {
-                            let vehicle_id: String = trip_update.clone().vehicle.unwrap().id.unwrap();
+                            let vehicle_id: String =
+                                trip_update.clone().vehicle.unwrap().id.unwrap();
                             let route: String = trip_update.clone().trip.route_id.unwrap();
                             let time = stop_in_feed.arrival.unwrap().time.unwrap();
                             let trip_id: String = trip_update.clone().trip.trip_id.unwrap();
-                            let formatted: chrono::DateTime<Local> = utilities::time_converter(time);
+                            let formatted: chrono::DateTime<Local> =
+                                utilities::time_converter(time);
                             let static_stops_trip_id = &static_trips[&trip_id];
                             let headsign = static_stops_trip_id
                                 [gtfsstatic::bindings::trips(city, "trip_headsign")]
@@ -47,13 +54,19 @@ pub mod fetch {
                 }
             }
         }
-    
-        pub fn on_route(_vehicles: Vec<FeedEntity>, trips: Vec<FeedEntity>, number: &str, city: &str) {
-            let static_trips: HashMap<String, Vec<String>> =
-                data::processing_layer_one::static_data(city, "trips");
+
+        pub async fn on_route(number: &str, city: &str) {
+            // ---- STATIC DATA LAYER 1 ---- //
             let static_stops: HashMap<String, Vec<String>> =
                 data::processing_layer_one::static_data(city, "stops");
-            for trip in trips {
+            let static_trips: HashMap<String, Vec<String>> =
+                data::processing_layer_one::static_data(city, "trips");
+
+            // ---- REALTIME DATA ---- //
+            // let buses = gtfsrt::requester(city, "vehicles").await;
+            let trips = gtfsrt::requester(city, "trips").await;
+
+            for trip in trips.entity {
                 let unit: TripUpdate = trip.trip_update.unwrap();
                 let route: String = unit.trip.route_id.unwrap();
                 if number == route {
@@ -71,7 +84,8 @@ pub mod fetch {
                         .clone();
                         if first_stop.arrival.is_some() {
                             let arrival = first_stop.arrival.unwrap().time.unwrap();
-                            let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
+                            let formatted: chrono::DateTime<Local> =
+                                utilities::time_converter(arrival);
                             println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
                             println!("    arrives at {stop_name} at {formatted}");
                         }
@@ -86,19 +100,19 @@ pub mod fetch {
                 }
             }
         }
-    
-        pub fn in_range(
-            _vehicles: Vec<FeedEntity>,
-            trips: Vec<FeedEntity>,
-            first: &str,
-            last: &str,
-            city: &str,
-        ) {
+
+        pub async fn in_range(first: &str, last: &str, city: &str) {
+            // ---- STATIC DATA LAYER 1 ---- //
             let static_trips: HashMap<String, Vec<String>> =
                 data::processing_layer_one::static_data(city, "trips");
             let static_stops: HashMap<String, Vec<String>> =
                 data::processing_layer_one::static_data(city, "stops");
-            for trip in trips {
+
+            // ---- REALTIME DATA ---- //
+            // let buses = gtfsrt::requester(city, "vehicles").await;
+            let trips = gtfsrt::requester(city, "trips").await;
+
+            for trip in trips.entity {
                 let unit: TripUpdate = trip.trip_update.unwrap();
                 let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
                 if utilities::within_bounds(vehicle_id.clone(), first, last) {
@@ -107,8 +121,9 @@ pub mod fetch {
                     let first_stop: StopTimeUpdate = stop_time_update[0].clone();
                     let stop_id: String = first_stop.stop_id.unwrap().clone();
                     let static_stops_stop_id = &static_stops[&stop_id];
-                    let stop_name =
-                        static_stops_stop_id[gtfsstatic::bindings::stops(city, "stop_name")].clone();
+                    let stop_name = static_stops_stop_id
+                        [gtfsstatic::bindings::stops(city, "stop_name")]
+                    .clone();
                     let trip_id: String = unit.trip.trip_id.unwrap();
                     let static_stops_trip_id = &static_trips[&trip_id];
                     let headsign = static_stops_trip_id
@@ -122,7 +137,8 @@ pub mod fetch {
                     }
                     if first_stop.departure.is_some() {
                         let departure = first_stop.departure.unwrap().time.unwrap();
-                        let formatted: chrono::DateTime<Local> = utilities::time_converter(departure);
+                        let formatted: chrono::DateTime<Local> =
+                            utilities::time_converter(departure);
                         println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
                         println!("    departs from {stop_name} at {formatted}");
                     }
@@ -132,17 +148,22 @@ pub mod fetch {
     }
 
     pub mod san_antonio {
+        use crate::{gtfsrt, gtfsstatic, gtfsstatic::data, search::utilities};
+        use gtfs_realtime::VehiclePosition;
         use std::collections::HashMap;
-        use gtfs_realtime::{FeedEntity, VehiclePosition};
-        use crate::{gtfsstatic, gtfsrt, gtfsstatic::data, search::utilities};
 
-        pub fn on_route_vdata(vehicles: Vec<FeedEntity>, number: &str, city: &str) {
+        pub async fn on_route_vdata(number: &str, city: &str) {
+            // ---- STATIC DATA LAYER 1 ---- //
             let static_trips: HashMap<String, Vec<String>> =
                 data::processing_layer_one::static_data(city, "trips");
             let static_stops: HashMap<String, Vec<String>> =
                 data::processing_layer_one::static_data(city, "stops");
-            for vehicle in vehicles {
-                let unit: VehiclePosition = vehicle.vehicle.unwrap();
+
+            // ---- REALTIME DATA ---- //
+            let buses = gtfsrt::requester(city, "vehicles").await;
+
+            for bus in buses.entity {
+                let unit: VehiclePosition = bus.vehicle.unwrap();
                 if unit.trip.clone().is_some() {
                     // Checks which type of vehicle
                     let route: String = unit.trip.clone().unwrap().route_id.unwrap();
@@ -150,14 +171,14 @@ pub mod fetch {
                         let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
                         let trip_id: String = unit.trip.unwrap().trip_id.unwrap(); // The trip ID.
                         let static_trips_trip_id = &static_trips[&trip_id];
-                        let destination =
-                            &static_trips_trip_id[gtfsstatic::bindings::trips(city, "trip_headsign")];
+                        let destination = &static_trips_trip_id
+                            [gtfsstatic::bindings::trips(city, "trip_headsign")];
                         if unit.stop_id.is_some() {
                             let stop_id = unit.stop_id;
                             let current_stop = stop_id.unwrap().to_string();
                             let static_stops_stop_id = &static_stops[&current_stop];
-                            let current_stop_name =
-                                &static_stops_stop_id[gtfsstatic::bindings::stops(city, "stop_name")];
+                            let current_stop_name = &static_stops_stop_id
+                                [gtfsstatic::bindings::stops(city, "stop_name")];
                             println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {destination} is in transit to {current_stop_name} \x1b[0m");
                         } else {
                             println!(
@@ -168,7 +189,7 @@ pub mod fetch {
                 }
             }
         }
-    
+
         pub async fn in_range_vdata(first: &str, last: &str, city: &str) {
             // ---- STATIC DATA LAYER 1 ---- //
             let static_trips: HashMap<String, Vec<String>> =
@@ -178,10 +199,12 @@ pub mod fetch {
 
             // ---- REALTIME DATA ---- //
             let buses = gtfsrt::requester(city, "vehicles-bus").await;
+
             for vehicle in buses.entity {
                 let unit: VehiclePosition = vehicle.vehicle.unwrap();
                 let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
-                if utilities::within_bounds(vehicle_id.clone(), first, last) && unit.trip.is_some() {
+                if utilities::within_bounds(vehicle_id.clone(), first, last) && unit.trip.is_some()
+                {
                     let route: String = unit.trip.clone().unwrap().route_id.unwrap();
                     let trip_id: String = unit.trip.unwrap().trip_id.unwrap();
                     let static_trips_trip_id = &static_trips[&trip_id];
@@ -205,7 +228,7 @@ pub mod fetch {
     }
 
     pub mod pittsburgh {
-        use crate::{gtfsstatic, gtfsstatic::data, search::utilities, gtfsrt};
+        use crate::{gtfsrt, gtfsstatic, gtfsstatic::data, search::utilities};
         use chrono::Local;
         use gtfs_realtime::{trip_update::StopTimeUpdate, TripUpdate};
         use std::collections::HashMap;
@@ -221,37 +244,38 @@ pub mod fetch {
             let routes_per_stop = data::processing_layer_two::routes_per_stop(city);
             let mut key = String::new();
             key.push_str(stop);
-    
+
             let stop_name = &static_stops[stop][gtfsstatic::bindings::stops(city, "stop_name")];
-    
+
             let routes = &routes_per_stop[&key];
             println!("------------ STOP {stop}: {stop_name} ------------");
-    
+
             // ---- REALTIME DATA ---- //
             // let buses = gtfsrt::requester("/pittsburgh/prt/", "vehicles-bus").await;
             let trips_bus = gtfsrt::requester("/pittsburgh/prt/", "trips-bus").await;
             // let trains = gtfsrt::requester("/pittsburgh/prt/", "vehicles-train").await;
             let trips_train = gtfsrt::requester("/pittsburgh/prt/", "trips-train").await;
-            
-            
+
             // Let's check if it's a valid stop!
             if !static_stops.contains_key(stop) {
                 panic!("Oops! The stop {stop} is not in the static feed definition.");
             }
-        
+
             // TODO: ADD LOGIC THAT LETS YOU PICK BETWEEN BUS AND TRAIN FEEDS HERE.
-            
+
             for entity in trips_bus.entity {
                 let trip_update = entity.trip_update.unwrap();
                 if routes.contains(&trip_update.clone().trip.route_id.unwrap()) {
                     let stop_seq = trip_update.clone().stop_time_update;
                     for stop_in_feed in stop_seq {
                         if stop_in_feed.stop_id.unwrap() == stop {
-                            let vehicle_id: String = trip_update.clone().vehicle.unwrap().id.unwrap();
+                            let vehicle_id: String =
+                                trip_update.clone().vehicle.unwrap().id.unwrap();
                             let route: String = trip_update.clone().trip.route_id.unwrap();
                             let time = stop_in_feed.arrival.unwrap().time.unwrap();
                             let trip_id: String = trip_update.clone().trip.trip_id.unwrap();
-                            let formatted: chrono::DateTime<Local> = utilities::time_converter(time);
+                            let formatted: chrono::DateTime<Local> =
+                                utilities::time_converter(time);
                             let static_stops_trip_id = &static_trips[&trip_id];
                             let headsign = static_stops_trip_id
                                 [gtfsstatic::bindings::trips(city, "trip_headsign")]
@@ -268,11 +292,13 @@ pub mod fetch {
                     let stop_seq = trip_update.clone().stop_time_update;
                     for stop_in_feed in stop_seq {
                         if stop_in_feed.stop_id.unwrap() == stop {
-                            let vehicle_id: String = trip_update.clone().vehicle.unwrap().id.unwrap();
+                            let vehicle_id: String =
+                                trip_update.clone().vehicle.unwrap().id.unwrap();
                             let route: String = trip_update.clone().trip.route_id.unwrap();
                             let time = stop_in_feed.arrival.unwrap().time.unwrap();
                             let trip_id: String = trip_update.clone().trip.trip_id.unwrap();
-                            let formatted: chrono::DateTime<Local> = utilities::time_converter(time);
+                            let formatted: chrono::DateTime<Local> =
+                                utilities::time_converter(time);
                             let static_stops_trip_id = &static_trips[&trip_id];
                             let headsign = static_stops_trip_id
                                 [gtfsstatic::bindings::trips(city, "trip_headsign")]
@@ -283,7 +309,7 @@ pub mod fetch {
                 }
             }
         }
-    
+
         pub async fn on_route(number: &str, city: &str) {
             // ---- STATIC DATA LAYER 1 ---- //
             let static_stops: HashMap<String, Vec<String>> =
@@ -317,7 +343,8 @@ pub mod fetch {
                         .clone();
                         if first_stop.arrival.is_some() {
                             let arrival = first_stop.arrival.unwrap().time.unwrap();
-                            let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
+                            let formatted: chrono::DateTime<Local> =
+                                utilities::time_converter(arrival);
                             println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
                             println!("    arrives at {stop_name} at {formatted}");
                         }
@@ -350,7 +377,8 @@ pub mod fetch {
                         .clone();
                         if first_stop.arrival.is_some() {
                             let arrival = first_stop.arrival.unwrap().time.unwrap();
-                            let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
+                            let formatted: chrono::DateTime<Local> =
+                                utilities::time_converter(arrival);
                             println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
                             println!("    arrives at {stop_name} at {formatted}");
                         }
@@ -365,7 +393,7 @@ pub mod fetch {
                 }
             }
         }
-    
+
         pub async fn in_range(first: &str, last: &str, city: &str) {
             // ---- STATIC DATA LAYER 1 ---- //
             let static_stops: HashMap<String, Vec<String>> =
@@ -389,8 +417,9 @@ pub mod fetch {
                     let first_stop: StopTimeUpdate = stop_time_update[0].clone();
                     let stop_id: String = first_stop.stop_id.unwrap().clone();
                     let static_stops_stop_id = &static_stops[&stop_id];
-                    let stop_name =
-                        static_stops_stop_id[gtfsstatic::bindings::stops(city, "stop_name")].clone();
+                    let stop_name = static_stops_stop_id
+                        [gtfsstatic::bindings::stops(city, "stop_name")]
+                    .clone();
                     let trip_id: String = unit.trip.trip_id.unwrap();
                     let static_stops_trip_id = &static_trips[&trip_id];
                     let headsign = static_stops_trip_id
@@ -404,7 +433,8 @@ pub mod fetch {
                     }
                     if first_stop.departure.is_some() {
                         let departure = first_stop.departure.unwrap().time.unwrap();
-                        let formatted: chrono::DateTime<Local> = utilities::time_converter(departure);
+                        let formatted: chrono::DateTime<Local> =
+                            utilities::time_converter(departure);
                         println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
                         println!("    departs from {stop_name} at {formatted}");
                     }
@@ -420,8 +450,9 @@ pub mod fetch {
                     let first_stop: StopTimeUpdate = stop_time_update[0].clone();
                     let stop_id: String = first_stop.stop_id.unwrap().clone();
                     let static_stops_stop_id = &static_stops[&stop_id];
-                    let stop_name =
-                        static_stops_stop_id[gtfsstatic::bindings::stops(city, "stop_name")].clone();
+                    let stop_name = static_stops_stop_id
+                        [gtfsstatic::bindings::stops(city, "stop_name")]
+                    .clone();
                     let trip_id: String = unit.trip.trip_id.unwrap();
                     let static_stops_trip_id = &static_trips[&trip_id];
                     let headsign = static_stops_trip_id
@@ -435,7 +466,8 @@ pub mod fetch {
                     }
                     if first_stop.departure.is_some() {
                         let departure = first_stop.departure.unwrap().time.unwrap();
-                        let formatted: chrono::DateTime<Local> = utilities::time_converter(departure);
+                        let formatted: chrono::DateTime<Local> =
+                            utilities::time_converter(departure);
                         println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
                         println!("    departs from {stop_name} at {formatted}");
                     }

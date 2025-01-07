@@ -1,5 +1,4 @@
-use crate::{gtfsrt, gtfsstatic, search};
-use gtfs_realtime::FeedEntity;
+use crate::search;
 use std::{fs, str::Lines};
 
 // -------- BEGIN MODULE CODE -------- //
@@ -28,10 +27,11 @@ async fn handle_args(import: String, args: Vec<String>) {
     }
 }
 
-fn has_length_one(import_lines: Lines<'_>) { // This is associated with no function (default)
+fn has_length_one(import_lines: Lines<'_>) {
+    // This is associated with no function (default)
     for line in import_lines {
         let values: Vec<&str> = line.split(',').collect();
-        let index = values[0];  // 
+        let index = values[0]; //
         let city = values[2];
         println!("[{}] is {}.", index, city);
     }
@@ -47,12 +47,7 @@ async fn has_length_three(import_lines: Lines<'_>, args: Vec<String>) {
         if values[0] == args[1] {
             let city_path: &str = values[1];
             let function = &args[2];
-            if city_path == "/san_antonio/via/" {
-                import_data_sa(function, args.clone()).await;
-            } else {
-                import_data_general(function, args.clone(), city_path).await;
-            }
-            gtfsstatic::data::processing_layer_two::routes_per_stop(city_path);
+            handle_things(function, args.clone(), city_path).await;
         }
     }
 }
@@ -63,26 +58,20 @@ async fn has_length_four(import_lines: Lines<'_>, args: Vec<String>) {
         if values[0] == args[1] {
             let city_path: &str = values[1];
             let function = &args[2];
-            handle_things(function, args.clone(), city_path);
-            if city_path == "/san_antonio/via/" {
-                import_data_sa(function, args.clone()).await;
-            } else {
-                import_data_general(function, args.clone(), city_path).await;
-            }
+            handle_things(function, args.clone(), city_path).await;
         }
     }
 }
 
-
-fn handle_things(function: &str, args: Vec<String>, city_path: &str) {
+async fn handle_things(function: &str, args: Vec<String>, city_path: &str) {
     if function == "range" {
-        handle_range(args, city_path);
+        handle_range(args, city_path).await;
     } else if function == "route" {
-        handle_route(args, city_path);
+        handle_route(args, city_path).await;
     } else if function == "stop" {
-        handle_stop(args, city_path);
+        handle_stop(args, city_path).await;
     } else if function == "routes" {
-        handle_routes(args, city_path);
+        handle_routes(args, city_path).await;
     }
 }
 
@@ -93,84 +82,73 @@ async fn handle_range(args: Vec<String>, city_path: &str) {
             let pair: Vec<&str> = range.split('-').collect();
             let first = pair[0];
             let last = pair[1];
-            search::fetch::pittsburgh::in_range(first, last, "/pittsburgh/prt/");
+            search::fetch::pittsburgh::in_range(first, last, city_path).await;
         }
     } else if city_path == "/san_antonio/via/" {
         for range in items {
             let pair: Vec<&str> = range.split('-').collect();
             let first = pair[0];
             let last = pair[1];
-            search::fetch::san_antonio::in_range_vdata(first, last, "/san_antonio/via/");
+            search::fetch::san_antonio::in_range_vdata(first, last, city_path).await;
         }
-    }
-        
-}
-
-fn handle_route(args: Vec<String>, city_path: &str) {
-
-}
-
-fn handle_stop(args: Vec<String>, city_path: &str) {
-
-}
-
-fn handle_routes(args: Vec<String>, city_path: &str) {
-
-}
-
-async fn import_data_general(function: &String, args: Vec<String>, city_path: &str) -> String {
-    if function == "range" {
-        let items: Vec<&str> = args[3].split(',').collect();
+    } else {
         for range in items {
             let pair: Vec<&str> = range.split('-').collect();
             let first = pair[0];
             let last = pair[1];
-            search::fetch::in_range(busdata.clone(), tripdata.clone(), first, last, city_path);
+            search::fetch::any_city::in_range(first, last, city_path).await;
         }
-    } else if function == "route" {
-        let buses = gtfsrt::requester(city_path, "vehicles-bus").await;
-        let busdata: Vec<FeedEntity> = buses.entity;
-        let trips = gtfsrt::requester(city_path, "trips-bus").await;
-        let tripdata: Vec<FeedEntity> = trips.entity;
-        let routes: Vec<&str> = args[3].split(',').collect();
-        for route in routes {
-            search::fetch::on_route(busdata.clone(), tripdata.clone(), route, city_path);
-        }
-    } else if function == "stop" {
-        let buses = gtfsrt::requester(city_path, "vehicles-bus").await;
-        let busdata: Vec<FeedEntity> = buses.entity;
-        let trips = gtfsrt::requester(city_path, "trips-bus").await;
-        let tripdata: Vec<FeedEntity> = trips.entity;
-        let stops: Vec<&str> = args[3].split(',').collect();
-        for stop in stops {
-            search::fetch::at_stop(busdata.clone(), tripdata.clone(), stop, city_path);
-        }
-    } else if function == "routes" {
-        gtfsstatic::service::routes(city_path);
-    } else {
-        panic!("Not a valid function, sorry!");
     }
-
-    "done!".to_string()
 }
 
-async fn import_data_sa(function: &String, args: Vec<String>) -> String {
-    if function == "range" {
-        let buses = gtfsrt::requester("/san_antonio/via/", "vehicles-bus").await;
-        let busdata: Vec<FeedEntity> = buses.entity;
-        
-    } else if function == "route" {
-        let buses = gtfsrt::requester("/san_antonio/via/", "vehicles-bus").await;
-        let busdata: Vec<FeedEntity> = buses.entity;
-        let routes: Vec<&str> = args[3].split(',').collect();
+async fn handle_route(args: Vec<String>, city_path: &str) {
+    let routes: Vec<&str> = args[3].split(',').collect();
+    if city_path == "/pittsburgh/prt/" {
         for route in routes {
-            search::fetch::san_antonio::on_route_vdata(busdata.clone(), route, "/san_antonio/via/");
+            search::fetch::pittsburgh::on_route(route, city_path).await;
         }
-    } else if function == "routes" {
-        gtfsstatic::service::routes("/san_antonio/via/");
+    } else if city_path == "/san_antonio/via/" {
+        for route in routes {
+            search::fetch::san_antonio::on_route_vdata(route, city_path).await;
+        }
     } else {
-        panic!("Not a valid function, sorry!");
+        for route in routes {
+            search::fetch::any_city::on_route(route, city_path).await;
+        }
     }
+}
 
-    "done!".to_string()
+async fn handle_stop(args: Vec<String>, city_path: &str) {
+    let stops: Vec<&str> = args[3].split(',').collect();
+
+    if city_path == "/pittsburgh/prt/" {
+        for stop in stops {
+            search::fetch::pittsburgh::at_stop(stop, city_path).await;
+        }
+    } else if city_path == "/san_antonio/via/" {
+        // for stop in stops {
+        //     search::fetch::san_antonio::at_stop(stop, "/san_antonio/via/");
+        // }
+    } else {
+        for stop in stops {
+            search::fetch::any_city::at_stop(stop, city_path).await;
+        }
+    }
+}
+
+async fn handle_routes(args: Vec<String>, city_path: &str) {
+    let routes: Vec<&str> = args[3].split(',').collect();
+    if city_path == "/pittsburgh/prt/" {
+        for route in routes {
+            search::fetch::pittsburgh::on_route(route, city_path).await;
+        }
+    } else if city_path == "/san_antonio/via/" {
+        for route in routes {
+            search::fetch::san_antonio::on_route_vdata(route, city_path).await;
+        }
+    } else {
+        for route in routes {
+            search::fetch::any_city::on_route(route, city_path).await;
+        }
+    }
 }
