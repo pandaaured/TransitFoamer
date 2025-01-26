@@ -1,4 +1,4 @@
-use crate::{search, gtfsstatic};
+use crate::{gtfsstatic, search};
 use std::{fs, str::Lines};
 
 // -------- BEGIN MODULE CODE -------- //
@@ -71,7 +71,7 @@ async fn handle_things(function: &str, args: Vec<String>, city_path: &str) {
     } else if function == "stop" {
         handle_stop(args, city_path).await;
     } else if function == "routes" {
-        handle_routes(city_path).await;
+    //     handle_routes(city_path).await;
     }
 }
 
@@ -126,9 +126,9 @@ async fn handle_stop(args: Vec<String>, city_path: &str) {
             search::fetch::any_city::at_stop(stop, city_path).await;
         }
     } else if city_path == "/san_antonio/via/" {
-        // for stop in stops {
-        //     search::fetch::san_antonio::at_stop(stop, "/san_antonio/via/");
-        // }
+        for stop in stops {
+            // search::fetch::san_antonio::at_stop(stop, "/san_antonio/via/");
+        }
     } else {
         for stop in stops {
             search::fetch::any_city::at_stop(stop, city_path).await;
@@ -136,8 +136,8 @@ async fn handle_stop(args: Vec<String>, city_path: &str) {
     }
 }
 
-async fn handle_routes(city_path: &str) {
-    gtfsstatic::service::routes(city_path);
-}
+// async fn handle_routes(city_path: &str) {
+//     gtfsstatic::service::routes(city_path);
+// }
 
 // -------- END MODULE CODE -------- //
