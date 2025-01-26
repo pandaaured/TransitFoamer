@@ -2,34 +2,33 @@ pub mod fetch {
     pub mod any_city {
         use crate::{gtfsrt, gtfsstatic, gtfsstatic::data, search::utilities};
         use chrono::Local;
-        use gtfs_realtime::{trip_update::StopTimeUpdate, TripUpdate};
+        use gtfs_realtime::{trip_update::StopTimeUpdate, TripUpdate, FeedEntity};
         use std::collections::HashMap;
 
         pub async fn at_stop(stop: &str, city: &str) {
-            // ---- STATIC DATA LAYER 1 ---- //
-            let static_stops: HashMap<String, Vec<String>> =
-                data::processing_layer_one::static_data(city, "stops");
-            let static_trips: HashMap<String, Vec<String>> =
-                data::processing_layer_one::static_data(city, "trips");
 
-            // ---- REALTIME DATA ---- //
-            // let buses = gtfsrt::requester(city, "vehicles").await;
-            let trips = gtfsrt::requester(city, "trips").await;
+            // let static_stops: HashMap<String, Vec<String>> =
+            //     data::processing_layer_one::static_data(city, "stops");
+            // let static_trips: HashMap<String, Vec<String>> =
+            //     data::processing_layer_one::static_data(city, "trips");
 
-            // Let's check if it's a valid stop!
-            if !static_stops.contains_key(stop) {
-                panic!("Oops! The stop {stop} is not in the static feed definition.");
-            }
+            // // ---- REALTIME DATA ---- //
+            // // let buses = gtfsrt::requester(city, "vehicles").await;
+            // let trips = gtfsrt::requester(city, "trips").await;
 
-            let routes_per_stop = data::processing_layer_two::routes_per_stop(city);
-            let mut key = String::new();
-            key.push_str(stop);
+            // // Let's check if it's a valid stop!
+            // if !static_stops.contains_key(stop) {
+            //     panic!("Oops! The stop {stop} is not in the static feed definition.");
+            // }
+
+            // let routes_per_stop = data::processing_layer_two::routes_per_stop(city);
+            // let mut key = String::new();
+            // key.push_str(stop);
 
             let stop_name = &static_stops[stop][gtfsstatic::bindings::stops(city, "stop_name")];
 
             let routes = &routes_per_stop[&key];
-            println!("------------ STOP {stop}: {stop_name} ------------");
-            // println!("{:?}", routes); // List of routes serviced by the stop.
+
 
             for entity in trips.entity {
                 let trip_update = entity.trip_update.unwrap();
@@ -55,95 +54,21 @@ pub mod fetch {
             }
         }
 
-        pub async fn on_route(number: &str, city: &str) {
-            // ---- STATIC DATA LAYER 1 ---- //
-            let static_stops: HashMap<String, Vec<String>> =
-                data::processing_layer_one::static_data(city, "stops");
-            let static_trips: HashMap<String, Vec<String>> =
-                data::processing_layer_one::static_data(city, "trips");
-
-            // ---- REALTIME DATA ---- //
-            // let buses = gtfsrt::requester(city, "vehicles").await;
+        pub async fn on_route(number: &str, city: &str) -> Vec<FeedEntity> {
             let trips = gtfsrt::requester(city, "trips").await;
-
-            for trip in trips.entity {
-                let unit: TripUpdate = trip.trip_update.unwrap();
-                let route: String = unit.trip.route_id.unwrap();
-                if number == route {
-                    let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
-                    let stop_time_update: Vec<StopTimeUpdate> = unit.stop_time_update.clone();
-                    if !stop_time_update.is_empty() {
-                        let first_stop: StopTimeUpdate = stop_time_update[0].clone();
-                        let stop_id: String = first_stop.stop_id.unwrap().clone();
-                        let stop_name =
-                            &static_stops[&stop_id][gtfsstatic::bindings::stops(city, "stop_name")];
-                        let trip_id: String = unit.trip.trip_id.unwrap();
-                        let static_stops_trip_id = &static_trips[&trip_id];
-                        let headsign = static_stops_trip_id
-                            [gtfsstatic::bindings::trips(city, "trip_headsign")]
-                        .clone();
-                        if first_stop.arrival.is_some() {
-                            let arrival = first_stop.arrival.unwrap().time.unwrap();
-                            let formatted: chrono::DateTime<Local> =
-                                utilities::time_converter(arrival);
-                            println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
-                            println!("    arrives at {stop_name} at {formatted}");
-                        }
-                        if first_stop.departure.is_some() {
-                            let departure = first_stop.departure.unwrap().time.unwrap();
-                            let formatted: chrono::DateTime<Local> =
-                                utilities::time_converter(departure);
-                            println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
-                            println!("    departs from {stop_name} at {formatted}");
-                        }
-                    }
-                }
-            }
+            let entities = trips.entity;
+            let result = entities.into_iter().filter(|x| *x.trip_update.as_ref().unwrap().trip.route_id.as_ref().unwrap() == *number.to_owned());
+            let on_route = result.collect();
+            on_route
         }
 
-        pub async fn in_range(first: &str, last: &str, city: &str) {
-            // ---- STATIC DATA LAYER 1 ---- //
-            let static_trips: HashMap<String, Vec<String>> =
-                data::processing_layer_one::static_data(city, "trips");
-            let static_stops: HashMap<String, Vec<String>> =
-                data::processing_layer_one::static_data(city, "stops");
-
-            // ---- REALTIME DATA ---- //
-            // let buses = gtfsrt::requester(city, "vehicles").await;
+        pub async fn in_range(first: &str, last: &str, city: &str) -> Vec<FeedEntity> {
             let trips = gtfsrt::requester(city, "trips").await;
+            let entities = trips.entity;
+            let result = entities.into_iter().filter(|x| utilities::within_bounds(x.trip_update.as_ref().unwrap().vehicle.as_ref().unwrap().id.as_ref().unwrap(), first, last));
+            let on_route: Vec<FeedEntity> = result.collect();
 
-            for trip in trips.entity {
-                let unit: TripUpdate = trip.trip_update.unwrap();
-                let vehicle_id: String = unit.vehicle.unwrap().id.unwrap();
-                if utilities::within_bounds(vehicle_id.clone(), first, last) {
-                    let route: String = unit.trip.route_id.unwrap();
-                    let stop_time_update: Vec<StopTimeUpdate> = unit.stop_time_update;
-                    let first_stop: StopTimeUpdate = stop_time_update[0].clone();
-                    let stop_id: String = first_stop.stop_id.unwrap().clone();
-                    let static_stops_stop_id = &static_stops[&stop_id];
-                    let stop_name = static_stops_stop_id
-                        [gtfsstatic::bindings::stops(city, "stop_name")]
-                    .clone();
-                    let trip_id: String = unit.trip.trip_id.unwrap();
-                    let static_stops_trip_id = &static_trips[&trip_id];
-                    let headsign = static_stops_trip_id
-                        [gtfsstatic::bindings::trips(city, "trip_headsign")]
-                    .clone();
-                    if first_stop.arrival.is_some() {
-                        let arrival = first_stop.arrival.unwrap().time.unwrap();
-                        let formatted: chrono::DateTime<Local> = utilities::time_converter(arrival);
-                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
-                        println!("    arrives at {stop_name} at {formatted}");
-                    }
-                    if first_stop.departure.is_some() {
-                        let departure = first_stop.departure.unwrap().time.unwrap();
-                        let formatted: chrono::DateTime<Local> =
-                            utilities::time_converter(departure);
-                        println!("\x1B[41m {route} \x1b[43m {vehicle_id} \x1b[44m {headsign} is in transit to {stop_name} \x1b[0m");
-                        println!("    departs from {stop_name} at {formatted}");
-                    }
-                }
-            }
+            on_route
         }
     }
 
@@ -485,7 +410,7 @@ mod utilities {
         conv
     }
 
-    pub fn within_bounds(input: String, left: &str, right: &str) -> bool {
+    pub fn within_bounds(input: &String, left: &str, right: &str) -> bool {
         for int in string_to_int(left.to_string())..string_to_int(right.to_string()) + 1 {
             if int.to_string() == input {
                 return true;
