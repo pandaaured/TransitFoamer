@@ -82,21 +82,21 @@ async fn handle_range(args: Vec<String>, city_path: &str) {
             let pair: Vec<&str> = range.split('-').collect();
             let first = pair[0];
             let last = pair[1];
-            search::fetch::pittsburgh::in_range(first, last, city_path).await;
+            search::fetch::any_city::in_range(first, last, city_path).await;
         }
     } else if city_path == "/san_antonio/via/" {
         for range in items {
             let pair: Vec<&str> = range.split('-').collect();
             let first = pair[0];
             let last = pair[1];
-            search::fetch::san_antonio::in_range_vdata(first, last, city_path).await;
+            // search::fetch::any_city::in_range_vdata(first, last, city_path).await;
         }
     } else {
         for range in items {
             let pair: Vec<&str> = range.split('-').collect();
             let first = pair[0];
             let last = pair[1];
-            search::fetch::any_city::in_range(first, last, city_path).await;
+            // search::fetch::any_city::in_range(first, last, city_path).await;
         }
     }
 }
@@ -105,11 +105,11 @@ async fn handle_route(args: Vec<String>, city_path: &str) {
     let routes: Vec<&str> = args[3].split(',').collect();
     if city_path == "/pittsburgh/prt/" {
         for route in routes {
-            search::fetch::pittsburgh::on_route(route, city_path).await;
+            search::fetch::any_city::on_route(route, city_path).await;
         }
     } else if city_path == "/san_antonio/via/" {
         for route in routes {
-            search::fetch::san_antonio::on_route_vdata(route, city_path).await;
+            // search::fetch::any_city::on_route_vdata(route, city_path).await;
         }
     } else {
         for route in routes {
@@ -123,7 +123,7 @@ async fn handle_stop(args: Vec<String>, city_path: &str) {
 
     if city_path == "/pittsburgh/prt/" {
         for stop in stops {
-            search::fetch::pittsburgh::at_stop(stop, city_path).await;
+            search::fetch::any_city::at_stop(stop, city_path).await;
         }
     } else if city_path == "/san_antonio/via/" {
         // for stop in stops {
