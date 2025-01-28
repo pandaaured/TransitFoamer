@@ -1,27 +1,26 @@
-use crate::{gtfsrt, gtfsstatic::data};
-use gtfs_realtime::{FeedMessage, trip_update::StopTimeUpdate, FeedEntity, TripUpdate};
+use gtfs_realtime::{FeedMessage, FeedEntity};
 
-pub async fn at_stop(stop: &str, city: &str, message: FeedMessage) {
-    let routes_per_stop = data::routes_per_stop(city);
-    let routes_to_check = routes_per_stop.get(stop).unwrap();
+// pub async fn at_stop(stop: &str, city: &str, message: FeedMessage) {
+    // let routes_per_stop = data::routes_per_stop(city);
+    // let routes_to_check = routes_per_stop.get(stop).unwrap();
 
-    // let trips = gtfsrt::requester(city, "trips").await;
+    // // let trips = gtfsrt::requester(city, "trips").await;
 
-    let entities = message.entity;
-    // let entities = trips.entity;
-    let result = entities.into_iter().filter(|x| {
-        routes_to_check.contains(
-            x.trip_update
-                .as_ref()
-                .unwrap()
-                .trip
-                .route_id
-                .as_ref()
-                .unwrap(),
-        )
-    });
-    println!("{:?}", result);
-}
+    // let entities = message.entity;
+    // // let entities = trips.entity;
+    // let result = entities.into_iter().filter(|x| {
+    //     routes_to_check.contains(
+    //         x.trip_update
+    //             .as_ref()
+    //             .unwrap()
+    //             .trip
+    //             .route_id
+    //             .as_ref()
+    //             .unwrap(),
+    //     )
+    // });
+    // println!("{:?}", result);
+// }
 
 pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
@@ -103,7 +102,7 @@ mod test {
     use super::*;
     use crate::search;
     use gtfs_realtime::*;
-    use gtfs_realtime::trip_update::*;
+    use gtfs_realtime::trip_update::StopTimeUpdate;
 
     #[test]
     fn on_route_filter_test() {
