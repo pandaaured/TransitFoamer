@@ -82,7 +82,7 @@ async fn handle_range(args: Vec<String>, city_path: &str) {
             let pair: Vec<&str> = range.split('-').collect();
             let first = pair[0];
             let last = pair[1];
-            search::fetch::any_city::in_range(first, last, city_path).await;
+            // search::in_range(first, last, ).await;
         }
     } else if city_path == "/san_antonio/via/" {
         for range in items {
@@ -105,7 +105,7 @@ async fn handle_route(args: Vec<String>, city_path: &str) {
     let routes: Vec<&str> = args[3].split(',').collect();
     if city_path == "/pittsburgh/prt/" {
         for route in routes {
-            search::fetch::any_city::on_route(route, city_path).await;
+            // search::fetch::any_city::on_route(route, city_path).await;
         }
     } else if city_path == "/san_antonio/via/" {
         for route in routes {
@@ -113,7 +113,7 @@ async fn handle_route(args: Vec<String>, city_path: &str) {
         }
     } else {
         for route in routes {
-            search::fetch::any_city::on_route(route, city_path).await;
+            // search::fetch::any_city::on_route(route, city_path).await;
         }
     }
 }
@@ -123,7 +123,7 @@ async fn handle_stop(args: Vec<String>, city_path: &str) {
 
     if city_path == "/pittsburgh/prt/" {
         for stop in stops {
-            search::fetch::any_city::at_stop(stop, city_path).await;
+            // search::fetch::any_city::at_stop(stop, city_path).await;
         }
     } else if city_path == "/san_antonio/via/" {
         for stop in stops {
@@ -131,7 +131,7 @@ async fn handle_stop(args: Vec<String>, city_path: &str) {
         }
     } else {
         for stop in stops {
-            search::fetch::any_city::at_stop(stop, city_path).await;
+            // search::fetch::any_city::at_stop(stop, city_path).await;
         }
     }
 }
