@@ -22,43 +22,6 @@ use gtfs_realtime::{FeedEntity, FeedMessage};
 // println!("{:?}", result);
 // }
 
-pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
-    let entities = message.entity;
-    let result = entities.into_iter().filter(|x| {
-        if x.trip_update.is_some() {
-            // Check if the entity has TripUpdate.
-            *x.trip_update
-                .as_ref()
-                .unwrap()
-                .trip
-                .route_id
-                .as_ref()
-                .unwrap()
-                == *number.to_owned()
-        } else {
-            // Now check for a VehiclePosition, as message isn't TripUpdate
-            *x.vehicle
-                .as_ref()
-                .unwrap()
-                .trip
-                .as_ref()
-                .unwrap()
-                .route_id
-                .as_ref()
-                .unwrap()
-                == *number.to_owned()
-        }
-    });
-    let on_route = result.collect();
-
-    let message_filtered = FeedMessage {
-        header: message.header,
-        entity: on_route,
-    };
-
-    message_filtered
-}
-
 pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
@@ -76,7 +39,7 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
                 first,
                 last,
             )
-        } else { // Now check for a TripUpdate.
+        } else if x.trip_update.is_some() { // Now check for a TripUpdate.
             utilities::within_bounds(
                 x.trip_update
                     .as_ref()
@@ -90,6 +53,8 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
                 first,
                 last,
             )
+        } else {
+            x == x // If neither is_some, then just return the list.
         }
     });
     let in_range: Vec<FeedEntity> = result.collect();
@@ -97,6 +62,45 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
     let message_filtered = FeedMessage {
         header: message.header,
         entity: in_range,
+    };
+
+    message_filtered
+}
+
+pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
+    let entities = message.entity;
+    let result = entities.into_iter().filter(|x| {
+        if x.trip_update.is_some() {
+            // Check if the entity has TripUpdate.
+            *x.trip_update
+                .as_ref()
+                .unwrap()
+                .trip
+                .route_id
+                .as_ref()
+                .unwrap()
+                == *number.to_owned()
+        } else if x.vehicle.is_some() {
+            // Now check for a VehiclePosition, as message isn't TripUpdate
+            *x.vehicle
+                .as_ref()
+                .unwrap()
+                .trip
+                .as_ref()
+                .unwrap()
+                .route_id
+                .as_ref()
+                .unwrap()
+                == *number.to_owned()
+        } else {
+            x == x // Just return the whole list if neither is contained.
+        }
+    });
+    let on_route = result.collect();
+
+    let message_filtered = FeedMessage {
+        header: message.header,
+        entity: on_route,
     };
 
     message_filtered
