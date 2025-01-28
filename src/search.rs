@@ -1,38 +1,53 @@
-use gtfs_realtime::{FeedMessage, FeedEntity};
+use gtfs_realtime::{FeedEntity, FeedMessage};
 
 // pub async fn at_stop(stop: &str, city: &str, message: FeedMessage) {
-    // let routes_per_stop = data::routes_per_stop(city);
-    // let routes_to_check = routes_per_stop.get(stop).unwrap();
+// let routes_per_stop = data::routes_per_stop(city);
+// let routes_to_check = routes_per_stop.get(stop).unwrap();
 
-    // // let trips = gtfsrt::requester(city, "trips").await;
+// // let trips = gtfsrt::requester(city, "trips").await;
 
-    // let entities = message.entity;
-    // // let entities = trips.entity;
-    // let result = entities.into_iter().filter(|x| {
-    //     routes_to_check.contains(
-    //         x.trip_update
-    //             .as_ref()
-    //             .unwrap()
-    //             .trip
-    //             .route_id
-    //             .as_ref()
-    //             .unwrap(),
-    //     )
-    // });
-    // println!("{:?}", result);
+// let entities = message.entity;
+// // let entities = trips.entity;
+// let result = entities.into_iter().filter(|x| {
+//     routes_to_check.contains(
+//         x.trip_update
+//             .as_ref()
+//             .unwrap()
+//             .trip
+//             .route_id
+//             .as_ref()
+//             .unwrap(),
+//     )
+// });
+// println!("{:?}", result);
 // }
 
 pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
-        *x.trip_update
-            .as_ref()
-            .unwrap()
-            .trip
-            .route_id
-            .as_ref()
-            .unwrap()
-            == *number.to_owned()
+        if x.trip_update.is_some() {
+            // Check if the entity has TripUpdate.
+            *x.trip_update
+                .as_ref()
+                .unwrap()
+                .trip
+                .route_id
+                .as_ref()
+                .unwrap()
+                == *number.to_owned()
+        } else {
+            // Now check for a VehiclePosition, as message isn't TripUpdate
+            *x.vehicle
+                .as_ref()
+                .unwrap()
+                .trip
+                .as_ref()
+                .unwrap()
+                .route_id
+                .as_ref()
+                .unwrap()
+                == *number.to_owned()
+        }
     });
     let on_route = result.collect();
 
@@ -40,26 +55,42 @@ pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
         header: message.header,
         entity: on_route,
     };
-    
+
     message_filtered
 }
 
 pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
-        utilities::within_bounds(
-            x.trip_update
-                .as_ref()
-                .unwrap()
-                .vehicle
-                .as_ref()
-                .unwrap()
-                .id
-                .as_ref()
-                .unwrap(),
-            first,
-            last,
-        )
+        if x.vehicle.is_some() { // First check for a VehiclePosition
+            utilities::within_bounds(
+                x.vehicle
+                    .as_ref()
+                    .unwrap()
+                    .vehicle
+                    .as_ref()
+                    .unwrap()
+                    .id
+                    .as_ref()
+                    .unwrap(),
+                first,
+                last,
+            )
+        } else { // Now check for a TripUpdate.
+            utilities::within_bounds(
+                x.trip_update
+                    .as_ref()
+                    .unwrap()
+                    .vehicle
+                    .as_ref()
+                    .unwrap()
+                    .id
+                    .as_ref()
+                    .unwrap(),
+                first,
+                last,
+            )
+        }
     });
     let in_range: Vec<FeedEntity> = result.collect();
 
@@ -67,13 +98,12 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
         header: message.header,
         entity: in_range,
     };
-    
+
     message_filtered
 }
 
-
 mod utilities {
-    use chrono::{Local, TimeZone};
+    // use chrono::{Local, TimeZone};
 
     fn string_to_int(input: String) -> i64 {
         let conv: i64 = input.parse().expect("Converted to integer");
@@ -89,10 +119,10 @@ mod utilities {
         false
     }
 
-    pub fn time_converter(input: i64) -> chrono::DateTime<Local> {
-        let date_time: chrono::DateTime<Local> = Local.timestamp_opt(input, 0).unwrap();
-        date_time
-    }
+    // pub fn time_converter(input: i64) -> chrono::DateTime<Local> {
+    //     let date_time: chrono::DateTime<Local> = Local.timestamp_opt(input, 0).unwrap();
+    //     date_time
+    // }
 }
 
 // -------- END MODULE CODE -------- //
@@ -101,18 +131,18 @@ mod utilities {
 mod test {
     use super::*;
     use crate::search;
-    use gtfs_realtime::*;
     use gtfs_realtime::trip_update::StopTimeUpdate;
+    use gtfs_realtime::*;
 
     #[test]
     fn on_route_filter_test() {
-        // This test has two FeedEntity objects, one matches our condition. 
+        // This test has two FeedEntity objects, one matches our condition.
         // Goal: Want to show that on_route removes the object not matching our
         // constraints and that the result only returns objects which meet
         // our conditions.
 
-        // Entity one of our test FeedMessage. 
-        let trip_descriptor_one  = TripDescriptor {
+        // Entity one of our test FeedMessage.
+        let trip_descriptor_one = TripDescriptor {
             trip_id: None,
             route_id: Some("61C".to_string()),
             direction_id: Some(1),
@@ -156,7 +186,7 @@ mod test {
         };
 
         // Entity two of our test FeedMessage. Has a different route.
-        let trip_descriptor_two  = TripDescriptor {
+        let trip_descriptor_two = TripDescriptor {
             trip_id: None,
             route_id: Some("61D".to_string()),
             direction_id: Some(1),
@@ -214,7 +244,7 @@ mod test {
             entity: vec_entity,
         };
 
-        let route= "61C";
+        let route = "61C";
         let on_route_message = search::on_route(route, message.clone());
         assert!(message.entity.len() == 2);
         assert!(on_route_message.entity.len() == 1);
@@ -223,18 +253,18 @@ mod test {
             assert!(i.trip_update.unwrap().trip.route_id.unwrap() == route);
         }
 
-        // This test takes a FeedMessage and tests whether filtering it will 
+        // This test takes a FeedMessage and tests whether filtering it will
         // remove an element with a route that is not the input.
     }
 
     #[test]
     fn in_range_filter_test() {
-        // This test has two FeedEntity objects, one matches our condition. 
+        // This test has two FeedEntity objects, one matches our condition.
         // Goal: Want to show that on_route removes the object not matching our
         // constraints and that the result only returns objects which meet
         // our conditions.
-        // Entity one of our test FeedMessage. 
-        let trip_descriptor_one  = TripDescriptor {
+        // Entity one of our test FeedMessage.
+        let trip_descriptor_one = TripDescriptor {
             trip_id: None,
             route_id: Some("61C".to_string()),
             direction_id: Some(1),
@@ -285,7 +315,7 @@ mod test {
         };
 
         // Entity two of our test FeedMessage. Has a different route.
-        let trip_descriptor_two  = TripDescriptor {
+        let trip_descriptor_two = TripDescriptor {
             trip_id: None,
             route_id: Some("61D".to_string()),
             direction_id: Some(1),
@@ -350,7 +380,7 @@ mod test {
             entity: vec_entity,
         };
 
-        let low= "3400";
+        let low = "3400";
         let high = "3425";
         let on_route_message = search::in_range(low, high, message.clone());
         assert!(message.entity.len() == 2);

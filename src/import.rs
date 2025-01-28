@@ -71,7 +71,7 @@ async fn handle_things(function: &str, args: Vec<String>, city_path: &str) {
     } else if function == "stop" {
         handle_stop(args, city_path).await;
     } else if function == "routes" {
-    //     handle_routes(city_path).await;
+        //     handle_routes(city_path).await;
     }
 }
 
