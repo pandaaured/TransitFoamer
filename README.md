@@ -2,6 +2,8 @@
 
 ## Disclaimer
 
+THIS PROJECT IS NOT CURRENTLY WORKING. It is a long-term refactor project. 
+
 This project is my foray into making a large project in Rust and as such will 
 undoubtedly suffer from first-time user pitfalls. I have endeavored to replicate
 the behavior of my first major programming project (TransitFoamer) which was
