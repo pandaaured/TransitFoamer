@@ -22,6 +22,8 @@ use gtfs_realtime::{FeedEntity, FeedMessage};
 // println!("{:?}", result);
 // }
 
+/// Given a FeedMessage and a range of vehicle IDs, returns a FeedMessage 
+/// containing only FeedEntities within that range.
 pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
@@ -67,6 +69,8 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
     message_filtered
 }
 
+/// Given a FeedMessage and a route_id, returns a FeedMessage 
+/// containing only FeedEntities running on that route.
 pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {

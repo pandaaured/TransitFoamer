@@ -4,12 +4,12 @@ use std::{fs, str::Lines};
 // -------- BEGIN MODULE CODE -------- //
 
 pub async fn data(args: Vec<String>) {
-    let import: String =
-        fs::read_to_string("src/static/index.txt").expect("Should have been able to read file");
-    handle_args(import, args).await;
+    let import: String = fs::read_to_string("src/static/index.txt")
+                         .expect("Should have been able to read file");
+    handle_args(import, args);
 }
 
-async fn handle_args(import: String, args: Vec<String>) {
+fn handle_args(import: String, args: Vec<String>) {
     // println!("{:?}", args);
     let import_lines = import.lines(); // Convert import and pass it as an argument.
 

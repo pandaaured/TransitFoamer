@@ -83,6 +83,8 @@ pub mod data {
             }
         }
 
+        println!("{:?}", routes_per_stop);
+
         routes_per_stop
     }
 
@@ -177,3 +179,17 @@ pub mod utils {
 }
 
 // -------- END MODULE CODE -------- //
+
+// -------- BEGIN MODULE TESTS -------- //
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use data::*;
+
+    #[test]
+    fn pittsburgh_trips_per_route_gtfs_structures() {
+        let bar = trips_per_route("/pittsburgh/prt/");
+        println!("{:?}", bar);
+    }
+}
