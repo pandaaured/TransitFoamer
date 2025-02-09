@@ -1,61 +1,68 @@
-use crate::{gtfsstatic, search};
-use std::{fs, str::Lines};
+// use crate::{gtfsstatic, search};
+// use std::{fs, str::Lines};
 
-// -------- BEGIN MODULE CODE -------- //
+// // -------- BEGIN MODULE CODE -------- //
 
-pub async fn data(args: Vec<String>) {
-    let import: String = fs::read_to_string("src/static/index.txt")
-                         .expect("Should have been able to read file");
-    handle_args(import, args);
-}
 
-fn handle_args(import: String, args: Vec<String>) {
-    let import_lines = import.lines(); // Convert import and pass it as an argument.
+// pub async fn data(args: Vec<String>) {
+//     let import: String = fs::read_to_string("src/static/index.txt")
+//                          .expect("Should have been able to read file");
+//     handle_args(import, args);
+// }
 
-    match args.len() {
-        1 => has_length_one(import_lines),
-        2 => has_length_two(import_lines, args),
-        3 => has_length_three(import_lines, args),
-        4 => has_length_four(import_lines, args),
-        _ => ()
-    }
-}
+// fn handle_args(import: String, args: Vec<String>) {
+//     // println!("{:?}", args);
+//     let import_lines = import.lines(); // Convert import and pass it as an argument.
 
-fn has_length_one(import_lines: Lines<'_>) {
-    // This is associated with no function (default)
-    for line in import_lines {
-        let values: Vec<&str> = line.split(',').collect();
-        let index = values[0]; //
-        let city = values[2];
-        println!("[{}] is {}.", index, city);
-    }
-}
+//     if args.len() == 1 {
+//         // If you use just cargo run, then it displays the list of cities.
+//         has_length_one(import_lines);
+//     } else if args.len() == 2 {
+//         has_length_two(import_lines, args);
+//     } else if args.len() == 3 {
+//         has_length_three(import_lines, args).await;
+//     } else if args.len() == 4 {
+//         has_length_four(import_lines, args).await;
+//     } else {
+//         panic! {"Argument number {} is invalid. Sorry!", args.len()};
+//     }
+// }
 
-fn has_length_two(_import: Lines<'_>, _args: Vec<String>) {
-    // This function will do something with just the city input in the future.
-}
+// fn has_length_one(import_lines: Lines<'_>) {
+//     // This is associated with no function (default)
+//     for line in import_lines {
+//         let values: Vec<&str> = line.split(',').collect();
+//         let index = values[0]; //
+//         let city = values[2];
+//         println!("[{}] is {}.", index, city);
+//     }
+// }
 
-fn has_length_three(import_lines: Lines<'_>, args: Vec<String>) {
-    for line in import_lines {
-        let values: Vec<&str> = line.split(',').collect();
-        if values[0] == args[1] {
-            let city_path: &str = values[1];
-            let function = &args[2];
-            // handle_things(function, args.clone(), city_path).await;
-        }
-    }
-}
+// fn has_length_two(_import: Lines<'_>, _args: Vec<String>) {
+//     // This function will do something with just the city input in the future.
+// }
 
-fn has_length_four(import_lines: Lines<'_>, args: Vec<String>) {
-    for line in import_lines {
-        let values: Vec<&str> = line.split(',').collect();
-        if values[0] == args[1] {
-            let city_path: &str = values[1];
-            let function = &args[2];
-            // handle_things(function, args.clone(), city_path).await;
-        }
-    }
-}
+// async fn has_length_three(import_lines: Lines<'_>, args: Vec<String>) {
+//     for line in import_lines {
+//         let values: Vec<&str> = line.split(',').collect();
+//         if values[0] == args[1] {
+//             let city_path: &str = values[1];
+//             let function = &args[2];
+//             handle_things(function, args.clone(), city_path).await;
+//         }
+//     }
+// }
+
+// async fn has_length_four(import_lines: Lines<'_>, args: Vec<String>) {
+//     for line in import_lines {
+//         let values: Vec<&str> = line.split(',').collect();
+//         if values[0] == args[1] {
+//             let city_path: &str = values[1];
+//             let function = &args[2];
+//             handle_things(function, args.clone(), city_path).await;
+//         }
+//     }
+// }
 
 // async fn handle_things(function: &str, args: Vec<String>, city_path: &str) {
 //     if function == "range" {
@@ -130,8 +137,8 @@ fn has_length_four(import_lines: Lines<'_>, args: Vec<String>) {
 //     }
 // }
 
-// async fn handle_routes(city_path: &str) {
-//     gtfsstatic::service::routes(city_path);
-// }
+// // async fn handle_routes(city_path: &str) {
+// //     gtfsstatic::service::routes(city_path);
+// // }
 
-// -------- END MODULE CODE -------- //
+// // -------- END MODULE CODE -------- //
