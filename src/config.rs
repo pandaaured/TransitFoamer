@@ -1,5 +1,4 @@
 use std::fs;
-use std::io;
 
 pub fn is_configured() -> bool {
     let config = fs::read_to_string("./config.txt");
@@ -19,7 +18,7 @@ pub fn is_configured() -> bool {
             }
         }
     }
-    
+
     false
 }
 
