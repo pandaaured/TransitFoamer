@@ -4,7 +4,6 @@
 which each agency uses to define their schedule statically.  */
 
 pub mod data {
-    use gtfs_structures::Gtfs;
     use std::collections::{HashMap, HashSet};
 
     pub fn trips_per_route(city: &str) -> HashMap<String, Vec<String>> {

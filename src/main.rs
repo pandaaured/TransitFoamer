@@ -9,7 +9,9 @@ pub mod search;
 #[tokio::main]
 async fn main() {
     let args: Vec<String> = env::args().collect();
-    import::data(args).await;
+
+
+    // import::data(args).await;
 }
 
 // -------- END PROGRAM CODE -------- //
