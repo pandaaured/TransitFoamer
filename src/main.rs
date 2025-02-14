@@ -1,6 +1,6 @@
 use std::{env, fs};
-pub mod gtfsrt;
-pub mod gtfsstatic;
+pub mod gtfs_realtime;
+pub mod gtfs_static;
 pub mod import;
 pub mod search;
 pub mod config;
@@ -17,15 +17,15 @@ async fn main() {
 
 }
 
-// -- TEMPORARILY IN MAIN, WILL BE RELOCATED -- //
+// -------- TEMPORARILY IN MAIN, WILL BE RELOCATED -------- //
 
 fn import_static() {
-    let mut path = fs::read_to_string("./config.txt").expect("foo");
-    path.push_str("stop_times.txt");
-    gtfsstatic::get_data(path);
+    let path = fs::read_to_string("./config.txt").expect("foo");
+    let bar = gtfs_static::get_data(path, "trips.txt");
+    println!("{:#?}", bar);
 }
 
 
-// -- END TEMPORARILY IN MAIN -- //
+// -------- END TEMPORARILY IN MAIN -------- //
 
 // -------- END PROGRAM CODE -------- //
