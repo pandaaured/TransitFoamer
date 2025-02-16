@@ -10,7 +10,8 @@ pub fn is_configured_static() -> bool {
             return false
         } else {
             let config = string.unwrap();
-            let arguments: Vec<&str> = config.split('\n').collect();
+            let arguments: Vec<&str> = config.split('\n')
+                                             .collect();
             let path = arguments.get(2).unwrap();
             if *path == "" {
                 println!("Unconfigured! Please run `cargo run -- config <foo>` to set a path for your GTFS static directory.");
@@ -24,13 +25,12 @@ pub fn is_configured_static() -> bool {
     false
 }
 
-pub fn is_configured_realtime() -> bool {
-    let config = fs::read_to_string("./config.txt").expect("File exists");
-    let lines = config.split('\n');
+// pub fn is_configured_realtime() -> bool {
+//     let config = fs::read_to_string("./config.txt").expect("File exists");
+//     let lines = config.split('\n');
 
-
-    true
-}
+//     true
+// }
 
 fn check_required_files(path: &str) -> bool {
     let dir = fs::read_dir(&path);

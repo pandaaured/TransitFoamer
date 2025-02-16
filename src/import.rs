@@ -3,7 +3,6 @@
 
 // // -------- BEGIN MODULE CODE -------- //
 
-
 // pub async fn data(args: Vec<String>) {
 //     let import: String = fs::read_to_string("src/static/index.txt")
 //                          .expect("Should have been able to read file");
