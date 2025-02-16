@@ -70,5 +70,4 @@ fn check_required_files(path: &str) -> bool {
         println!("Files agency.txt, routes.txt, trips.txt, stop_times.txt all found.");
         true
     }
-
 }

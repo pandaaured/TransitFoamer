@@ -1,7 +1,49 @@
-// use crate::{gtfsstatic, search};
-// use std::{fs, str::Lines};
+use crate::{gtfs_static, gtfs_rt};
+use std::fs;
+use gtfs_realtime::FeedMessage;
 
-// // -------- BEGIN MODULE CODE -------- //
+// -------- BEGIN MODULE CODE -------- //
+pub async fn import() {
+    let path: String = fs::read_to_string("./config.txt")
+                          .expect("foo");
+    let iter: Vec<&str> = path.split('\n').collect();
+    let static_path = iter.get(2)
+                                .unwrap()
+                                .to_string();
+    let realtime_path_vehicles = iter.get(3)
+                                            .unwrap()
+                                            .to_string();
+    let realtime_path_trips = iter.get(4)
+                                        .unwrap()
+                                        .to_string();
+    let realtime_path_alerts = iter.get(5)
+                                        .unwrap()
+                                        .to_string();
+    import_static(static_path);
+    let vehicles = import_realtime(realtime_path_vehicles).await;
+    let trips = import_realtime(realtime_path_trips).await;
+    let alerts = import_realtime(realtime_path_alerts).await;
+    println!("{:#?}", vehicles);
+    println!("{:#?}", trips);
+    println!("{:#?}", alerts);
+}
+
+fn import_static(file_path: String) {
+    let bar = gtfs_static::get_trips(file_path);
+    println!("{:#?}", bar);
+}
+
+async fn import_realtime(url: String) -> FeedMessage {
+    let message = gtfs_rt::requester(&url);
+    message.await
+}
+
+pub fn handle_arguments(arguments: Vec<String>) {
+    if arguments.len() == 1 {
+        println!("No commands run.");
+    } else if arguments.len() == 2 {
+    }
+}
 
 // pub async fn data(args: Vec<String>) {
 //     let import: String = fs::read_to_string("src/static/index.txt")
