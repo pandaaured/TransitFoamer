@@ -5,7 +5,7 @@ use std::{collections::HashMap, fs};
 /* This module deals with getting usable data out of the GTFS Static files
 which each agency uses to define their schedule statically.  */
 
-pub fn get_data(file_path: String, function: &str) -> GtfsStaticData {
+fn get_data(file_path: String, function: &str) -> GtfsStaticData {
     let mut static_data = GtfsStaticData::new();
     let mut path: String = file_path.clone();
     path.push_str(function);
@@ -16,12 +16,13 @@ pub fn get_data(file_path: String, function: &str) -> GtfsStaticData {
                        .expect("Should be valid.");
     let data: Vec<String> = read.split('\n').map(|s|s.to_string()).collect();
     let header: Vec<String> = read.clone().split('\n').map(|s|s.to_string()).collect();
+    let header = header.iter().nth(0).unwrap().split(',').map(|s|s.to_string()).collect();
 
     static_data.header = header;
 
     
     let key = get_key(function); // Assuming we're using 
-                                                       // a valid file name here
+                                                    // a valid file name here
     let key = key.unwrap();
    
 
@@ -51,6 +52,33 @@ pub fn get_data(file_path: String, function: &str) -> GtfsStaticData {
     static_data
 }
 
+pub fn get_agency(file_path: String) -> GtfsStaticData {
+    get_data(file_path, "agency.txt")
+}
+
+pub fn get_calendar(file_path: String) -> GtfsStaticData {
+    get_data(file_path, "calendar.txt")
+}
+
+pub fn get_calendar_dates(file_path: String) -> GtfsStaticData {
+    get_data(file_path, "calendar_dates.txt")
+}
+
+pub fn get_routes(file_path: String) -> GtfsStaticData {
+    get_data(file_path, "routes.txt")
+}
+
+pub fn get_stops(file_path: String) -> GtfsStaticData {
+    get_data(file_path, "stops.txt")
+}
+
+pub fn get_stop_times(file_path: String) -> GtfsStaticData {
+    get_data(file_path, "stop_times.txt")
+}
+
+pub fn get_trips(file_path: String) -> GtfsStaticData {
+    get_data(file_path, "trips.txt")
+}
 
 // use std::collections::{HashMap, HashSet};
 // use crate::gtfs_static;
@@ -210,13 +238,26 @@ impl GtfsStaticData {
     
     fn index(&self, key: String) -> usize {
         let header = &self.header;
+        println!("{:?}", header);
         let index = header.iter()
                                  .position(|x| *x == key)
                                  .unwrap();
 
         index
     }
+
+    fn iter(&self) {
+        let iter_keys: Vec<&Key> = self.data.keys().collect();
+
+    }
+
+    fn get_data_row(&self, key: Key) -> Vec<String> {
+        let row: Vec<String> = self.data.get(&key).unwrap().to_owned();
+        row
+    }
+
 }
+
 
 #[derive(Eq, Hash, PartialEq, Debug)]
 pub enum Key {
@@ -255,9 +296,4 @@ impl Key {
 //         *self
 //     }
 // }
-// -------- END MODULE STRUCTS -------- //
-
-// -------- BEGIN MODULE STRUCT TESTS -------- //
-
-// -------- END MODULE STRUCT TESTS -------- //
 

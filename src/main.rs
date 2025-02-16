@@ -9,7 +9,7 @@ pub mod config;
 
 #[tokio::main]
 async fn main() {
-    let configured: bool = config::is_configured();
+    let configured: bool = config::is_configured_static();
     if !configured { println!("Please complete setup to proceed."); }
     else { println!("Success!"); 
     let args: Vec<String> = env::args().collect();
@@ -21,7 +21,7 @@ async fn main() {
 
 fn import_static() {
     let path = fs::read_to_string("./config.txt").expect("foo");
-    let bar = gtfs_static::get_data(path, "trips.txt");
+    let bar = gtfs_static::get_trips(path);
     println!("{:#?}", bar);
 }
 

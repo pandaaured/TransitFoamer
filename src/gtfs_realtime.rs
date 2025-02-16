@@ -9,8 +9,7 @@ pub async fn requester(city: &str, function: &str) -> FeedMessage {
     let url = urls[function];
     let response: Response = reqwest::get(url).await.unwrap();
     let bytes = response.bytes().await.unwrap();
-    let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
-        prost::Message::decode(bytes.as_ref());
+    let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> = prost::Message::decode(bytes.as_ref());
     data.unwrap()
 }
 
