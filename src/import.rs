@@ -42,6 +42,7 @@ pub fn handle_arguments(arguments: Vec<String>) {
     if arguments.len() == 1 {
         println!("No commands run.");
     } else if arguments.len() == 2 {
+     
     }
 }
 

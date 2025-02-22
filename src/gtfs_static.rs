@@ -299,11 +299,3 @@ impl Key {
         }
     }
 }
-
-// impl Copy for Key { }
-
-// impl Clone for Key {
-//     fn clone(&self) -> Key {
-//         *self
-//     }
-// }
