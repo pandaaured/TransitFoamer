@@ -68,36 +68,36 @@ fn get_agency(file_path: String) -> Vec<Agency> {
 
     for line in data {
         let vec: Vec<String> = line.split(',').map(|s| s.to_string()).collect();
-        let id_index: Option<usize> = indices.get("id").unwrap().clone();
-        let name_index: usize = indices.get("name").unwrap().unwrap();
-        let url_index: usize = indices.get("url").unwrap().unwrap();
-        let timezone_index: usize = indices.get("timezone").unwrap().unwrap();
-        let lang_index: Option<usize> = indices.get("lang").unwrap().clone();
-        let phone_index: Option<usize> = indices.get("phone").unwrap().clone();
-        let fare_url_index: Option<usize> = indices.get("fare_url").unwrap().clone();
-        let email_index: Option<usize> = indices.get("email").unwrap().clone();
+        let a: Option<usize> = indices.get("id").unwrap().clone();
+        let b: usize = indices.get("name").unwrap().unwrap();
+        let c: usize = indices.get("url").unwrap().unwrap();
+        let d: usize = indices.get("timezone").unwrap().unwrap();
+        let e: Option<usize> = indices.get("lang").unwrap().clone();
+        let f: Option<usize> = indices.get("phone").unwrap().clone();
+        let g: Option<usize> = indices.get("fare_url").unwrap().clone();
+        let h: Option<usize> = indices.get("email").unwrap().clone();
 
         agency.push(Agency {
-            id: match id_index {
+            id: match a {
                 Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
                 None => None,
             },
-            name: vec.iter().nth(name_index).unwrap().to_owned(),
-            url: vec.iter().nth(url_index).unwrap().to_owned(),
-            timezone: vec.iter().nth(timezone_index).unwrap().to_owned(),
-            lang: match lang_index {
+            name: vec.iter().nth(b).unwrap().to_owned(),
+            url: vec.iter().nth(c).unwrap().to_owned(),
+            timezone: vec.iter().nth(d).unwrap().to_owned(),
+            lang: match e {
                 Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
                 None => None,
             },
-            phone: match phone_index {
+            phone: match f {
                 Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
                 None => None,
             },
-            fare_url: match fare_url_index {
+            fare_url: match g {
                 Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
                 None => None,
             },
-            email: match email_index {
+            email: match h {
                 Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
                 None => None,
             },
@@ -621,13 +621,29 @@ fn get_stoptimes(file_path: String) -> Vec<StopTimes> {
         header.iter().position(|x| *x == "drop_off_booking_rule_id".to_string()),
     );
 
-    let trip_id_index: usize = indices.get("trip_id").unwrap().unwrap();
-    let arrival_time_index: Option<usize> = indices.get("arrival_time").unwrap().to_owned();
-    let departure_time_index: Option<usize> = indices.get("departure_time").unwrap().to_owned();
-    let stop_id_index: Option<usize> = indices.get("stop_id").unwrap().to_owned();
-    let location_group_id_index: Option<usize> = indices.get("location_group_id").unwrap().to_owned();
-    let location_id_index: Option<usize> = indices.get("location_id").unwrap().to_owned();
-    let stop_sequence_index :Option<usize> = indices.get("stop_sequence").unwrap().to_owned();
+    let a: usize = indices.get("trip_id").unwrap().unwrap();
+    let b: Option<usize> = indices.get("arrival_time").unwrap().to_owned();
+    let c: Option<usize> = indices.get("departure_time").unwrap().to_owned();
+    let d: Option<usize> = indices.get("stop_id").unwrap().to_owned();
+    let e: Option<usize> = indices.get("location_group_id").unwrap().to_owned();
+    let f: Option<usize> = indices.get("location_id").unwrap().to_owned();
+    let g :Option<usize> = indices.get("stop_sequence").unwrap().to_owned();
+    let h :Option<usize> = indices.get("stop_headsign").unwrap().to_owned();
+    let i :Option<usize> = indices.get("start_pickup_dropoff_window").unwrap().to_owned();
+    let j :Option<usize> = indices.get("end_pickup_drop_off_window").unwrap().to_owned();
+    let k :Option<usize> = indices.get("pickup_type").unwrap().to_owned();
+    let l :Option<usize> = indices.get("dropoff_type").unwrap().to_owned();
+    let m :Option<usize> = indices.get("continuous_pickup").unwrap().to_owned();
+    let n :Option<usize> = indices.get("continuous_dropoff").unwrap().to_owned();
+    let o :Option<usize> = indices.get("shape_dist_traveled").unwrap().to_owned();
+    let p :Option<usize> = indices.get("timepoint").unwrap().to_owned();
+    let q :Option<usize> = indices.get("pickup_booking_rule_id").unwrap().to_owned();
+    let r :Option<usize> = indices.get("drop_off_booking_rule_id").unwrap().to_owned();
+
+    for line in data {
+        let vec: Vec<String> = line.split(',').map(|s| s.to_string()).collect();
+    }
+
 
     stoptimes
 }
@@ -770,7 +786,7 @@ struct StopTimes {
     stop_id: Option<String>,
     location_group_id: Option<String>,
     location_id: Option<String>,
-    stop_sequence: u32,
+    stop_sequence: String,
     stop_headsign: Option<String>,
     start_pickup_drop_off_window: Option<String>,
     end_pickup_drop_off_window: Option<String>,
