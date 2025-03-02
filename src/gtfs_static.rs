@@ -231,19 +231,20 @@ fn get_calendar(file_path: String) -> Vec<Calendar> {
     );
     println!("indices: {:?}", indices);
 
+    let service_id_index: usize = indices.get("service_id").unwrap().unwrap();
+    let monday_index: usize = indices.get("monday").unwrap().unwrap();
+    let tuesday_index: usize = indices.get("tuesday").unwrap().unwrap();
+    let wednesday_index: usize = indices.get("wednesday").unwrap().unwrap();
+    let thursday_index: usize = indices.get("thursday").unwrap().unwrap();
+    let friday_index: usize = indices.get("friday").unwrap().unwrap();
+    let saturday_index: usize = indices.get("saturday").unwrap().unwrap();
+    let sunday_index: usize = indices.get("sunday").unwrap().unwrap();
+    let start_date_index: usize = indices.get("start_date").unwrap().unwrap();
+    let end_date_index: usize = indices.get("end_date").unwrap().unwrap();
+
     for line in data {
         let vec: Vec<String> = line.split(',').map(|s| s.to_string()).collect();
-        let service_id_index: usize = indices.get("service_id").unwrap().unwrap();
-        let monday_index: usize = indices.get("monday").unwrap().unwrap();
-        let tuesday_index: usize = indices.get("tuesday").unwrap().unwrap();
-        let wednesday_index: usize = indices.get("wednesday").unwrap().unwrap();
-        let thursday_index: usize = indices.get("thursday").unwrap().unwrap();
-        let friday_index: usize = indices.get("friday").unwrap().unwrap();
-        let saturday_index: usize = indices.get("saturday").unwrap().unwrap();
-        let sunday_index: usize = indices.get("sunday").unwrap().unwrap();
-        let start_date_index: usize = indices.get("start_date").unwrap().unwrap();
-        let end_date_index: usize = indices.get("end_date").unwrap().unwrap();
-
+        
         calendar.push(Calendar {
             service_id: vec.iter().nth(service_id_index).unwrap().to_owned(),
             monday: string_to_availableforall(vec.iter().nth(monday_index).unwrap().to_owned()),
@@ -350,24 +351,24 @@ fn get_routes(file_path: String) -> Vec<Routes> {
         header.iter().position(|x| *x == "network_id".to_string()),
     );
 
+    let route_id_index: usize = indices.get("route_id").unwrap().unwrap();
+    let agency_id_index: Option<usize> = indices.get("agency_id").unwrap().to_owned();
+    let short_name_index: Option<usize> = indices.get("short_name").unwrap().to_owned();
+    let long_name_index: Option<usize> = indices.get("long_name").unwrap().to_owned();
+    let desc_index: Option<usize> = indices.get("route_desc").unwrap().to_owned();
+    let type_index: usize = indices.get("route_type").unwrap().unwrap();
+    let url_index: Option<usize> = indices.get("route_url").unwrap().to_owned();
+    let color_index: Option<usize> = indices.get("route_color").unwrap().to_owned();
+    let text_color_index: Option<usize> = indices.get("route_text_color").unwrap().to_owned();
+    let sort_order_index: Option<usize> = indices.get("route_sort_order").unwrap().to_owned();
+    let continuous_pickup_index: Option<usize> =
+        indices.get("continuous_pickup").unwrap().to_owned();
+    let continuous_dropoff_index: Option<usize> =
+        indices.get("continuous_drop_off").unwrap().to_owned();
+    let network_id_index: Option<usize> = indices.get("network_id").unwrap().to_owned();
+
     for line in data {
         let vec: Vec<String> = line.split(',').map(|s| s.to_string()).collect();
-        let route_id_index: usize = indices.get("route_id").unwrap().unwrap();
-        let agency_id_index: Option<usize> = indices.get("agency_id").unwrap().to_owned();
-        let short_name_index: Option<usize> = indices.get("short_name").unwrap().to_owned();
-        let long_name_index: Option<usize> = indices.get("long_name").unwrap().to_owned();
-        let desc_index: Option<usize> = indices.get("route_desc").unwrap().clone();
-        let type_index: usize = indices.get("route_type").unwrap().unwrap();
-        let url_index: Option<usize> = indices.get("route_url").unwrap().clone();
-        let color_index: Option<usize> = indices.get("route_color").unwrap().clone();
-        let text_color_index: Option<usize> = indices.get("route_text_color").unwrap().clone();
-        let sort_order_index: Option<usize> = indices.get("route_sort_order").unwrap().clone();
-        let continuous_pickup_index: Option<usize> =
-            indices.get("continuous_pickup").unwrap().clone();
-        let continuous_dropoff_index: Option<usize> =
-            indices.get("continuous_drop_off").unwrap().clone();
-        let network_id_index: Option<usize> = indices.get("network_id").unwrap().clone();
-
         routes.push(Routes {
             route_id: vec.iter().nth(route_id_index).unwrap().to_owned(),
             agency_id: match agency_id_index {
@@ -422,6 +423,213 @@ fn get_routes(file_path: String) -> Vec<Routes> {
         })
     }
     routes
+}
+
+fn get_stops(file_path: String) -> Vec<Stops> {
+    let mut stops: Vec<Stops> = Vec::new(); // Initializes the mutable data.
+
+    let mut path: String = file_path.clone(); // Getting the file path and
+    path.push_str("routes.txt");
+    let read: Result<String, Error> = fs::read_to_string(path);
+
+    let read = match read {
+        Ok(string) => string,
+        Err(_) => panic!("Sorry, that wasn't a valid path."),
+    };
+
+    let data: Vec<String> = read.split('\n').map(|s| s.to_string()).collect();
+    let header: Vec<String> = read.clone().split('\n').map(|s| s.to_string()).collect();
+    let header: Vec<String> = header
+        .iter()
+        .nth(0)
+        .unwrap()
+        .split(',')
+        .map(|s| s.to_string())
+        .collect();
+
+    let mut indices: HashMap<&str, Option<usize>> = HashMap::new(); 
+
+    indices.insert(
+        "id",
+        header.iter().position(|x| *x == "stop_id".to_string()),
+    );
+    indices.insert(
+        "code",
+        header.iter().position(|x| *x == "stop_code".to_string()),
+    );
+    indices.insert(
+        "name",
+        header
+            .iter()
+            .position(|x| *x == "stop_name".to_string()),
+    );
+    indices.insert(
+        "tts_name",
+        header
+            .iter()
+            .position(|x| *x == "stop_tts_name".to_string()),
+    );
+    indices.insert(
+        "desc",
+        header.iter().position(|x| *x == "stop_desc".to_string()),
+    );
+    indices.insert(
+        "lat",
+        header.iter().position(|x| *x == "stop_lat".to_string()),
+    );
+    indices.insert(
+        "lon",
+        header.iter().position(|x| *x == "stop_lon".to_string()),
+    );
+    
+    let id_index: usize = indices.get("id").unwrap().unwrap();
+    let code_index: Option<usize> = indices.get("code").unwrap().to_owned();
+    let name_index: Option<usize> = indices.get("name").unwrap().to_owned();
+    let tts_name_index: Option<usize> = indices.get("tts_name").unwrap().to_owned();
+    let desc_index: Option<usize> = indices.get("desc").unwrap().to_owned();
+    let lat_index: Option<usize> = indices.get("lat").unwrap().to_owned();
+    let lon_index:Option<usize> = indices.get("lon").unwrap().to_owned();
+
+    for line in data {
+        let vec: Vec<String> = line.split(',').map(|s| s.to_string()).collect();
+        stops.push(Stops {
+            id: vec.iter().nth(id_index).unwrap().to_owned(),
+            code: match code_index { 
+                Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
+                None => None,
+            },
+            name: match name_index { 
+                Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
+                None => None,
+            },
+            tts_name: match tts_name_index { 
+                Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
+                None => None,
+            },
+            desc: match desc_index { 
+                Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
+                None => None,
+            },
+            lat: match lat_index { 
+                Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
+                None => None,
+            },
+            lon: match lon_index { 
+                Some(index) => Some(vec.iter().nth(index).unwrap().to_owned()),
+                None => None,
+            },
+        })
+    }
+
+    stops
+}
+
+fn get_stoptimes(file_path: String) -> Vec<StopTimes> {
+    let mut stoptimes: Vec<StopTimes> = Vec::new(); // Initializes the mutable data.
+
+    let mut path: String = file_path.clone(); // Getting the file path and
+    path.push_str("routes.txt");
+    let read: Result<String, Error> = fs::read_to_string(path);
+
+    let read = match read {
+        Ok(string) => string,
+        Err(_) => panic!("Sorry, that wasn't a valid path."),
+    };
+
+    let data: Vec<String> = read.split('\n').map(|s| s.to_string()).collect();
+    let header: Vec<String> = read.clone().split('\n').map(|s| s.to_string()).collect();
+    let header: Vec<String> = header
+        .iter()
+        .nth(0)
+        .unwrap()
+        .split(',')
+        .map(|s| s.to_string())
+        .collect();
+
+    let mut indices: HashMap<&str, Option<usize>> = HashMap::new();
+
+    indices.insert(
+        "trip_id",
+        header.iter().position(|x| *x == "trip_id".to_string()),
+    );
+    indices.insert(
+        "arrival_time",
+        header.iter().position(|x| *x == "arrival_time".to_string()),
+    );
+    indices.insert(
+        "departure_time",
+        header.iter().position(|x| *x == "departure_time".to_string()),
+    );
+    indices.insert(
+        "stop_id",
+        header.iter().position(|x| *x == "stop_id".to_string()),
+    );
+    indices.insert(
+        "location_group_id",
+        header.iter().position(|x| *x == "location_group_id".to_string()),
+    );
+    indices.insert(
+        "location_id",
+        header.iter().position(|x| *x == "location_id".to_string()),
+    );
+    indices.insert(
+        "stop_sequence",
+        header.iter().position(|x| *x == "stop_sequence".to_string()),
+    );
+    indices.insert(
+        "stop_headsign",
+        header.iter().position(|x| *x == "stop_headsign".to_string()),
+    );
+    indices.insert(
+        "start_pickup_drop_off_window",
+        header.iter().position(|x| *x == "start_pickup_drop_off_window".to_string()),
+    );
+    indices.insert(
+        "end_pickup_drop_off_window",
+        header.iter().position(|x| *x == "end_pickup_drop_off_window".to_string()),
+    );
+    indices.insert(
+        "pickup_type",
+        header.iter().position(|x| *x == "pickup_type".to_string()),
+    );
+    indices.insert(
+        "dropoff_type",
+        header.iter().position(|x| *x == "dropoff_type".to_string()),
+    );
+    indices.insert(
+        "continuous_pickup",
+        header.iter().position(|x| *x == "continuous_pickup".to_string()),
+    );
+    indices.insert(
+        "continuous_dropoff",
+        header.iter().position(|x| *x == "continuous_dropoff".to_string()),
+    );
+    indices.insert(
+        "shape_dist_traveled",
+        header.iter().position(|x| *x == "shape_dist_traveled".to_string()),
+    );
+    indices.insert(
+        "timepoint",
+        header.iter().position(|x| *x == "timepoint".to_string()),
+    );
+    indices.insert(
+        "pickup_booking_rule_id",
+        header.iter().position(|x| *x == "pickup_booking_rule_id".to_string()),
+    );
+    indices.insert(
+        "drop_off_booking_rule_id",
+        header.iter().position(|x| *x == "drop_off_booking_rule_id".to_string()),
+    );
+
+    let trip_id_index: usize = indices.get("trip_id").unwrap().unwrap();
+    let arrival_time_index: Option<usize> = indices.get("arrival_time").unwrap().to_owned();
+    let departure_time_index: Option<usize> = indices.get("departure_time").unwrap().to_owned();
+    let stop_id_index: Option<usize> = indices.get("stop_id").unwrap().to_owned();
+    let location_group_id_index: Option<usize> = indices.get("location_group_id").unwrap().to_owned();
+    let location_id_index: Option<usize> = indices.get("location_id").unwrap().to_owned();
+    let stop_sequence_index :Option<usize> = indices.get("stop_sequence").unwrap().to_owned();
+
+    stoptimes
 }
 
 fn string_to_availableforall(string: String) -> AvailableForall {
@@ -521,6 +729,22 @@ struct CalendarDates {
     exception_type: ExceptionType,
 }
 
+struct Routes {
+    route_id: String,
+    agency_id: Option<String>,
+    short_name: Option<String>,
+    long_name: Option<String>,
+    desc: Option<String>,
+    route_type: String,
+    url: Option<String>,
+    color: Option<String>,
+    text_color: Option<String>,
+    sort_order: Option<String>, // Change to u32 eventually.
+    continuous_pickup: Option<PickupType>,
+    continuous_dropoff: Option<DropoffType>,
+    network_id: Option<String>,
+}
+
 struct Shapes {
     id: String,
     pt_lat: String,
@@ -540,7 +764,7 @@ struct Stops {
 }
 
 struct StopTimes {
-    id: String,
+    trip_id: String,
     arrival_time: Option<String>,
     departure_time: Option<String>,
     stop_id: Option<String>,
@@ -554,26 +778,10 @@ struct StopTimes {
     dropoff_type: Option<DropoffType>,
     continuous_pickup: Option<PickupType>,
     continuous_dropoff: Option<DropoffType>,
-    shape_dist_traveled: Option<f32>,
+    shape_dist_traveled: Option<String>,
     timepoint: Option<Timepoint>,
     pickup_booking_rule_id: Option<String>,
     drop_off_booking_rule_id: Option<String>,
-}
-
-struct Routes {
-    route_id: String,
-    agency_id: Option<String>,
-    short_name: Option<String>,
-    long_name: Option<String>,
-    desc: Option<String>,
-    route_type: String,
-    url: Option<String>,
-    color: Option<String>,
-    text_color: Option<String>,
-    sort_order: Option<String>, // Change to u32 eventually.
-    continuous_pickup: Option<PickupType>,
-    continuous_dropoff: Option<DropoffType>,
-    network_id: Option<String>,
 }
 
 struct Trips {
@@ -675,7 +883,7 @@ mod test {
         let calendardates = get_calendardates(path.to_string());
         println!("{:?}", calendardates);
     }
-    
+
 }
 
 // -------- END TESTING CODE -------- //
