@@ -1,5 +1,5 @@
-use gtfs_realtime::FeedMessage; 
 use gtfs_realtime::FeedEntity;
+use gtfs_realtime::FeedMessage;
 use reqwest::Response;
 
 // -------- BEGIN MODULE CODE -------- //
@@ -66,7 +66,8 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
 pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
-        if x.trip_update.is_some() {      // Check if the entity has TripUpdate.
+        if x.trip_update.is_some() {
+            // Check if the entity has TripUpdate.
             *x.trip_update
                 .as_ref()
                 .unwrap()
