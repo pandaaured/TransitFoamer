@@ -8,3 +8,4 @@ static/
 index.html
 styles.css
 config.txt
+Cargo.lock
