@@ -1,3 +1,9 @@
+//! GTFS_RT
+//! 
+//! A library for fetching and analyzing GTFS Realtime data from a transit feed.
+//! Many of the functions contained within this module can be run with only 
+//! GTFS Realtime data URLs. 
+
 use gtfs_realtime::FeedEntity;
 use gtfs_realtime::FeedMessage;
 use reqwest::Response;

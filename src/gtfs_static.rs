@@ -1,7 +1,8 @@
 // -------- BEGIN MODULE CODE -------- //
 
-/* This module deals with getting usable data out of the GTFS Static files
-which each agency uses to define their schedule statically.  */
+//! GTFS_STATIC
+//! 
+//! A library for fetching and analyzing GTFS Static data from a transit feed.
 
 pub mod get {
     use crate::gtfs_static::{{Agency, Calendar, CalendarDates, Routes, StopTimes, Stops, Trips},
@@ -270,8 +271,8 @@ pub mod get {
                     vec.iter().nth(saturday_index).unwrap().to_owned(),
                 ),
                 sunday: strconv::availableforall(vec.iter().nth(sunday_index).unwrap().to_owned()),
-                start_date: vec.iter().nth(start_date_index).unwrap().to_owned(),
-                end_date: vec.iter().nth(end_date_index).unwrap().to_owned(),
+                start_date: strconv::date(vec.iter().nth(start_date_index).unwrap().to_owned()),
+                end_date: strconv::date(vec.iter().nth(end_date_index).unwrap().to_owned()),
             })
         }
         calendar
@@ -898,10 +899,65 @@ pub mod get {
         trips
     }
 
+    
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn agency_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let agency = agency(path.to_string());
+        println!("{:?}", agency);
+    }
+
+    #[test]
+    fn calendar_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let calendar = calendar(path.to_string());
+        println!("{:?}", calendar);
+    }
+
+    #[test]
+    fn calendardates_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let calendardates = calendardates(path.to_string());
+        println!("{:?}", calendardates);
+    }
+
+    #[test]
+    fn routes_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let routes = routes(path.to_string());
+        println!("{:?}", routes);
+    }
+
+    #[test]
+    fn stops_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let stops = stops(path.to_string());
+        println!("{:?}", stops);
+    }
+
+    #[test]
+    fn stoptimes_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let stoptimes = stoptimes(path.to_string());
+        println!("{:?}", stoptimes);
+    }
+
+    #[test]
+    fn trips_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let trips = trips(path.to_string());
+        println!("{:?}", trips);
+    }
+}
+
     mod strconv {
         use crate::gtfs_static::{
             AvailableForall, Bikes, ContinuousDropoff, ContinuousPickup, Direction, DropoffType,
-            ExceptionType, PickupType, Wheelchair,
+            ExceptionType, PickupType, Wheelchair, Date
         };
     
         pub fn availableforall(string: String) -> AvailableForall {
@@ -933,7 +989,7 @@ pub mod get {
     
         pub fn dropofftype(string: String) -> DropoffType {
             if string == "1" {
-                return DropoffType::Zero;
+                return DropoffType::One;
             } else if string == "2" {
                 return DropoffType::Two;
             } else if string == "3" {
@@ -988,7 +1044,156 @@ pub mod get {
             }
             Bikes::Zero
         }
+
+        pub fn date(string: String) -> Date {
+            Date {
+                year: string[0..4].to_owned().parse::<i32>().unwrap(),
+                month: string[4..6].to_owned().parse::<i32>().unwrap(),
+                day: string[6..8].to_owned().parse::<i32>().unwrap(),
+            }
+        }
+
+        #[cfg(test)]
+        mod test {
+            use super::*;
+
+            #[test]
+            fn pickuptype_test() {
+                let str_one = "1";
+                let str_two = "2";
+                let str_zero = "0";
+                let str_three = "3";
+                let str_empty = "";
+                let str_ex = "\r";
+                assert!(pickuptype(str_one.to_string()) == PickupType::One);
+                assert!(pickuptype(str_two.to_string()) == PickupType::Two);
+                assert!(pickuptype(str_zero.to_string()) == PickupType::Zero);
+                assert!(pickuptype(str_three.to_string()) == PickupType::Three);
+                assert!(pickuptype(str_empty.to_string()) == PickupType::Zero);
+                assert!(pickuptype(str_ex.to_string()) == PickupType::Zero);
+            } 
+            
+            #[test]
+            fn dropofftype_test() {
+                let str_one = "1";
+                let str_two = "2";
+                let str_zero = "0";
+                let str_three = "3";
+                let str_empty = "";
+                let str_ex = "\r";
+                assert!(dropofftype(str_one.to_string()) == DropoffType::One);
+                assert!(dropofftype(str_two.to_string()) == DropoffType::Two);
+                assert!(dropofftype(str_zero.to_string()) == DropoffType::Zero);
+                assert!(dropofftype(str_three.to_string()) == DropoffType::Three);
+                assert!(dropofftype(str_empty.to_string()) == DropoffType::Zero);
+                assert!(dropofftype(str_ex.to_string()) == DropoffType::Zero);
+            } 
+            
+            #[test]
+            fn continuouspickup_test() {
+                let str_one = "1";
+                let str_two = "2";
+                let str_zero = "0";
+                let str_three = "3";
+                let str_empty = "";
+                let str_ex = "\r";
+                assert!(continuouspickup(str_one.to_string()) == ContinuousPickup::One);
+                assert!(continuouspickup(str_two.to_string()) == ContinuousPickup::Two);
+                assert!(continuouspickup(str_zero.to_string()) == ContinuousPickup::Zero);
+                assert!(continuouspickup(str_three.to_string()) == ContinuousPickup::Three);
+                assert!(continuouspickup(str_empty.to_string()) == ContinuousPickup::One);
+                assert!(continuouspickup(str_ex.to_string()) == ContinuousPickup::One);
+            }
+
+            #[test]
+            fn continuousdropoff_test() {
+                let str_one = "1";
+                let str_two = "2";
+                let str_zero = "0";
+                let str_three = "3";
+                let str_empty = "";
+                let str_ex = "\r";
+                assert!(continuousdropoff(str_one.to_string()) == ContinuousDropoff::One);
+                assert!(continuousdropoff(str_two.to_string()) == ContinuousDropoff::Two);
+                assert!(continuousdropoff(str_zero.to_string()) == ContinuousDropoff::Zero);
+                assert!(continuousdropoff(str_three.to_string()) == ContinuousDropoff::Three);
+                assert!(continuousdropoff(str_empty.to_string()) == ContinuousDropoff::One);
+                assert!(continuousdropoff(str_ex.to_string()) == ContinuousDropoff::One);
+            }
+
+            #[test]
+            fn direction_test() {
+                let str_one = "1";
+                let str_zero = "0";
+                let str_empty = "";
+                let str_ex = "\r";
+                assert!(direction(str_one.to_string()) == Direction::One);
+                assert!(direction(str_zero.to_string()) == Direction::Zero);
+                assert!(direction(str_empty.to_string()) == Direction::Zero);
+                assert!(direction(str_ex.to_string()) == Direction::Zero);
+            }
+
+            #[test]
+            fn wheelchair_test() {
+                let str_one = "1";
+                let str_two = "2";
+                let str_zero = "0";
+                let str_empty = "";
+                let str_ex = "\r";
+                assert!(wheelchair(str_one.to_string()) == Wheelchair::One);
+                assert!(wheelchair(str_two.to_string()) == Wheelchair::Two);
+                assert!(wheelchair(str_zero.to_string()) == Wheelchair::Zero);
+                assert!(wheelchair(str_empty.to_string()) == Wheelchair::Zero);
+                assert!(wheelchair(str_ex.to_string()) == Wheelchair::Zero);
+            }
+
+            #[test]
+            fn bikes_test() {
+                let str_one = "1";
+                let str_two = "2";
+                let str_zero = "0";
+                let str_empty = "";
+                let str_ex = "\r";
+                assert!(bikes(str_one.to_string()) == Bikes::One);
+                assert!(bikes(str_two.to_string()) == Bikes::Two);
+                assert!(bikes(str_zero.to_string()) == Bikes::Zero);
+                assert!(bikes(str_empty.to_string()) == Bikes::Zero);
+                assert!(bikes(str_ex.to_string()) == Bikes::Zero);
+            }
+
+            #[test]
+            fn dates_eq_test() {
+                let str_one = "99999999";
+                let date_test: Date = Date {
+                    year: 9999i32,
+                    month: 99i32,
+                    day: 99i32,
+                };
+                assert!(date(str_one.to_string())==date_test);
+                let str_two = "99999999\r";
+                assert!(date(str_two.to_string())==date_test);
+            }
+
+            #[test]
+            fn dates_ord_test() {
+                let date_one: Date = Date {
+                    year: 0000i32,
+                    month: 00i32,
+                    day: 00i32,
+                };
+
+                let date_two: Date = Date {
+                    year: 0000i32,
+                    month: 00i32,
+                    day: 1i32,
+                };
+                assert!(date_one < date_two);
+            }   
+
+        }
     }
+
+    
 
 }
 
@@ -1018,8 +1223,8 @@ pub struct Calendar {
     pub friday: AvailableForall,
     pub saturday: AvailableForall,
     pub sunday: AvailableForall,
-    pub start_date: String,
-    pub end_date: String,
+    pub start_date: Date,
+    pub end_date: Date,
 }
 
 #[derive(Debug)]
@@ -1103,7 +1308,7 @@ pub struct Trips {
 }
 
 // -------- END MODULE STRUCTS -------- //
-// -------- BEGIN MODULE ENUMS -------- //
+// -------- BEGIN MODULE ENUMS AND MISC STRUCTS -------- //
 
 #[derive(Debug)]
 pub enum AvailableForall {
@@ -1117,27 +1322,27 @@ pub enum ExceptionType {
     Two, // Service removed for the specified date.
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Direction {
     Zero,
     One,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Wheelchair {
     Zero, // No accessibility information for the trip.
     One,  // Vehicle cal accommodate at least one rider in a wheelchair.
     Two,  // No riders in wheelchairs can be accommodated on this trip.
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Bikes {
     Zero, // No vehicle information for this trip.
     One,  // Vehicles on this trip can accommodate at least one bicycle.
     Two,  // No bicycles are allowed on this trip.
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum PickupType {
     Zero,  // Regularly scheduled pickup (empty parses as this.)
     One,   // No pickup available
@@ -1145,7 +1350,7 @@ pub enum PickupType {
     Three, // Must coordinate with driver to arrange pickup.
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum DropoffType {
     Zero,  // Regularly scheduled dropoff (empty parses as this.)
     One,   // No dropoff available
@@ -1153,7 +1358,7 @@ pub enum DropoffType {
     Three, // Must coordinate with driver to arrange dropoff.
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ContinuousPickup {
     Zero,  // Continuous stopping pickup.
     One,   // No continuous stopping pickup (empty parses as this.)
@@ -1161,7 +1366,7 @@ pub enum ContinuousPickup {
     Three, // Must coordinate with driver to arrange continuous stopping pickup.
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ContinuousDropoff {
     Zero,  // Continuous stoppong dropoff.
     One,   // No continuous stopping dropoff (empty parses as this.)
@@ -1169,61 +1374,15 @@ pub enum ContinuousDropoff {
     Three, // Must coordinate with driver to arrange continuous stopping dropoff.
 }
 
+#[derive(Debug, PartialEq, PartialOrd)]
+pub struct Date {
+    year: i32,
+    month: i32,
+    day: i32,
+}
+
 // -------- END MODULE ENUMS -------- //
 // -------- BEGIN TESTING CODE -------- //
 
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn agency_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let agency = get::agency(path.to_string());
-        println!("{:?}", agency);
-    }
-
-    #[test]
-    fn calendar_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let calendar = get::calendar(path.to_string());
-        println!("{:?}", calendar);
-    }
-
-    #[test]
-    fn calendardates_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let calendardates = get::calendardates(path.to_string());
-        println!("{:?}", calendardates);
-    }
-
-    #[test]
-    fn routes_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let routes = get::routes(path.to_string());
-        println!("{:?}", routes);
-    }
-
-    #[test]
-    fn stops_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let stops = get::stops(path.to_string());
-        println!("{:?}", stops);
-    }
-
-    #[test]
-    fn stoptimes_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let stoptimes = get::stoptimes(path.to_string());
-        println!("{:?}", stoptimes);
-    }
-
-    #[test]
-    fn trips_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let trips = get::trips(path.to_string());
-        println!("{:?}", trips);
-    }
-}
 
 // -------- END TESTING CODE -------- //
