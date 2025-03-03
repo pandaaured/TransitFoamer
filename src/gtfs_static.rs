@@ -5,7 +5,7 @@ which each agency uses to define their schedule statically.  */
 
 pub mod get {
     use crate::gtfs_static::{{Agency, Calendar, CalendarDates, Routes, StopTimes, Stops, Trips},
-    strconv};
+    };
     
     use std::{
         io::Error,
@@ -897,105 +897,104 @@ pub mod get {
 
         trips
     }
-}
 
-pub mod strconv {
-    use crate::gtfs_static::{
-        AvailableForall, Bikes, ContinuousDropoff, ContinuousPickup, Direction, DropoffType,
-        ExceptionType, PickupType, Wheelchair,
-    };
-
-    pub fn availableforall(string: String) -> AvailableForall {
-        if string == "1".to_string() {
-            return AvailableForall::One;
+    mod strconv {
+        use crate::gtfs_static::{
+            AvailableForall, Bikes, ContinuousDropoff, ContinuousPickup, Direction, DropoffType,
+            ExceptionType, PickupType, Wheelchair,
+        };
+    
+        pub fn availableforall(string: String) -> AvailableForall {
+            if string == "1".to_string() {
+                return AvailableForall::One;
+            }
+            AvailableForall::Zero
         }
-        AvailableForall::Zero
+    
+        pub fn exceptiontype(string: String) -> ExceptionType {
+            if string == "1".to_string() || string == "1\r".to_string() {
+                return ExceptionType::One;
+            } else if string == "2".to_string() || string == "2\r".to_string() {
+                return ExceptionType::Two;
+            }
+            panic!("This data was unimplemented.");
+        }
+    
+        pub fn pickuptype(string: String) -> PickupType {
+            if string == "1" {
+                return PickupType::One;
+            } else if string == "2" {
+                return PickupType::Two;
+            } else if string == "3" {
+                return PickupType::Three;
+            }
+            PickupType::Zero
+        }
+    
+        pub fn dropofftype(string: String) -> DropoffType {
+            if string == "1" {
+                return DropoffType::Zero;
+            } else if string == "2" {
+                return DropoffType::Two;
+            } else if string == "3" {
+                return DropoffType::Three;
+            }
+            DropoffType::Zero
+        }
+    
+        pub fn continuouspickup(string: String) -> ContinuousPickup {
+            if string == "0" {
+                return ContinuousPickup::Zero;
+            } else if string == "2" {
+                return ContinuousPickup::Two;
+            } else if string == "3" {
+                return ContinuousPickup::Three;
+            }
+            ContinuousPickup::One
+        }
+    
+        pub fn continuousdropoff(string: String) -> ContinuousDropoff {
+            if string == "0" {
+                return ContinuousDropoff::Zero;
+            } else if string == "2" {
+                return ContinuousDropoff::Two;
+            } else if string == "3" {
+                return ContinuousDropoff::Three;
+            }
+            ContinuousDropoff::One
+        }
+    
+        pub fn direction(string: String) -> Direction {
+            if string == "1" {
+                return Direction::One;
+            }
+            Direction::Zero
+        }
+    
+        pub fn wheelchair(string: String) -> Wheelchair {
+            if string == "1" {
+                return Wheelchair::One;
+            } else if string == "2" {
+                return Wheelchair::Two;
+            }
+            Wheelchair::Zero
+        }
+    
+        pub fn bikes(string: String) -> Bikes {
+            if string == "1" {
+                return Bikes::One;
+            } else if string == "2" {
+                return Bikes::Two;
+            }
+            Bikes::Zero
+        }
     }
 
-    pub fn exceptiontype(string: String) -> ExceptionType {
-        if string == "1".to_string() || string == "1\r".to_string() {
-            return ExceptionType::One;
-        } else if string == "2".to_string() || string == "2\r".to_string() {
-            return ExceptionType::Two;
-        }
-        panic!("This data was unimplemented.");
-    }
-
-    pub fn pickuptype(string: String) -> PickupType {
-        if string == "1" {
-            return PickupType::One;
-        } else if string == "2" {
-            return PickupType::Two;
-        } else if string == "3" {
-            return PickupType::Three;
-        }
-        PickupType::Zero
-    }
-
-    pub fn dropofftype(string: String) -> DropoffType {
-        if string == "1" {
-            return DropoffType::Zero;
-        } else if string == "2" {
-            return DropoffType::Two;
-        } else if string == "3" {
-            return DropoffType::Three;
-        }
-        DropoffType::Zero
-    }
-
-    pub fn continuouspickup(string: String) -> ContinuousPickup {
-        if string == "0" {
-            return ContinuousPickup::Zero;
-        } else if string == "2" {
-            return ContinuousPickup::Two;
-        } else if string == "3" {
-            return ContinuousPickup::Three;
-        }
-        ContinuousPickup::One
-    }
-
-    pub fn continuousdropoff(string: String) -> ContinuousDropoff {
-        if string == "0" {
-            return ContinuousDropoff::Zero;
-        } else if string == "2" {
-            return ContinuousDropoff::Two;
-        } else if string == "3" {
-            return ContinuousDropoff::Three;
-        }
-        ContinuousDropoff::One
-    }
-
-    pub fn direction(string: String) -> Direction {
-        if string == "1" {
-            return Direction::One;
-        }
-        Direction::Zero
-    }
-
-    pub fn wheelchair(string: String) -> Wheelchair {
-        if string == "1" {
-            return Wheelchair::One;
-        } else if string == "2" {
-            return Wheelchair::Two;
-        }
-        Wheelchair::Zero
-    }
-
-    pub fn bikes(string: String) -> Bikes {
-        if string == "1" {
-            return Bikes::One;
-        } else if string == "2" {
-            return Bikes::Two;
-        }
-        Bikes::Zero
-    }
 }
 
 // -------- END MODULE DATA -------- //
 
 // -------- BEGIN MODULE STRUCTS -------- //
-
-// -- GTFS Static structs which specify all data in the feeds. -- //
 
 #[derive(Debug)]
 pub struct Agency {
@@ -1103,6 +1102,9 @@ pub struct Trips {
     pub bikes_allowed: Option<Bikes>,
 }
 
+// -------- END MODULE STRUCTS -------- //
+// -------- BEGIN MODULE ENUMS -------- //
+
 #[derive(Debug)]
 pub enum AvailableForall {
     Zero, // Not available for all.
@@ -1166,6 +1168,9 @@ pub enum ContinuousDropoff {
     Two,   // Must phone agency to arrange  continuous stopping dropoff.
     Three, // Must coordinate with driver to arrange continuous stopping dropoff.
 }
+
+// -------- END MODULE ENUMS -------- //
+// -------- BEGIN TESTING CODE -------- //
 
 #[cfg(test)]
 mod test {
