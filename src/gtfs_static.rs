@@ -1058,6 +1058,54 @@ mod test {
             use super::*;
 
             #[test]
+            fn availableforall_test() {
+                let str_zero = "0";
+                let str_one = "1";
+                let str_two = "2";
+                let str_ex = "\r";
+                assert!(availableforall(str_one.to_string()) == AvailableForall::One);
+                assert!(availableforall(str_two.to_string()) == AvailableForall::Zero);
+                assert!(availableforall(str_zero.to_string()) == AvailableForall::Zero);
+                assert!(availableforall(str_ex.to_string()) == AvailableForall::Zero);
+            } 
+
+            #[test]
+            fn exceptiontype_test_good() {
+                let str_one = "1";
+                let str_two = "2";
+                assert!(exceptiontype(str_one.to_string()) == ExceptionType::One);
+                assert!(exceptiontype(str_two.to_string()) == ExceptionType::Two);
+            } 
+
+            #[test]
+            #[should_panic]
+            fn exceptiontype_test_bad_one() {
+                let str_zero = "0";
+                exceptiontype(str_zero.to_string());
+            }
+
+            #[test]
+            #[should_panic]
+            fn exceptiontype_test_bad_two() {
+                let str_three = "3";
+                exceptiontype(str_three.to_string());
+            }
+
+            #[test]
+            #[should_panic]
+            fn exceptiontype_test_bad_three() {
+                let str_empty = "";
+                exceptiontype(str_empty.to_string());
+            }
+
+            #[test]
+            #[should_panic]
+            fn exceptiontype_test_bad_four() {
+                let str_ex = "\r";
+                exceptiontype(str_ex.to_string());
+            }
+
+            #[test]
             fn pickuptype_test() {
                 let str_one = "1";
                 let str_two = "2";
@@ -1310,13 +1358,13 @@ pub struct Trips {
 // -------- END MODULE STRUCTS -------- //
 // -------- BEGIN MODULE ENUMS AND MISC STRUCTS -------- //
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum AvailableForall {
     Zero, // Not available for all.
     One,  // Available for all.
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ExceptionType {
     One, // Service added for the specified date.
     Two, // Service removed for the specified date.
