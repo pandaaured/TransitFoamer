@@ -1,8 +1,8 @@
 //! GTFS_RT
-//! 
+//!
 //! A library for fetching and analyzing GTFS Realtime data from a transit feed.
-//! Many of the functions contained within this module can be run with only 
-//! GTFS Realtime data URLs. 
+//! Many of the functions contained within this module can be run with only
+//! GTFS Realtime data URLs.
 
 use gtfs_realtime::FeedEntity;
 use gtfs_realtime::FeedMessage;
@@ -54,17 +54,15 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
                 last,
             )
         } else {
-            x == x // If neither is_some, then just return the list.
+            true // If neither is_some, then just return the list.
         }
     });
     let in_range: Vec<FeedEntity> = result.collect();
 
-    let message_filtered = FeedMessage {
+    FeedMessage {
         header: message.header,
         entity: in_range,
-    };
-
-    message_filtered
+    }
 }
 
 /// Given a FeedMessage and a route_id, returns a FeedMessage
@@ -95,17 +93,15 @@ pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
                 .unwrap()
                 == *number.to_owned()
         } else {
-            x == x // Just return the whole list if neither is contained.
+            true // Just return the whole list if neither is contained.
         }
     });
     let on_route = result.collect();
 
-    let message_filtered = FeedMessage {
+    FeedMessage {
         header: message.header,
         entity: on_route,
-    };
-
-    message_filtered
+    }
 }
 
 mod utilities {
@@ -140,6 +136,12 @@ mod test {
     use super::*;
     use gtfs_realtime::trip_update::StopTimeUpdate;
     use gtfs_realtime::*;
+
+    // #[tokio::test]
+    // async fn prt_vehicles_test() {
+    //     let x = requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+    //     println!("{:#?}", x);
+    // }
 
     #[test]
     fn on_route_filter_test() {
