@@ -114,31 +114,6 @@
 // }
 
 
-pub fn get_key(file: &str) -> Option<Key> {
-    let key = match file {
-        "agency.txt" => Some(Key::One("agency_id".to_string())),
-        "stops.txt" => Some(Key::One("stop_id".to_string())),
-        "routes.txt" => Some(Key::One("route_id".to_string())),
-        "trips.txt" => Some(Key::One("trip_id".to_string())),
-        "stop_times.txt" => Some(Key::Two((
-            "trip_id".to_string(),
-            "stop_sequence".to_string(),
-        ))),
-        "calendar.txt" => Some(Key::One("service_id".to_string())),
-        "calendar_dates.txt" => Some(Key::Two(("service_id".to_string(), "date".to_string()))),
-        "fare_attributes.txt" => Some(Key::One("fare_id".to_string())),
-        "shapes.txt" => Some(Key::Two((
-            "shape_id".to_string(),
-            "shape_pt_sequence".to_string(),
-        ))),
-        "frequencies.txt" => Some(Key::Two(("trip_id".to_string(), "start_time".to_string()))),
-        _ => None,
-    };
-
-    key
-}
-
-
 // fn get_data(file_path: String, function: &str) -> GtfsStaticData {
 //     let mut static_data = GtfsStaticData::new();
 

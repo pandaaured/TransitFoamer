@@ -18,6 +18,33 @@ pub async fn requester(url: &str) -> FeedMessage {
     data.unwrap()
 }
 
+pub fn has_vehicleposition(message: FeedMessage) -> FeedMessage {
+    let filtered = message.entity.into_iter().filter(|x| x.vehicle.is_some());
+    FeedMessage {
+        header: message.header,
+        entity: filtered.collect(),
+    }
+}
+
+pub fn has_tripupdate(message: FeedMessage) -> FeedMessage {
+    let filtered = message
+        .entity
+        .into_iter()
+        .filter(|x| x.trip_update.is_some());
+    FeedMessage {
+        header: message.header,
+        entity: filtered.collect(),
+    }
+}
+
+pub fn has_alerts(message: FeedMessage) -> FeedMessage {
+    let filtered = message.entity.into_iter().filter(|x| x.alert.is_some());
+    FeedMessage {
+        header: message.header,
+        entity: filtered.collect(),
+    }
+}
+
 /// Given a FeedMessage and a first and last vehicle_id, returns a FeedMessage
 /// containing only FeedEntities running within these vehicle_ids.
 pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
@@ -137,11 +164,32 @@ mod test {
     use gtfs_realtime::trip_update::StopTimeUpdate;
     use gtfs_realtime::*;
 
-    // #[tokio::test]
-    // async fn prt_vehicles_test() {
-    //     let x = requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-    //     println!("{:#?}", x);
-    // }
+    #[tokio::test]
+    async fn prt_vehicles_test() {
+        let x = requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+        let r = in_range("6801", "6840", x);
+        println!("{:#?}", r);
+    }
+
+    #[tokio::test]
+    async fn prt_vehicles_test_two() {
+        let x = requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+        let r = in_range("7000", "7106", x);
+        println!("{:#?}", r);
+    }
+
+    #[tokio::test]
+    async fn prt_trips_test() {
+        let x = requester("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let r = in_range("6701", "6740", x);
+        println!("{:#?}", r);
+    }
+
+    #[tokio::test]
+    async fn prt_alerts_test() {
+        let x = requester("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
+        println!("{:#?}", x);
+    }
 
     #[test]
     fn on_route_filter_test() {
