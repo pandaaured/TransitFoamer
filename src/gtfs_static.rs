@@ -5,9 +5,6 @@
 //! A library for fetching and analyzing GTFS Static data from a transit feed.
 
 pub mod get {
-    use crate::gtfs_static::{StopTimes, Trips};
-    use std::collections::{HashMap, HashSet};
-
     pub mod vecs {
         use crate::gtfs_static::{
             Agency, Calendar, CalendarDates, Routes, StopTimes, Stops, Trips,
@@ -104,6 +101,60 @@ pub mod get {
 
             Ok(trips)
         }
+
+        #[cfg(test)]
+        mod test {
+            use super::*;
+    
+            #[test]
+            fn agency_prints() {
+                let path = "src/static/pittsburgh/prt/";
+                let agency = agency(path.to_string());
+                println!("{:?}", agency);
+            }
+    
+            #[test]
+            fn calendar_prints() {
+                let path = "src/static/pittsburgh/prt/";
+                let calendar = calendar(path.to_string());
+                println!("{:?}", calendar);
+            }
+    
+            #[test]
+            fn calendardates_prints() {
+                let path = "src/static/pittsburgh/prt/";
+                let calendardates = calendardates(path.to_string());
+                println!("{:?}", calendardates);
+            }
+    
+            #[test]
+            fn routes_prints() {
+                let path = "src/static/pittsburgh/prt/";
+                let routes = routes(path.to_string());
+                println!("{:?}", routes);
+            }
+    
+            #[test]
+            fn stops_prints() {
+                let path = "src/static/pittsburgh/prt/";
+                let stops = stops(path.to_string());
+                println!("{:?}", stops);
+            }
+    
+            #[test]
+            fn stoptimes_prints() {
+                let path = "src/static/pittsburgh/prt/";
+                let stoptimes = stoptimes(path.to_string());
+                // println!("{:?}", stoptimes);
+            }
+    
+            #[test]
+            fn trips_prints() {
+                let path = "src/static/pittsburgh/prt/";
+                let trips = trips(path.to_string());
+                println!("{:?}", trips);
+            }
+        }
     }
 
     pub mod hash {
@@ -187,132 +238,89 @@ pub mod get {
         }
     }
 
-    // Needs more proper testing.
-    pub fn trips_per_route(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
-        let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
-        for item in trip_data {
-            let route = item.route_id;
-            let trip = item.trip_id;
-            if trips_per_route.contains_key(&route) {
-                let mut vector = trips_per_route.remove(&route).unwrap();
-                vector.push(trip.clone());
-                trips_per_route.insert(route.clone(), vector.clone());
-            } else {
-                trips_per_route.insert(route, vec![trip]);
+    pub mod data {
+        use std::collections::{HashMap, HashSet};
+        use crate::gtfs_static::{StopTimes, Trips};
+
+        pub fn trips_per_route(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
+            let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
+            for item in trip_data {
+                let route = item.route_id;
+                let trip = item.trip_id;
+                if trips_per_route.contains_key(&route) {
+                    let mut vector = trips_per_route.remove(&route).unwrap();
+                    vector.push(trip.clone());
+                    trips_per_route.insert(route.clone(), vector.clone());
+                } else {
+                    trips_per_route.insert(route, vec![trip]);
+                }
             }
+
+            trips_per_route
         }
 
-        trips_per_route
-    }
+        // Needs more proper testing.
+        pub fn stops_per_trip(stop_times_data: Vec<StopTimes>) -> HashMap<String, Vec<String>> {
+            let mut stops_per_trip: HashMap<String, Vec<String>> = HashMap::new();
 
-    // Needs more proper testing.
-    pub fn stops_per_trip(stop_times_data: Vec<StopTimes>) -> HashMap<String, Vec<String>> {
-        let mut stops_per_trip: HashMap<String, Vec<String>> = HashMap::new();
-
-        for item in stop_times_data {
-            let trip_id = item.trip_id;
-            if stops_per_trip.contains_key(&trip_id.clone()) {
-                let stop_id = item.stop_id.unwrap();
-                let mut vector = stops_per_trip[&trip_id.clone()].clone();
-                vector.push(stop_id.clone());
-                stops_per_trip.insert(trip_id.clone(), vector.clone());
-            } else {
-                let stop_id = item.stop_id.unwrap();
-                stops_per_trip.insert(trip_id.clone(), vec![stop_id.clone()]);
+            for item in stop_times_data {
+                let trip_id = item.trip_id;
+                if stops_per_trip.contains_key(&trip_id.clone()) {
+                    let stop_id = item.stop_id.unwrap();
+                    let mut vector = stops_per_trip[&trip_id.clone()].clone();
+                    vector.push(stop_id.clone());
+                    stops_per_trip.insert(trip_id.clone(), vector.clone());
+                } else {
+                    let stop_id = item.stop_id.unwrap();
+                    stops_per_trip.insert(trip_id.clone(), vec![stop_id.clone()]);
+                }
             }
+
+            stops_per_trip
         }
 
-        stops_per_trip
-    }
+        // Needs more proper testing.
+        pub fn routes_per_stop(
+            trips_per_route: HashMap<String, Vec<String>>,
+            stops_per_trip: HashMap<String, Vec<String>>,
+        ) -> HashMap<String, HashSet<String>> {
+            let mut routes_per_stop: HashMap<String, HashSet<String>> = HashMap::new();
 
-    // Needs more proper testing.
-    pub fn routes_per_stop(
-        trips_per_route: HashMap<String, Vec<String>>,
-        stops_per_trip: HashMap<String, Vec<String>>,
-    ) -> HashMap<String, HashSet<String>> {
-        let mut routes_per_stop: HashMap<String, HashSet<String>> = HashMap::new();
-
-        for route in trips_per_route {
-            let trip_vec = route.clone().1;
-            for trip in trip_vec {
-                let stops = stops_per_trip.get(&trip).unwrap();
-                for stop in stops {
-                    if !routes_per_stop.contains_key(stop) {
-                        let mut set = HashSet::new();
-                        set.insert(route.clone().0);
-                        routes_per_stop.insert(stop.to_string(), set);
-                    } else {
-                        let mut set = routes_per_stop.get(stop).unwrap().to_owned();
-                        set.insert(route.clone().0);
-                        routes_per_stop.insert(stop.to_string(), set);
+            for route in trips_per_route {
+                let trip_vec = route.clone().1;
+                for trip in trip_vec {
+                    let stops = stops_per_trip.get(&trip).unwrap();
+                    for stop in stops {
+                        if !routes_per_stop.contains_key(stop) {
+                            let mut set = HashSet::new();
+                            set.insert(route.clone().0);
+                            routes_per_stop.insert(stop.to_string(), set);
+                        } else {
+                            let mut set = routes_per_stop.get(stop).unwrap().to_owned();
+                            set.insert(route.clone().0);
+                            routes_per_stop.insert(stop.to_string(), set);
+                        }
                     }
                 }
             }
+
+            routes_per_stop
         }
 
-        routes_per_stop
-    }
+        #[cfg(test)]
+        mod test {
+            use super::*;
+            use crate::gtfs_static::get::vecs;
 
-    #[cfg(test)]
-    mod test {
-        use super::*;
-
-        #[test]
-        fn agency_prints() {
-            let path = "src/static/pittsburgh/prt/";
-            let agency = vecs::agency(path.to_string());
-            println!("{:?}", agency);
-        }
-
-        #[test]
-        fn calendar_prints() {
-            let path = "src/static/pittsburgh/prt/";
-            let calendar = vecs::calendar(path.to_string());
-            println!("{:?}", calendar);
-        }
-
-        #[test]
-        fn calendardates_prints() {
-            let path = "src/static/pittsburgh/prt/";
-            let calendardates = vecs::calendardates(path.to_string());
-            println!("{:?}", calendardates);
-        }
-
-        #[test]
-        fn routes_prints() {
-            let path = "src/static/pittsburgh/prt/";
-            let routes = vecs::routes(path.to_string());
-            println!("{:?}", routes);
-        }
-
-        #[test]
-        fn stops_prints() {
-            let path = "src/static/pittsburgh/prt/";
-            let stops = vecs::stops(path.to_string());
-            println!("{:?}", stops);
-        }
-
-        #[test]
-        fn stoptimes_prints() {
-            let path = "src/static/pittsburgh/prt/";
-            let stoptimes = vecs::stoptimes(path.to_string());
-            println!("{:?}", stoptimes);
-        }
-
-        #[test]
-        fn trips_prints() {
-            let path = "src/static/pittsburgh/prt/";
-            let trips = vecs::trips(path.to_string());
-            println!("{:?}", trips);
-        }
-
-        #[test]
-        fn routes_per_stop_test() {
-            let path = "src/static/pittsburgh/prt/";
-            let tpr = trips_per_route(vecs::trips(path.to_string()).unwrap());
-            let spt = stops_per_trip(vecs::stoptimes(path.to_string()).unwrap());
-            let rps = routes_per_stop(tpr, spt);
-            println!("{:?}", rps);
+            #[test]
+            fn routes_per_stop_test() {
+                let path = "src/static/pittsburgh/prt/";
+                let tpr = trips_per_route(vecs::trips(path.to_string()).unwrap());
+                let spt = stops_per_trip(vecs::stoptimes(path.to_string()).unwrap());
+                let rps = routes_per_stop(tpr, spt);
+                println!("{:?}", rps);
+            }
+            
         }
     }
 }
