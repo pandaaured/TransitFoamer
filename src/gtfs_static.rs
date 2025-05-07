@@ -6,8 +6,9 @@
 
 pub mod get {
     pub mod vecs {
-        use crate::gtfs_static::{
-            Agency, Calendar, CalendarDates, Routes, StopTimes, Stops, Trips,
+        use crate::gtfs_static::structs::{
+            Agency, Calendar, CalendarDates, Routes, Shapes, 
+            StopTimes, Stops, Trips,
         };
         use std::io::Error;
 
@@ -61,6 +62,19 @@ pub mod get {
             }
 
             Ok(routes)
+        }
+
+        pub fn shapes(file_path: String) -> Result<Vec<Shapes>, Error> {
+            let mut shapes: Vec<Shapes> = Vec::new(); // Initializes the mutable data.
+            let mut path: String = file_path.clone(); // Getting the file path and
+            path.push_str("shapes.txt");
+            let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+            for result in rdr.deserialize() {
+                let record: Shapes = result?;
+                shapes.push(record);
+            }
+
+            Ok(shapes)
         }
 
         pub fn stops(file_path: String) -> Result<Vec<Stops>, Error> {
@@ -133,6 +147,13 @@ pub mod get {
                 let routes = routes(path.to_string());
                 println!("{:?}", routes);
             }
+
+            #[test]
+            fn shapes_prints() {
+                let path = "src/static/pittsburgh/prt/";
+                let shapes = shapes(path.to_string());
+                println!("{:?}", shapes);
+            }
     
             #[test]
             fn stops_prints() {
@@ -145,7 +166,7 @@ pub mod get {
             fn stoptimes_prints() {
                 let path = "src/static/pittsburgh/prt/";
                 let stoptimes = stoptimes(path.to_string());
-                // println!("{:?}", stoptimes);
+                println!("{:?}", stoptimes);
             }
     
             #[test]
@@ -158,8 +179,8 @@ pub mod get {
     }
 
     pub mod hash {
-        use crate::gtfs_static::{
-            Agency, Calendar, CalendarDates, Routes, StopTimes, Stops, Trips,
+        use crate::gtfs_static::structs::{
+            Agency, Calendar, CalendarDates, Routes, Shapes, StopTimes, Stops, Trips,
         };
         use std::collections::HashMap;
 
@@ -206,6 +227,17 @@ pub mod get {
             map
         }
 
+        pub fn shapes(shapes: Vec<Shapes>) -> HashMap<(String, String), Shapes> {
+            let mut map: HashMap<(String, String), Shapes> = HashMap::new();
+            for entry in shapes {
+                let key_one: &String = &entry.shape_id;
+                let key_two: &u32 = &entry.shape_pt_sequence;
+                map.insert((key_one.to_string(), key_two.to_string()), entry);
+            }
+
+            map
+        }
+
         pub fn stops(stops: Vec<Stops>) -> HashMap<String, Stops> {
             let mut map: HashMap<String, Stops> = HashMap::new();
             for entry in stops {
@@ -240,7 +272,7 @@ pub mod get {
 
     pub mod data {
         use std::collections::{HashMap, HashSet};
-        use crate::gtfs_static::{StopTimes, Trips};
+        use crate::gtfs_static::structs::{StopTimes, Trips};
 
         pub fn trips_per_route(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
             let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
@@ -325,113 +357,197 @@ pub mod get {
     }
 }
 
-// -------- END MODULE DATA -------- //
-// -------- BEGIN MODULE STRUCTS -------- //
+mod structs {
+    // use std::time::{SystemTime, UNIX_EPOCH};
+    // use chrono::{DateTime, Datelike};
+    
+    #[derive(Debug, serde::Deserialize)]
+    pub struct Agency {
+        pub agency_id: Option<String>,
+        pub agency_name: String,
+        pub agency_url: String,
+        pub agency_timezone: String,
+        pub agency_lang: Option<String>,
+        pub agency_phone: Option<String>,
+        pub agency_fare_url: Option<String>,
+        pub agency_email: Option<String>,
+    }
+    
+    #[derive(Debug, serde::Deserialize)]
+    pub struct Calendar {
+        pub service_id: String,
+        pub monday: String,
+        pub tuesday: String,
+        pub wednesday: String,
+        pub thursday: String,
+        pub friday: String,
+        pub saturday: String,
+        pub sunday: String,
+        pub start_date: String,
+        pub end_date: String,
+    }
+    
+    // impl Calendar {
+        // fn is_valid_date(&mut self) -> bool {
+        //     let time = match SystemTime::now().duration_since(UNIX_EPOCH) {
+        //         Ok(n) => n.as_secs(),
+        //         Err(_) => panic!("SystemTime before UNIX Epoch!")
+        //     };
+    
+        //     let date = DateTime::from_timestamp(time.try_into().unwrap(), 0).unwrap();
+        //     let year = date.year();
+        //     let month = date.month();
+        //     let day = date.day();
+    
+        //     let start_year = &self.start_date[0..4].parse::<i32>().unwrap();
+        //     let start_month = &self.start_date[4..6].parse::<u32>().unwrap();
+        //     let start_day = &self.start_date[6..8].parse::<u32>().unwrap();
+        //     let end_year = &self.end_date[0..4].parse::<i32>().unwrap();
+        //     let end_month = &self.end_date[4..6].parse::<u32>().unwrap();
+        //     let end_day = &self.end_date[6..8].parse::<u32>().unwrap();
+    
+        //     if year < *start_year {
+        //         return false;
+        //     } else {
+        //         if month < *start_month {
+        //             return false;
+        //         } else {
+        //             if day < *start_day {
+        //                 return false;
+        //             }
+        //         }
+        //     }
+    
+        //     if year > *end_year {
+        //         return false;
+        //     } else {
+        //         if month > *end_month {
+        //             return false;
+        //         } else {
+        //             if day > *end_day {
+        //                 return false;
+        //             }
+        //         }
+        //     }
+    
+        //     true
+        // }
+    //     fn year(&self) -> i32 {
+    //         self.start_date[0..4].parse::<i32>().unwrap()
+    //     }
 
-#[derive(Debug, serde::Deserialize)]
-pub struct Agency {
-    pub agency_id: Option<String>,
-    pub agency_name: String,
-    pub agency_url: String,
-    pub agency_timezone: String,
-    pub agency_lang: Option<String>,
-    pub agency_phone: Option<String>,
-    pub agency_fare_url: Option<String>,
-    pub agency_email: Option<String>,
+    //     fn month(&self) -> u32 {
+    //         self.start_date[4..6].parse::<u32>().unwrap()
+    //     }
+
+    //     fn day(&self) -> u32 {
+    //         self.start_date[6..8].parse::<u32>().unwrap()
+    //     }
+
+    // }
+
+    // impl PartialEq for Calendar {
+    //     fn eq(&self, other: &Self) -> bool {
+    //         self.year() == other.year() &&
+    //         self.month() == other.month() &&
+    //         self.day() == other.day()
+    //     }
+    // }
+    
+    // #[cfg(test)]
+    // mod test {
+    //     use super::*;
+    //     use crate::gtfs_static::{structs::Calendar,
+    //         get::vecs};
+    
+    //     #[test]
+    //     fn check_date_validity() {
+    //         let path = "src/static/pittsburgh/prt/".to_string();
+    //         let date = vecs::calendar(path).unwrap();
+    //         for mut item in date {
+    //             // println!("{}", item.is_valid_date());
+    //         }
+    //     }
+    // }
+    
+    #[derive(Debug, serde::Deserialize)]
+    pub struct CalendarDates {
+        pub service_id: String,
+        pub date: String,
+        pub exception_type: String,
+    }
+    
+    #[derive(Debug, serde::Deserialize)]
+    pub struct Routes {
+        pub route_id: String,
+        pub agency_id: Option<String>,
+        pub route_short_name: Option<String>,
+        pub route_long_name: Option<String>,
+        pub route_desc: Option<String>,
+        pub route_type: String,
+        pub route_url: Option<String>,
+        pub route_color: Option<String>,
+        pub route_text_color: Option<String>,
+        pub route_sort_order: Option<String>, // Change to u32 eventually.
+        pub continuous_pickup: Option<String>,
+        pub continuous_dropoff: Option<String>,
+        pub network_id: Option<String>,
+    }
+    
+    #[derive(Debug, serde::Deserialize)]
+    pub struct Shapes {
+        pub shape_id: String,
+        pub shape_pt_lat: f32,
+        pub shape_pt_lon: f32,
+        pub shape_pt_sequence: u32,
+        pub shape_dist_traveled: Option<f32>,
+    }
+    
+    #[derive(Debug, serde::Deserialize)]
+    pub struct Stops {
+        pub stop_id: String,
+        pub stop_code: Option<String>,
+        pub stop_name: Option<String>,
+        pub tts_stop_name: Option<String>,
+        pub stop_desc: Option<String>,
+        pub stop_lat: Option<String>,
+        pub stop_lon: Option<String>,
+    }
+    
+    #[derive(Debug, serde::Deserialize)]
+    pub struct StopTimes {
+        pub trip_id: String,
+        pub arrival_time: Option<String>,
+        pub departure_time: Option<String>,
+        pub stop_id: Option<String>,
+        pub location_group_id: Option<String>,
+        pub location_id: Option<String>,
+        pub stop_sequence: String,
+        pub stop_headsign: Option<String>,
+        pub start_pickup_drop_off_window: Option<String>,
+        pub end_pickup_drop_off_window: Option<String>,
+        pub pickup_type: Option<String>,
+        pub dropoff_type: Option<String>,
+        pub continuous_pickup: Option<String>,
+        pub continuous_dropoff: Option<String>,
+        pub shape_dist_traveled: Option<String>,
+        pub timepoint: Option<String>,
+        pub pickup_booking_rule_id: Option<String>,
+        pub drop_off_booking_rule_id: Option<String>,
+    }
+    
+    #[derive(Debug, serde::Deserialize)]
+    pub struct Trips {
+        pub route_id: String,
+        pub service_id: String,
+        pub trip_id: String,
+        pub trip_headsign: Option<String>,
+        pub trip_short_name: String,
+        pub direction_id: Option<String>,
+        pub block_id: Option<String>,
+        pub shape_id: Option<String>,
+        pub wheelchair_accessible: Option<String>,
+        pub bikes_allowed: Option<String>,
+    }
 }
 
-#[derive(Debug, serde::Deserialize)]
-pub struct Calendar {
-    pub service_id: String,
-    pub monday: String,
-    pub tuesday: String,
-    pub wednesday: String,
-    pub thursday: String,
-    pub friday: String,
-    pub saturday: String,
-    pub sunday: String,
-    pub start_date: String,
-    pub end_date: String,
-}
-
-#[derive(Debug, serde::Deserialize)]
-pub struct CalendarDates {
-    pub service_id: String,
-    pub date: String,
-    pub exception_type: String,
-}
-
-#[derive(Debug, serde::Deserialize)]
-pub struct Routes {
-    pub route_id: String,
-    pub agency_id: Option<String>,
-    pub route_short_name: Option<String>,
-    pub route_long_name: Option<String>,
-    pub route_desc: Option<String>,
-    pub route_type: String,
-    pub route_url: Option<String>,
-    pub route_color: Option<String>,
-    pub route_text_color: Option<String>,
-    pub route_sort_order: Option<String>, // Change to u32 eventually.
-    pub continuous_pickup: Option<String>,
-    pub continuous_dropoff: Option<String>,
-    pub network_id: Option<String>,
-}
-
-#[derive(Debug, serde::Deserialize)]
-pub struct Shapes {
-    pub id: String,
-    pub pt_lat: String,
-    pub pt_lon: String,
-    pub pt_sequence: String,
-    pub dist_traveled: Option<f32>,
-}
-
-#[derive(Debug, serde::Deserialize)]
-pub struct Stops {
-    pub stop_id: String,
-    pub stop_code: Option<String>,
-    pub stop_name: Option<String>,
-    pub tts_stop_name: Option<String>,
-    pub stop_desc: Option<String>,
-    pub stop_lat: Option<String>,
-    pub stop_lon: Option<String>,
-}
-
-#[derive(Debug, serde::Deserialize)]
-pub struct StopTimes {
-    pub trip_id: String,
-    pub arrival_time: Option<String>,
-    pub departure_time: Option<String>,
-    pub stop_id: Option<String>,
-    pub location_group_id: Option<String>,
-    pub location_id: Option<String>,
-    pub stop_sequence: String,
-    pub stop_headsign: Option<String>,
-    pub start_pickup_drop_off_window: Option<String>,
-    pub end_pickup_drop_off_window: Option<String>,
-    pub pickup_type: Option<String>,
-    pub dropoff_type: Option<String>,
-    pub continuous_pickup: Option<String>,
-    pub continuous_dropoff: Option<String>,
-    pub shape_dist_traveled: Option<String>,
-    pub timepoint: Option<String>,
-    pub pickup_booking_rule_id: Option<String>,
-    pub drop_off_booking_rule_id: Option<String>,
-}
-
-#[derive(Debug, serde::Deserialize)]
-pub struct Trips {
-    pub route_id: String,
-    pub service_id: String,
-    pub trip_id: String,
-    pub trip_headsign: Option<String>,
-    pub trip_short_name: String,
-    pub direction_id: Option<String>,
-    pub block_id: Option<String>,
-    pub shape_id: Option<String>,
-    pub wheelchair_accessible: Option<String>,
-    pub bikes_allowed: Option<String>,
-}
-
-// -------- END MODULE STRUCTS -------- //
