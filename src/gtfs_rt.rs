@@ -4,13 +4,10 @@
 //! Many of the functions contained within this module can be run with only
 //! GTFS Realtime data URLs.
 
-use gtfs_realtime::FeedEntity;
-use gtfs_realtime::FeedMessage;
+use gtfs_realtime::{FeedEntity, FeedMessage};
 use reqwest::Response;
 
-// -------- BEGIN MODULE CODE -------- //
-
-pub async fn requester(url: &str) -> FeedMessage {
+pub async fn protobuf_requester(url: &str) -> FeedMessage {
     let response: Response = reqwest::get(url).await.unwrap();
     let bytes = response.bytes().await.unwrap();
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
@@ -18,7 +15,7 @@ pub async fn requester(url: &str) -> FeedMessage {
     data.unwrap()
 }
 
-pub fn has_vehicleposition(message: FeedMessage) -> FeedMessage {
+pub fn filter_by_has_vehicleposition(message: FeedMessage) -> FeedMessage {
     let filtered = message.entity.into_iter().filter(|x| x.vehicle.is_some());
     FeedMessage {
         header: message.header,
@@ -26,7 +23,7 @@ pub fn has_vehicleposition(message: FeedMessage) -> FeedMessage {
     }
 }
 
-pub fn has_tripupdate(message: FeedMessage) -> FeedMessage {
+pub fn filter_by_has_tripupdate(message: FeedMessage) -> FeedMessage {
     let filtered = message
         .entity
         .into_iter()
@@ -37,7 +34,7 @@ pub fn has_tripupdate(message: FeedMessage) -> FeedMessage {
     }
 }
 
-pub fn has_alerts(message: FeedMessage) -> FeedMessage {
+pub fn filter_by_has_alerts(message: FeedMessage) -> FeedMessage {
     let filtered = message.entity.into_iter().filter(|x| x.alert.is_some());
     FeedMessage {
         header: message.header,
@@ -47,12 +44,12 @@ pub fn has_alerts(message: FeedMessage) -> FeedMessage {
 
 /// Given a FeedMessage and a first and last vehicle_id, returns a FeedMessage
 /// containing only FeedEntities running within these vehicle_ids.
-pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
+pub fn filter_for_in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
         if x.vehicle.is_some() {
             // First check for a VehiclePosition
-            utilities::within_bounds(
+            within_bounds(
                 x.vehicle
                     .as_ref()
                     .unwrap()
@@ -67,7 +64,7 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
             )
         } else if x.trip_update.is_some() {
             // Now check for a TripUpdate.
-            utilities::within_bounds(
+            within_bounds(
                 x.trip_update
                     .as_ref()
                     .unwrap()
@@ -94,7 +91,7 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
 
 /// Given a FeedMessage and a route_id, returns a FeedMessage
 /// containing only FeedEntities running on that route.
-pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
+pub fn filter_for_on_route(number: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
         if x.trip_update.is_some() {
@@ -131,32 +128,21 @@ pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
     }
 }
 
-mod utilities {
-    // use chrono::{Local, TimeZone};
+pub fn vehicles_approaching_stop(_message: FeedMessage) {}
 
-    fn string_to_int(input: String) -> i64 {
-        let conv: i64 = input.parse().expect("Converted to integer");
-        conv
-    }
-
-    pub fn within_bounds(input: &String, left: &str, right: &str) -> bool {
-        for int in string_to_int(left.to_string())..string_to_int(right.to_string()) + 1 {
-            if int.to_string() == *input {
-                return true;
-            }
-        }
-        false
-    }
-
-    // pub fn time_converter(input: i64) -> chrono::DateTime<Local> {
-    //     let date_time: chrono::DateTime<Local> = Local.timestamp_opt(input, 0).unwrap();
-    //     date_time
-    // }
+fn string_to_int(input: String) -> i64 {
+    let conv: i64 = input.parse().expect("Converted to integer");
+    conv
 }
 
-// -------- END MODULE CODE -------- //
-
-// -------- BEGIN TESTING CODE -------- //
+pub fn within_bounds(input: &String, left: &str, right: &str) -> bool {
+    for int in string_to_int(left.to_string())..string_to_int(right.to_string()) + 1 {
+        if int.to_string() == *input {
+            return true;
+        }
+    }
+    false
+}
 
 #[cfg(test)]
 mod test {
@@ -166,28 +152,35 @@ mod test {
 
     #[tokio::test]
     async fn prt_vehicles_test() {
-        let x = requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = in_range("6801", "6840", x);
+        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+        let r = filter_for_in_range("6801", "6840", x);
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_test_two() {
-        let x = requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = in_range("7000", "7106", x);
+        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+        let r = filter_for_in_range("7000", "7106", x);
+        println!("{:#?}", r);
+    }
+
+    #[tokio::test]
+    async fn route() {
+        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+        let r = filter_for_on_route("74", x);
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_trips_test() {
-        let x = requester("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
-        let r = in_range("6701", "6740", x);
+        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let r = filter_for_in_range("6701", "6740", x);
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_alerts_test() {
-        let x = requester("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
+        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
         println!("{:#?}", x);
     }
 
@@ -302,7 +295,7 @@ mod test {
         };
 
         let route = "61C";
-        let on_route_message = on_route(route, message.clone());
+        let on_route_message = filter_for_on_route(route, message.clone());
         assert!(message.entity.len() == 2);
         assert!(on_route_message.entity.len() == 1);
 
@@ -439,10 +432,8 @@ mod test {
 
         let low = "3400";
         let high = "3425";
-        let on_route_message = in_range(low, high, message.clone());
+        let on_route_message = filter_for_in_range(low, high, message.clone());
         assert!(message.entity.len() == 2);
         assert!(on_route_message.entity.len() == 1);
     }
 }
-
-// -------- END TESTING CODE -------- //
