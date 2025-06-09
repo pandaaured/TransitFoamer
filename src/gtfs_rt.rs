@@ -5,17 +5,22 @@
 //! GTFS Realtime data URLs.
 
 use gtfs_realtime::{FeedEntity, FeedMessage};
+use prost::DecodeError;
 use reqwest::Response;
 
-pub async fn protobuf_requester(url: &str) -> FeedMessage {
+/// Returns a Result type containing either an error or a valid FeedMessage decoded
+/// from the inputted URL.
+pub async fn protobuf_requester(url: &str) -> Result<FeedMessage, DecodeError> {
     let response: Response = reqwest::get(url).await.unwrap();
     let bytes = response.bytes().await.unwrap();
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
         prost::Message::decode(bytes.as_ref());
-    data.unwrap()
+    data
 }
 
-pub fn filter_by_has_vehicleposition(message: FeedMessage) -> FeedMessage {
+/// Returns a FeedMessage which filters all entities in the FeedMessage which do
+/// not contain VehiclePosition.
+fn filter_by_has_vehicleposition(message: FeedMessage) -> FeedMessage {
     let filtered = message.entity.into_iter().filter(|x| x.vehicle.is_some());
     FeedMessage {
         header: message.header,
@@ -23,7 +28,9 @@ pub fn filter_by_has_vehicleposition(message: FeedMessage) -> FeedMessage {
     }
 }
 
-pub fn filter_by_has_tripupdate(message: FeedMessage) -> FeedMessage {
+/// Returns a FeedMessage which filters all entities in the FeedMessage which do
+/// not contain TripUpdate.
+fn filter_by_has_tripupdate(message: FeedMessage) -> FeedMessage {
     let filtered = message
         .entity
         .into_iter()
@@ -34,7 +41,9 @@ pub fn filter_by_has_tripupdate(message: FeedMessage) -> FeedMessage {
     }
 }
 
-pub fn filter_by_has_alerts(message: FeedMessage) -> FeedMessage {
+/// Returns a FeedMessage which filters all entities in the FeedMessage which do
+/// not contain Alerts.
+fn filter_by_has_alerts(message: FeedMessage) -> FeedMessage {
     let filtered = message.entity.into_iter().filter(|x| x.alert.is_some());
     FeedMessage {
         header: message.header,
@@ -44,6 +53,7 @@ pub fn filter_by_has_alerts(message: FeedMessage) -> FeedMessage {
 
 /// Given a FeedMessage and a first and last vehicle_id, returns a FeedMessage
 /// containing only FeedEntities running within these vehicle_ids.
+/// (TODO: Have input list be generated or be an explicit collection.)
 pub fn filter_for_in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
@@ -78,7 +88,7 @@ pub fn filter_for_in_range(first: &str, last: &str, message: FeedMessage) -> Fee
                 last,
             )
         } else {
-            true // If neither is_some, then just return the list.
+            true // If neither is_some, then return empty.
         }
     });
     let in_range: Vec<FeedEntity> = result.collect();
@@ -91,6 +101,7 @@ pub fn filter_for_in_range(first: &str, last: &str, message: FeedMessage) -> Fee
 
 /// Given a FeedMessage and a route_id, returns a FeedMessage
 /// containing only FeedEntities running on that route.
+/// (TODO: Have input list be generated or be an explicit collection.)
 pub fn filter_for_on_route(number: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
@@ -128,7 +139,21 @@ pub fn filter_for_on_route(number: &str, message: FeedMessage) -> FeedMessage {
     }
 }
 
-pub fn vehicles_approaching_stop(_message: FeedMessage) {}
+pub fn vehicles_approaching_stop(message: FeedMessage, stop_id: String) -> FeedMessage {
+    let filtered = message.entity.into_iter().filter(|x| {
+        x.trip_update
+            .clone()
+            .unwrap()
+            .stop_time_update
+            .into_iter()
+            .find(|x| x.clone().stop_id.unwrap() == stop_id)
+            .is_some()
+    });
+    FeedMessage {
+        header: message.header,
+        entity: filtered.collect(),
+    }
+}
 
 fn string_to_int(input: String) -> i64 {
     let conv: i64 = input.parse().expect("Converted to integer");
@@ -153,28 +178,28 @@ mod test {
     #[tokio::test]
     async fn prt_vehicles_test() {
         let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = filter_for_in_range("6801", "6840", x);
+        let r = filter_for_in_range("6801", "6840", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_test_two() {
         let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = filter_for_in_range("7000", "7106", x);
+        let r = filter_for_in_range("7000", "7106", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn route() {
         let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = filter_for_on_route("74", x);
+        let r = filter_for_on_route("74", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_trips_test() {
         let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
-        let r = filter_for_in_range("6701", "6740", x);
+        let r = filter_for_in_range("6701", "6740", x.unwrap());
         println!("{:#?}", r);
     }
 
@@ -182,6 +207,13 @@ mod test {
     async fn prt_alerts_test() {
         let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
         println!("{:#?}", x);
+    }
+
+    #[tokio::test]
+    async fn vehicles_approaching_route_test() {
+        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let r = vehicles_approaching_stop(x.unwrap(), "10920".to_string());
+        println!("{:#?}", r);
     }
 
     #[test]

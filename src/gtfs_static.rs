@@ -4,11 +4,14 @@
 //!
 //! A library for fetching and analyzing GTFS Static data from a transit feed.
 
+use chrono::Local;
 use std::collections::{HashMap, HashSet};
 use std::io::Error;
-use chrono::Local;
 
-pub fn agency(file_path: String) -> Result<Vec<Agency>, Error> {
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Agency structs, each corresponding to a nonempty line of the
+/// data contained in the GTFS static definition.
+fn agency(file_path: String) -> Result<Vec<Agency>, Error> {
     let mut agency: Vec<Agency> = Vec::new(); // Initializes the mutable data.
     let mut path: String = file_path.clone(); // Getting the file path and
     path.push_str("agency.txt");
@@ -21,7 +24,10 @@ pub fn agency(file_path: String) -> Result<Vec<Agency>, Error> {
     Ok(agency)
 }
 
-pub fn calendardates(file_path: String) -> Result<Vec<CalendarDates>, Error> {
+/// Returns a Result type containing either an error or a Vector with elements
+/// being CalendarDates structs, each corresponding to a nonempty line of the
+/// data contained in the GTFS static definition.
+fn calendardates(file_path: String) -> Result<Vec<CalendarDates>, Error> {
     let mut calendardates: Vec<CalendarDates> = Vec::new(); // Initializes the mutable data.
     let mut path: String = file_path.clone(); // Getting the file path and
     path.push_str("calendar_dates.txt");
@@ -34,7 +40,10 @@ pub fn calendardates(file_path: String) -> Result<Vec<CalendarDates>, Error> {
     Ok(calendardates)
 }
 
-pub fn calendar(file_path: String) -> Result<Vec<Calendar>, Error> {
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Calendar structs, each corresponding to a nonempty line of the
+/// data contained in the GTFS static definition.
+fn calendar(file_path: String) -> Result<Vec<Calendar>, Error> {
     let mut calendar: Vec<Calendar> = Vec::new(); // Initializes the mutable data.
     let mut path: String = file_path.clone(); // Getting the file path and
     path.push_str("calendar.txt");
@@ -47,7 +56,10 @@ pub fn calendar(file_path: String) -> Result<Vec<Calendar>, Error> {
     Ok(calendar)
 }
 
-pub fn routes(file_path: String) -> Result<Vec<Routes>, Error> {
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Routes structs, each corresponding to a nonempty line of the
+/// data contained in the GTFS static definition.
+fn routes(file_path: String) -> Result<Vec<Routes>, Error> {
     let mut routes: Vec<Routes> = Vec::new(); // Initializes the mutable data.
     let mut path: String = file_path.clone(); // Getting the file path and
     path.push_str("routes.txt");
@@ -60,7 +72,10 @@ pub fn routes(file_path: String) -> Result<Vec<Routes>, Error> {
     Ok(routes)
 }
 
-pub fn stops(file_path: String) -> Result<Vec<Stops>, Error> {
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Stops structs, each corresponding to a nonempty line of the
+/// data contained in the GTFS static definition.
+fn stops(file_path: String) -> Result<Vec<Stops>, Error> {
     let mut stops: Vec<Stops> = Vec::new(); // Initializes the mutable data.
     let mut path: String = file_path.clone(); // Getting the file path and
     path.push_str("stops.txt");
@@ -73,7 +88,10 @@ pub fn stops(file_path: String) -> Result<Vec<Stops>, Error> {
     Ok(stops)
 }
 
-pub fn stoptimes(file_path: String) -> Result<Vec<StopTimes>, Error> {
+/// Returns a Result type containing either an error or a Vector with elements
+/// being StopTimes structs, each corresponding to a nonempty line of the
+/// data contained in the GTFS static definition.
+fn stoptimes(file_path: String) -> Result<Vec<StopTimes>, Error> {
     let mut stoptimes: Vec<StopTimes> = Vec::new(); // Initializes the mutable data.
     let mut path: String = file_path.clone(); // Getting the file path and
     path.push_str("stop_times.txt");
@@ -86,7 +104,10 @@ pub fn stoptimes(file_path: String) -> Result<Vec<StopTimes>, Error> {
     Ok(stoptimes)
 }
 
-pub fn trips(file_path: String) -> Result<Vec<Trips>, Error> {
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Trips structs, each corresponding to a nonempty line of the
+/// data contained in the GTFS static definition.
+fn trips(file_path: String) -> Result<Vec<Trips>, Error> {
     let mut trips: Vec<Trips> = Vec::new(); // Initializes the mutable data.
     let mut path: String = file_path.clone(); // Getting the file path and
     path.push_str("trips.txt");
@@ -284,18 +305,6 @@ pub fn count_trips_per_service_id(
     }
 
     count_trips_per_service_id
-}
-
-pub fn count_trips_per_route_per_service_id() {}
-
-pub fn nearest_stops() {}
-
-pub fn exceptions_today() {
-    let now = Local::now();
-}
-
-pub fn feed_is_valid(_feed_cal: &CalendarDates) {
-
 }
 
 #[cfg(test)]
