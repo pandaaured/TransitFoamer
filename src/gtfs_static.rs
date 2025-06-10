@@ -25,6 +25,22 @@ fn agency(file_path: String) -> Result<Vec<Agency>, Error> {
 }
 
 /// Returns a Result type containing either an error or a Vector with elements 
+/// being Areas structs, each corresponding to a nonempty line of the 
+/// data contained in the GTFS static definition.
+fn areas(file_path: String) -> Result<Vec<Areas>, Error> {
+    let mut areas: Vec<Areas> = Vec::new(); // Initializes the mutable data.
+    let mut path: String = file_path.clone(); // Getting the file path and
+    path.push_str("areas.txt");
+    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+    for result in rdr.deserialize() {
+        let record: Areas = result?;
+        areas.push(record);
+    }
+
+    Ok(areas)
+}
+
+/// Returns a Result type containing either an error or a Vector with elements 
 /// being CalendarDates structs, each corresponding to a nonempty line of the 
 /// data contained in the GTFS static definition.
 fn calendardates(file_path: String) -> Result<Vec<CalendarDates>, Error> {
@@ -73,9 +89,9 @@ fn routes(file_path: String) -> Result<Vec<Routes>, Error> {
 }
 
 /// Returns a Result type containing either an error or a Vector with elements 
-/// being Stops structs, each corresponding to a nonempty line of the 
+/// being Shapes structs, each corresponding to a nonempty line of the 
 /// data contained in the GTFS static definition.
-fn stops(file_path: String) -> Result<Vec<Stops>, Error> {
+fn shapes(file_path: String) -> Result<Vec<Stops>, Error> {
     let mut stops: Vec<Stops> = Vec::new(); // Initializes the mutable data.
     let mut path: String = file_path.clone(); // Getting the file path and
     path.push_str("stops.txt");
@@ -86,6 +102,22 @@ fn stops(file_path: String) -> Result<Vec<Stops>, Error> {
     }
 
     Ok(stops)
+}
+
+/// Returns a Result type containing either an error or a Vector with elements 
+/// being Stops structs, each corresponding to a nonempty line of the 
+/// data contained in the GTFS static definition.
+fn stops(file_path: String) -> Result<Vec<Shapes>, Error> {
+    let mut shapes: Vec<Shapes> = Vec::new(); // Initializes the mutable data.
+    let mut path: String = file_path.clone(); // Getting the file path and
+    path.push_str("shapes.txt");
+    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+    for result in rdr.deserialize() {
+        let record: Shapes = result?;
+        shapes.push(record);
+    }
+
+    Ok(shapes)
 }
 
 /// Returns a Result type containing either an error or a Vector with elements 
@@ -102,6 +134,22 @@ fn stoptimes(file_path: String) -> Result<Vec<StopTimes>, Error> {
     }
 
     Ok(stoptimes)
+}
+
+/// Returns a Result type containing either an error or a Vector with elements 
+/// being Timeframes structs, each corresponding to a nonempty line of the 
+/// data contained in the GTFS static definition.
+fn timeframes(file_path: String) -> Result<Vec<Timeframes>, Error> {
+    let mut timeframes: Vec<Timeframes> = Vec::new(); // Initializes the mutable data.
+    let mut path: String = file_path.clone(); // Getting the file path and
+    path.push_str("timeframes.txt");
+    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+    for result in rdr.deserialize() {
+        let record: Timeframes = result?;
+        timeframes.push(record);
+    }
+
+    Ok(timeframes)
 }
 
 /// Returns a Result type containing either an error or a Vector with elements 
@@ -413,6 +461,27 @@ pub struct Agency {
 }
 
 #[derive(Debug, serde::Deserialize)]
+pub struct Areas {
+    pub area_id: String,
+    pub area_name: Option<String>
+}
+
+#[derive(Debug, serde::Deserialize)]
+pub struct Attributions {
+    pub attribution_id: Option<String>,
+    pub agency_id: Option<String>,
+    pub route_id: Option<String>,
+    pub trip_id: Option<String>,
+    pub organization_name: String,
+    pub is_producer: Option<String>,
+    pub is_operator: Option<String>,
+    pub is_authority: Option<String>,
+    pub attribution_url: Option<String>,
+    pub attribution_email: Option<String>,
+    pub attribution_phone: Option<String>,
+}
+
+#[derive(Debug, serde::Deserialize)]
 pub struct Calendar {
     pub service_id: String,
     pub monday: String,
@@ -490,6 +559,14 @@ pub struct StopTimes {
     pub timepoint: Option<String>,
     pub pickup_booking_rule_id: Option<String>,
     pub drop_off_booking_rule_id: Option<String>,
+}
+
+#[derive(Debug, serde::Deserialize)]
+pub struct Timeframes {
+    pub timeframe_group_id: String,
+    pub start_time: String,
+    pub end_time: String,
+    pub service_id: String
 }
 
 #[derive(Debug, serde::Deserialize)]

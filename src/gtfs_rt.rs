@@ -8,6 +8,7 @@ use gtfs_realtime::{FeedEntity, FeedMessage};
 use prost::DecodeError;
 use reqwest::Response;
 
+
 /// Returns a Result type containing either an error or a valid FeedMessage decoded
 /// from the inputted URL.
 pub async fn protobuf_requester(url: &str) -> Result<FeedMessage, DecodeError> {
@@ -16,6 +17,10 @@ pub async fn protobuf_requester(url: &str) -> Result<FeedMessage, DecodeError> {
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
         prost::Message::decode(bytes.as_ref());
     data
+}
+
+pub fn gtfs_to_json(message: FeedMessage) {
+
 }
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
