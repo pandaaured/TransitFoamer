@@ -8,8 +8,8 @@ use chrono::Local;
 use std::collections::{HashMap, HashSet};
 use std::io::Error;
 
-/// Returns a Result type containing either an error or a Vector with elements 
-/// being Agency structs, each corresponding to a nonempty line of the 
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Agency structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
 fn agency(file_path: String) -> Result<Vec<Agency>, Error> {
     let mut agency: Vec<Agency> = Vec::new(); // Initializes the mutable data.
@@ -24,8 +24,8 @@ fn agency(file_path: String) -> Result<Vec<Agency>, Error> {
     Ok(agency)
 }
 
-/// Returns a Result type containing either an error or a Vector with elements 
-/// being Areas structs, each corresponding to a nonempty line of the 
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Areas structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
 fn areas(file_path: String) -> Result<Vec<Areas>, Error> {
     let mut areas: Vec<Areas> = Vec::new(); // Initializes the mutable data.
@@ -40,8 +40,8 @@ fn areas(file_path: String) -> Result<Vec<Areas>, Error> {
     Ok(areas)
 }
 
-/// Returns a Result type containing either an error or a Vector with elements 
-/// being CalendarDates structs, each corresponding to a nonempty line of the 
+/// Returns a Result type containing either an error or a Vector with elements
+/// being CalendarDates structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
 fn calendardates(file_path: String) -> Result<Vec<CalendarDates>, Error> {
     let mut calendardates: Vec<CalendarDates> = Vec::new(); // Initializes the mutable data.
@@ -56,8 +56,8 @@ fn calendardates(file_path: String) -> Result<Vec<CalendarDates>, Error> {
     Ok(calendardates)
 }
 
-/// Returns a Result type containing either an error or a Vector with elements 
-/// being Calendar structs, each corresponding to a nonempty line of the 
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Calendar structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
 fn calendar(file_path: String) -> Result<Vec<Calendar>, Error> {
     let mut calendar: Vec<Calendar> = Vec::new(); // Initializes the mutable data.
@@ -72,8 +72,8 @@ fn calendar(file_path: String) -> Result<Vec<Calendar>, Error> {
     Ok(calendar)
 }
 
-/// Returns a Result type containing either an error or a Vector with elements 
-/// being Routes structs, each corresponding to a nonempty line of the 
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Routes structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
 fn routes(file_path: String) -> Result<Vec<Routes>, Error> {
     let mut routes: Vec<Routes> = Vec::new(); // Initializes the mutable data.
@@ -88,8 +88,8 @@ fn routes(file_path: String) -> Result<Vec<Routes>, Error> {
     Ok(routes)
 }
 
-/// Returns a Result type containing either an error or a Vector with elements 
-/// being Shapes structs, each corresponding to a nonempty line of the 
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Shapes structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
 fn shapes(file_path: String) -> Result<Vec<Stops>, Error> {
     let mut stops: Vec<Stops> = Vec::new(); // Initializes the mutable data.
@@ -104,8 +104,8 @@ fn shapes(file_path: String) -> Result<Vec<Stops>, Error> {
     Ok(stops)
 }
 
-/// Returns a Result type containing either an error or a Vector with elements 
-/// being Stops structs, each corresponding to a nonempty line of the 
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Stops structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
 fn stops(file_path: String) -> Result<Vec<Shapes>, Error> {
     let mut shapes: Vec<Shapes> = Vec::new(); // Initializes the mutable data.
@@ -120,8 +120,8 @@ fn stops(file_path: String) -> Result<Vec<Shapes>, Error> {
     Ok(shapes)
 }
 
-/// Returns a Result type containing either an error or a Vector with elements 
-/// being StopTimes structs, each corresponding to a nonempty line of the 
+/// Returns a Result type containing either an error or a Vector with elements
+/// being StopTimes structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
 fn stoptimes(file_path: String) -> Result<Vec<StopTimes>, Error> {
     let mut stoptimes: Vec<StopTimes> = Vec::new(); // Initializes the mutable data.
@@ -136,8 +136,8 @@ fn stoptimes(file_path: String) -> Result<Vec<StopTimes>, Error> {
     Ok(stoptimes)
 }
 
-/// Returns a Result type containing either an error or a Vector with elements 
-/// being Timeframes structs, each corresponding to a nonempty line of the 
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Timeframes structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
 fn timeframes(file_path: String) -> Result<Vec<Timeframes>, Error> {
     let mut timeframes: Vec<Timeframes> = Vec::new(); // Initializes the mutable data.
@@ -152,8 +152,8 @@ fn timeframes(file_path: String) -> Result<Vec<Timeframes>, Error> {
     Ok(timeframes)
 }
 
-/// Returns a Result type containing either an error or a Vector with elements 
-/// being Trips structs, each corresponding to a nonempty line of the 
+/// Returns a Result type containing either an error or a Vector with elements
+/// being Trips structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
 fn trips(file_path: String) -> Result<Vec<Trips>, Error> {
     let mut trips: Vec<Trips> = Vec::new(); // Initializes the mutable data.
@@ -463,7 +463,7 @@ pub struct Agency {
 #[derive(Debug, serde::Deserialize)]
 pub struct Areas {
     pub area_id: String,
-    pub area_name: Option<String>
+    pub area_name: Option<String>,
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -566,7 +566,7 @@ pub struct Timeframes {
     pub timeframe_group_id: String,
     pub start_time: String,
     pub end_time: String,
-    pub service_id: String
+    pub service_id: String,
 }
 
 #[derive(Debug, serde::Deserialize)]

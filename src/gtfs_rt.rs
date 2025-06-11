@@ -8,24 +8,21 @@ use gtfs_realtime::{FeedEntity, FeedMessage};
 use prost::DecodeError;
 use reqwest::Response;
 
-
 /// Returns a Result type containing either an error or a valid FeedMessage decoded
 /// from the inputted URL.
 pub async fn protobuf_requester(url: &str) -> Result<FeedMessage, DecodeError> {
-    let response: Response = reqwest::get(url).await.unwrap();
-    let bytes = response.bytes().await.unwrap();
+    let response: Response = reqwest::get(url).await.unwrap(); // Fix this function so all errors are handled properly.
+    let bytes = response.bytes().await.unwrap(); // Also here.
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
         prost::Message::decode(bytes.as_ref());
     data
 }
 
-pub fn gtfs_to_json(message: FeedMessage) {
-
-}
+pub fn gtfs_to_json(message: FeedMessage) {}
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain VehiclePosition.
-fn filter_by_has_vehicleposition(message: FeedMessage) -> FeedMessage {
+fn has_vehicleposition(message: FeedMessage) -> FeedMessage {
     let filtered = message.entity.into_iter().filter(|x| x.vehicle.is_some());
     FeedMessage {
         header: message.header,
@@ -35,7 +32,7 @@ fn filter_by_has_vehicleposition(message: FeedMessage) -> FeedMessage {
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain TripUpdate.
-fn filter_by_has_tripupdate(message: FeedMessage) -> FeedMessage {
+fn has_tripupdate(message: FeedMessage) -> FeedMessage {
     let filtered = message
         .entity
         .into_iter()
@@ -48,11 +45,33 @@ fn filter_by_has_tripupdate(message: FeedMessage) -> FeedMessage {
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain Alerts.
-fn filter_by_has_alerts(message: FeedMessage) -> FeedMessage {
+fn has_alerts(message: FeedMessage) -> FeedMessage {
     let filtered = message.entity.into_iter().filter(|x| x.alert.is_some());
     FeedMessage {
         header: message.header,
         entity: filtered.collect(),
+    }
+}
+
+/// Returns a FeedMessage which filters all entities in the FeedMessage which do
+/// not contain stop_ids.
+fn has_stop_id(message: FeedMessage) -> FeedMessage {
+    let filtered = has_tripupdate(message.clone()); // Filter anything without a TripUpdate so we don't unwrap None!
+
+    FeedMessage {
+        header: filtered.header,
+        entity: filtered
+            .entity
+            .into_iter()
+            .filter(|x| {
+                x.trip_update
+                    .clone() // Fix performance later.
+                    .unwrap() // Guaranteed safe by passing through has_tripupdate().
+                    .stop_time_update
+                    .into_iter()
+                    .all(|x| x.stop_id.is_some())
+            })
+            .collect(),
     }
 }
 
@@ -144,19 +163,28 @@ pub fn filter_for_on_route(number: &str, message: FeedMessage) -> FeedMessage {
     }
 }
 
+/// Given a FeedMessage and a stop_id, returns a FeedMessage
+/// containing only FeedEntities which have this stop_id in their StopTimeUpdate
+/// sequence.
+/// (TODO: Have input list be generated or be an explicit collection.)
 pub fn vehicles_approaching_stop(message: FeedMessage, stop_id: String) -> FeedMessage {
-    let filtered = message.entity.into_iter().filter(|x| {
-        x.trip_update
-            .clone()
-            .unwrap()
-            .stop_time_update
-            .into_iter()
-            .find(|x| x.clone().stop_id.unwrap() == stop_id)
-            .is_some()
-    });
+    let filtered = has_stop_id(message);
+
     FeedMessage {
-        header: message.header,
-        entity: filtered.collect(),
+        header: filtered.header,
+        entity: filtered
+            .entity
+            .into_iter()
+            .filter(|x| {
+                x.trip_update
+                    .clone() // Fix performance eventually.
+                    .unwrap() // Guaranteed safety by has_stop_id().
+                    .stop_time_update
+                    .into_iter()
+                    .find(|x| x.clone().stop_id.unwrap() == stop_id) // Guaranteed safety by has_stop_id().
+                    .is_some()
+            })
+            .collect(),
     }
 }
 
