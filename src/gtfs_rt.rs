@@ -10,7 +10,7 @@ use reqwest::Response;
 
 /// Returns a Result type containing either an error or a valid FeedMessage decoded
 /// from the inputted URL.
-pub async fn protobuf_requester(url: &str) -> Result<FeedMessage, DecodeError> {
+pub async fn protobuf_request_from_url(url: &str) -> Result<FeedMessage, DecodeError> {
     let response: Response = reqwest::get(url).await.unwrap(); // Fix this function so all errors are handled properly.
     let bytes = response.bytes().await.unwrap(); // Also here.
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
@@ -18,12 +18,25 @@ pub async fn protobuf_requester(url: &str) -> Result<FeedMessage, DecodeError> {
     data
 }
 
-pub fn gtfs_to_json(message: FeedMessage) {}
+// Describe function when implemented.
+pub fn protobuf_request_from_path(path: &str) -> () {
+    // TODO: Implement this!
+    // TODO: change return type to match protobuf_request_from_url!
+}
+
+/// Returns a serialized JSON string from the FeedMessage struct. 
+pub fn gtfs_to_json(message: FeedMessage) -> Result<String, serde_json::Error> {
+    serde_json::to_string(&message)
+}
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain VehiclePosition.
 fn has_vehicleposition(message: FeedMessage) -> FeedMessage {
-    let filtered = message.entity.into_iter().filter(|x| x.vehicle.is_some());
+    let filtered = message
+        .entity
+        .into_iter()
+        .filter(|x| x.vehicle.is_some());
+
     FeedMessage {
         header: message.header,
         entity: filtered.collect(),
@@ -210,41 +223,41 @@ mod test {
 
     #[tokio::test]
     async fn prt_vehicles_test() {
-        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
         let r = filter_for_in_range("6801", "6840", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_test_two() {
-        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
         let r = filter_for_in_range("7000", "7106", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn route() {
-        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
         let r = filter_for_on_route("74", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_trips_test() {
-        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
         let r = filter_for_in_range("6701", "6740", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_alerts_test() {
-        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
         println!("{:#?}", x);
     }
 
     #[tokio::test]
     async fn vehicles_approaching_route_test() {
-        let x = protobuf_requester("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
         let r = vehicles_approaching_stop(x.unwrap(), "10920".to_string());
         println!("{:#?}", r);
     }
