@@ -262,6 +262,13 @@ mod test {
         println!("{:#?}", r);
     }
 
+    #[tokio::test]
+    async fn testing_serde_json() {
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let y = gtfs_to_json(x.unwrap()).unwrap();    
+        println!("{:#?}", y);
+    }
+
     #[test]
     fn on_route_filter_test() {
         // This test has two FeedEntity objects, one matches our condition.

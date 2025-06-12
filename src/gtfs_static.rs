@@ -8,6 +8,7 @@ use chrono::Local;
 use std::collections::{HashMap, HashSet};
 use std::io::Error;
 
+/// Checks given root file path for the appropriate file.
 /// Returns a Result type containing either an error or a Vector with elements
 /// being Agency structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
@@ -24,6 +25,7 @@ fn agency(file_path: String) -> Result<Vec<Agency>, Error> {
     Ok(agency)
 }
 
+/// Checks given root file path for the appropriate file.
 /// Returns a Result type containing either an error or a Vector with elements
 /// being Areas structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
@@ -40,6 +42,7 @@ fn areas(file_path: String) -> Result<Vec<Areas>, Error> {
     Ok(areas)
 }
 
+/// Checks given root file path for the appropriate file.
 /// Returns a Result type containing either an error or a Vector with elements
 /// being CalendarDates structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
@@ -56,6 +59,7 @@ fn calendardates(file_path: String) -> Result<Vec<CalendarDates>, Error> {
     Ok(calendardates)
 }
 
+/// Checks given root file path for the appropriate file.
 /// Returns a Result type containing either an error or a Vector with elements
 /// being Calendar structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
@@ -72,6 +76,7 @@ fn calendar(file_path: String) -> Result<Vec<Calendar>, Error> {
     Ok(calendar)
 }
 
+/// Checks given root file path for the appropriate file.
 /// Returns a Result type containing either an error or a Vector with elements
 /// being Routes structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
@@ -88,6 +93,7 @@ fn routes(file_path: String) -> Result<Vec<Routes>, Error> {
     Ok(routes)
 }
 
+/// Checks given root file path for the appropriate file.
 /// Returns a Result type containing either an error or a Vector with elements
 /// being Shapes structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
@@ -104,6 +110,7 @@ fn shapes(file_path: String) -> Result<Vec<Stops>, Error> {
     Ok(stops)
 }
 
+/// Checks given root file path for the appropriate file.
 /// Returns a Result type containing either an error or a Vector with elements
 /// being Stops structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
@@ -120,6 +127,7 @@ fn stops(file_path: String) -> Result<Vec<Shapes>, Error> {
     Ok(shapes)
 }
 
+/// Checks given root file path for the appropriate file.
 /// Returns a Result type containing either an error or a Vector with elements
 /// being StopTimes structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
@@ -136,6 +144,7 @@ fn stoptimes(file_path: String) -> Result<Vec<StopTimes>, Error> {
     Ok(stoptimes)
 }
 
+/// Checks given root file path for the appropriate file.
 /// Returns a Result type containing either an error or a Vector with elements
 /// being Timeframes structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
@@ -152,6 +161,7 @@ fn timeframes(file_path: String) -> Result<Vec<Timeframes>, Error> {
     Ok(timeframes)
 }
 
+/// Checks given root file path for the appropriate file.
 /// Returns a Result type containing either an error or a Vector with elements
 /// being Trips structs, each corresponding to a nonempty line of the
 /// data contained in the GTFS static definition.
