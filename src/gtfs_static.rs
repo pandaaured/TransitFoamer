@@ -438,7 +438,35 @@ mod test {
         let tpr = trips_per_route(trips(path.to_string()).unwrap());
         let spt = stops_per_trip(stoptimes(path.to_string()).unwrap());
         let rps = routes_per_stop(tpr, spt);
-        println!("{:?}", rps);
+        let key_1 = "20287";
+        let key_2 = "5124";
+        let key_3 = "5125";
+        let key_4 = "16107";
+        let key_5 = "8163";
+        let key_6 = "16122";
+        let key_7 = "20501";
+        let key_8 = "8162";
+        let key_9 = "16121";
+        let key_10 = "8165";
+        let key_11 = "16109";
+        let key_12 = "8161";
+        let key_13 = "16120";
+        let key_14 = "8160";
+        let key_15 = "16110";
+
+        println!("Penn station A\n{:#?}", rps.get(key_1));
+        println!("Penn station B\n{:#?}", rps.get(key_2));
+        println!("Herron station A\n{:#?}", rps.get(key_3));
+        println!("Herron station B\n{:#?}", rps.get(key_4));
+        println!("Herron station C\n{:#?}", rps.get(key_5));
+        println!("Herron station D\n{:#?}", rps.get(key_6));
+        println!("Negley station A\n{:#?}", rps.get(key_7));
+        println!("Negley station C\n{:#?}", rps.get(key_8));
+        println!("Negley station D\n{:#?}", rps.get(key_9));
+        println!("E Lib station A\n{:#?}", rps.get(key_10));
+        println!("E Lib station B\n{:#?}", rps.get(key_11));
+        println!("E Lib station C\n{:#?}", rps.get(key_12));
+        println!("E Lib station D\n{:#?}", rps.get(key_13));
     }
 
     #[test]
