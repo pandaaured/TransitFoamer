@@ -24,18 +24,15 @@ pub fn protobuf_request_from_path(path: &str) -> () {
     // TODO: change return type to match protobuf_request_from_url!
 }
 
-/// Returns a serialized JSON string from the FeedMessage struct. 
+/// Returns a serialized JSON string from the FeedMessage struct.
 pub fn gtfs_to_json(message: FeedMessage) -> Result<String, serde_json::Error> {
     serde_json::to_string(&message)
 }
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain VehiclePosition.
-fn has_vehicleposition(message: FeedMessage) -> FeedMessage {
-    let filtered = message
-        .entity
-        .into_iter()
-        .filter(|x| x.vehicle.is_some());
+fn filter_vehicleposition(message: FeedMessage) -> FeedMessage {
+    let filtered = message.entity.into_iter().filter(|x| x.vehicle.is_some());
 
     FeedMessage {
         header: message.header,
@@ -45,7 +42,7 @@ fn has_vehicleposition(message: FeedMessage) -> FeedMessage {
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain TripUpdate.
-fn has_tripupdate(message: FeedMessage) -> FeedMessage {
+fn filter_tripupdate(message: FeedMessage) -> FeedMessage {
     let filtered = message
         .entity
         .into_iter()
@@ -58,7 +55,7 @@ fn has_tripupdate(message: FeedMessage) -> FeedMessage {
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain Alerts.
-fn has_alerts(message: FeedMessage) -> FeedMessage {
+fn filter_alerts(message: FeedMessage) -> FeedMessage {
     let filtered = message.entity.into_iter().filter(|x| x.alert.is_some());
     FeedMessage {
         header: message.header,
@@ -67,9 +64,55 @@ fn has_alerts(message: FeedMessage) -> FeedMessage {
 }
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
+/// not contain a VehicleDescriptor.
+/// REQUIRES: FeedMessage is the output of filter_vehicleposition or
+/// filter_tripupdate
+fn filter_vehicledescriptor(message: FeedMessage) -> FeedMessage {
+    let filtered = filter_tripupdate(message); // Filter anything without a TripUpdate so we don't unwrap None!
+
+    FeedMessage {
+        header: filtered.header,
+        entity: filtered
+            .entity
+            .into_iter()
+            .filter(|x| {
+                x.trip_update
+                    .clone() // Fix performance later.
+                    .unwrap() // Guaranteed safe by passing through has_tripupdate().
+                    .vehicle
+                    .is_some()
+            })
+            .collect(),
+    }
+}
+
+/// Returns a FeedMessage which filters all entities in the FeedMessage which do
+/// not contain a TripDescriptor.
+/// REQUIRES: FeedMessage is the output of filter_vehicleposition only! TripUpdate
+/// contains TripDescriptor as a mandatory type!
+fn filter_tripdescriptor(message: FeedMessage) -> FeedMessage {
+    let filtered = filter_tripupdate(message); // Filter anything without a TripUpdate so we don't unwrap None!
+
+    FeedMessage {
+        header: filtered.header,
+        entity: filtered
+            .entity
+            .into_iter()
+            .filter(|x| {
+                x.vehicle
+                    .clone() // Fix performance later.
+                    .unwrap() // Guaranteed safe by passing through has_tripupdate().
+                    .trip
+                    .is_some()
+            })
+            .collect(),
+    }
+}
+
+/// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain stop_ids.
 fn has_stop_id(message: FeedMessage) -> FeedMessage {
-    let filtered = has_tripupdate(message.clone()); // Filter anything without a TripUpdate so we don't unwrap None!
+    let filtered = filter_tripupdate(message); // Filter anything without a TripUpdate so we don't unwrap None!
 
     FeedMessage {
         header: filtered.header,
@@ -91,7 +134,7 @@ fn has_stop_id(message: FeedMessage) -> FeedMessage {
 /// Given a FeedMessage and a first and last vehicle_id, returns a FeedMessage
 /// containing only FeedEntities running within these vehicle_ids.
 /// (TODO: Have input list be generated or be an explicit collection.)
-pub fn filter_for_in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
+pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
         if x.vehicle.is_some() {
@@ -125,7 +168,7 @@ pub fn filter_for_in_range(first: &str, last: &str, message: FeedMessage) -> Fee
                 last,
             )
         } else {
-            true // If neither is_some, then return empty.
+            false // If neither is_some, then return empty.
         }
     });
     let in_range: Vec<FeedEntity> = result.collect();
@@ -139,7 +182,7 @@ pub fn filter_for_in_range(first: &str, last: &str, message: FeedMessage) -> Fee
 /// Given a FeedMessage and a route_id, returns a FeedMessage
 /// containing only FeedEntities running on that route.
 /// (TODO: Have input list be generated or be an explicit collection.)
-pub fn filter_for_on_route(number: &str, message: FeedMessage) -> FeedMessage {
+pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
         if x.trip_update.is_some() {
@@ -223,49 +266,56 @@ mod test {
 
     #[tokio::test]
     async fn prt_vehicles_test() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = filter_for_in_range("6801", "6840", x.unwrap());
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+            .await;
+        let r = in_range("8001", "8018", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_test_two() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = filter_for_in_range("7000", "7106", x.unwrap());
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+            .await;
+        let r = in_range("7000", "7106", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn route() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = filter_for_on_route("74", x.unwrap());
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+            .await;
+        let r = on_route("28X", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_trips_test() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
-        let r = filter_for_in_range("6701", "6740", x.unwrap());
+        let x =
+            protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let r = in_range("6701", "6740", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_alerts_test() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
+        let x =
+            protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
         println!("{:#?}", x);
     }
 
     #[tokio::test]
     async fn vehicles_approaching_route_test() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let x =
+            protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
         let r = vehicles_approaching_stop(x.unwrap(), "10920".to_string());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn testing_serde_json() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
-        let y = gtfs_to_json(x.unwrap()).unwrap();    
+        let x =
+            protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let y = gtfs_to_json(x.unwrap()).unwrap();
         println!("{:#?}", y);
     }
 
@@ -380,7 +430,7 @@ mod test {
         };
 
         let route = "61C";
-        let on_route_message = filter_for_on_route(route, message.clone());
+        let on_route_message = on_route(route, message.clone());
         assert!(message.entity.len() == 2);
         assert!(on_route_message.entity.len() == 1);
 
@@ -517,7 +567,7 @@ mod test {
 
         let low = "3400";
         let high = "3425";
-        let on_route_message = filter_for_in_range(low, high, message.clone());
+        let on_route_message = in_range(low, high, message.clone());
         assert!(message.entity.len() == 2);
         assert!(on_route_message.entity.len() == 1);
     }
