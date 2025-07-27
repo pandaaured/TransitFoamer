@@ -77,7 +77,7 @@ fn filter_vehicledescriptor(message: FeedMessage) -> FeedMessage {
             .into_iter()
             .filter(|x| {
                 x.trip_update
-                    .clone() // Fix performance later.
+                    .as_ref()
                     .unwrap() // Guaranteed safe by passing through has_tripupdate().
                     .vehicle
                     .is_some()
@@ -100,7 +100,7 @@ fn filter_tripdescriptor(message: FeedMessage) -> FeedMessage {
             .into_iter()
             .filter(|x| {
                 x.vehicle
-                    .clone() // Fix performance later.
+                    .as_ref()
                     .unwrap() // Guaranteed safe by passing through has_tripupdate().
                     .trip
                     .is_some()
@@ -263,9 +263,17 @@ mod test {
     use super::*;
     use gtfs_realtime::trip_update::StopTimeUpdate;
     use gtfs_realtime::*;
-
+    
+    // Lots of PRT testing.
+    // I: Testing the main feeds: 
+    //     a. vehicles (for bus and train)
+    //     b. trips (for bus and train)
+    //     c. alerts (for bus and train)
+    //  II: Testing additional functionality
+    //     a. vehicles on a certain route
+    //     b. vehicles approaching a certain stop
     #[tokio::test]
-    async fn prt_vehicles_test() {
+    async fn prt_vehicles_test_one() {
         let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
             .await;
         let r = in_range("8001", "8018", x.unwrap());
@@ -281,18 +289,26 @@ mod test {
     }
 
     #[tokio::test]
-    async fn route() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+    async fn prt_vehicles_test_three() {
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-train/vehicles")
             .await;
-        let r = on_route("28X", x.unwrap());
+        let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
-    async fn prt_trips_test() {
+    async fn prt_trips_test_one() {
         let x =
             protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
         let r = in_range("6701", "6740", x.unwrap());
+        println!("{:#?}", r);
+    }
+ 
+    #[tokio::test]
+    async fn prt_trips_test_two() {
+        let x =
+            protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-train/trips").await;
+        let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
 
@@ -304,11 +320,77 @@ mod test {
     }
 
     #[tokio::test]
-    async fn vehicles_approaching_route_test() {
+    async fn prt_route_test() {
+        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+            .await;
+        let r = on_route("28X", x.unwrap());
+        println!("{:#?}", r);
+    }
+
+    #[tokio::test]
+    async fn prt_vehicles_appr_stop_test() {
         let x =
             protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
         let r = vehicles_approaching_stop(x.unwrap(), "10920".to_string());
         println!("{:#?}", r);
+    }
+
+    // Lots of MTA testing.
+    // I: Testing the main feeds.
+    //     a. 
+    #[tokio::test]
+    async fn mta_vehicles_test_one() {
+        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace").await;
+        println!("{:#?}", x);
+    }
+
+    // Testing the GTFS-RT for trains B, D, F, M, and SF (Franklin Shuttle). 
+    #[tokio::test]
+    async fn mta_vehicles_test_two() {
+        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm").await;
+        println!("{:#?}", x);
+    }
+
+    // Testing the GTFS-RT for train G.
+    #[tokio::test]
+    async fn mta_vehicles_test_three() {
+        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g").await;
+        println!("{:#?}", x);
+    }
+
+    // Testing the GTFS-RT for trains J, Z
+    #[tokio::test]
+    async fn mta_vehicles_test_four() {
+        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz").await;
+        println!("{:#?}", x);
+    }
+    
+    // Testing the GTFS-RT for trains N, Q, R, W
+    #[tokio::test]
+    async fn mta_vehicles_test_five() {
+        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw").await;
+        println!("{:#?}", x);
+    }
+     
+    // Testing the GTFS-RT for train L
+    #[tokio::test]
+    async fn mta_vehicles_test_six() {
+        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l").await;
+        println!("{:#?}", x);
+    }
+    
+    // Testing the GTFS-RT for trains 1, 2, 3, 4, 5, 6, 7, and the S.
+    #[tokio::test]
+    async fn mta_vehicles_test_seven() {
+        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs").await;
+        println!("{:#?}", x);
+    }
+    
+    // Testing the GTFS-RT for train SI.
+    #[tokio::test]
+    async fn mta_vehicles_test_eight() {
+        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si").await;
+        println!("{:#?}", x);
     }
 
     #[tokio::test]
