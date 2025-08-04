@@ -68,7 +68,7 @@ fn filter_alerts(message: FeedMessage) -> FeedMessage {
 /// REQUIRES: FeedMessage is the output of filter_vehicleposition or
 /// filter_tripupdate
 fn filter_vehicledescriptor(message: FeedMessage) -> FeedMessage {
-    let filtered = filter_tripupdate(message); // Filter anything without a TripUpdate so we don't unwrap None!
+    let filtered = filter_vehicleposition(message); // Filter anything without a TripUpdate so we don't unwrap None!
 
     FeedMessage {
         header: filtered.header,
@@ -91,7 +91,8 @@ fn filter_vehicledescriptor(message: FeedMessage) -> FeedMessage {
 /// REQUIRES: FeedMessage is the output of filter_vehicleposition only! TripUpdate
 /// contains TripDescriptor as a mandatory type!
 fn filter_tripdescriptor(message: FeedMessage) -> FeedMessage {
-    let filtered = filter_tripupdate(message); // Filter anything without a TripUpdate so we don't unwrap None!
+    let filtered = filter_vehicleposition(message); // Filter anything without a 
+    // VehiclePosition so we don't unwrap None!
 
     FeedMessage {
         header: filtered.header,
@@ -131,53 +132,58 @@ fn has_stop_id(message: FeedMessage) -> FeedMessage {
     }
 }
 
+fn filter_vehicle_id(message: FeedMessage) -> FeedMessage {
+    let filtered = filter_vehicledescriptor(message); // Filter anything without a
+    // VehicleDescriptor so we don't unwrap None!
+
+    FeedMessage {
+        header : filtered.header,
+        entity: filtered
+            .entity
+            .into_iter()
+            .filter(|x| {
+                x.clone()
+                 .vehicle
+                 .unwrap()
+                 .vehicle
+                 .unwrap()
+                 .id
+                 .is_some()
+            })
+            .collect(),
+    }
+}
+
 /// Given a FeedMessage and a first and last vehicle_id, returns a FeedMessage
 /// containing only FeedEntities running within these vehicle_ids.
 /// (TODO: Have input list be generated or be an explicit collection.)
 pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
-    let entities = message.entity;
-    let result = entities.into_iter().filter(|x| {
-        if x.vehicle.is_some() {
-            // First check for a VehiclePosition
-            within_bounds(
-                x.vehicle
-                    .as_ref()
-                    .unwrap()
-                    .vehicle
-                    .as_ref()
-                    .unwrap()
-                    .id
-                    .as_ref()
-                    .unwrap(),
-                first,
-                last,
-            )
-        } else if x.trip_update.is_some() {
-            // Now check for a TripUpdate.
-            within_bounds(
-                x.trip_update
-                    .as_ref()
-                    .unwrap()
-                    .vehicle
-                    .as_ref()
-                    .unwrap()
-                    .id
-                    .as_ref()
-                    .unwrap(),
-                first,
-                last,
-            )
-        } else {
-            false // If neither is_some, then return empty.
-        }
-    });
-    let in_range: Vec<FeedEntity> = result.collect();
+    let filtered = filter_vehicle_id(message);
 
+   
     FeedMessage {
-        header: message.header,
-        entity: in_range,
+        header: filtered.header,
+        entity: filtered
+            .entity
+            .into_iter()
+            .filter(|x| {
+                within_bounds(
+                    x.vehicle
+                     .as_ref()
+                     .unwrap()
+                     .vehicle
+                     .as_ref()
+                     .unwrap()
+                     .id
+                     .as_ref()
+                     .unwrap(),
+                first,
+                last,
+            )})
+            .collect(), 
     }
 }
+
 
 /// Given a FeedMessage and a route_id, returns a FeedMessage
 /// containing only FeedEntities running on that route.
