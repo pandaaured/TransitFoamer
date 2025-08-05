@@ -4,29 +4,18 @@
 //! Many of the functions contained within this module can be run with only
 //! GTFS Realtime data URLs.
 
-use gtfs_realtime::{FeedEntity, FeedMessage};
+use gtfs_realtime::FeedMessage;
 use prost::DecodeError;
 use reqwest::Response;
 
 /// Returns a Result type containing either an error or a valid FeedMessage decoded
 /// from the inputted URL.
-pub async fn protobuf_request_from_url(url: &str) -> Result<FeedMessage, DecodeError> {
+pub async fn url_to_feedmessage(url: &str) -> Result<FeedMessage, DecodeError> {
     let response: Response = reqwest::get(url).await.unwrap(); // Fix this function so all errors are handled properly.
     let bytes = response.bytes().await.unwrap(); // Also here.
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
         prost::Message::decode(bytes.as_ref());
     data
-}
-
-// Describe function when implemented.
-pub fn protobuf_request_from_path(path: &str) -> () {
-    // TODO: Implement this!
-    // TODO: change return type to match protobuf_request_from_url!
-}
-
-/// Returns a serialized JSON string from the FeedMessage struct.
-pub fn gtfs_to_json(message: FeedMessage) -> Result<String, serde_json::Error> {
-    serde_json::to_string(&message)
 }
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
@@ -278,9 +267,12 @@ mod test {
     //  II: Testing additional functionality
     //     a. vehicles on a certain route
     //     b. vehicles approaching a certain stop
+    //  III: Data testing
+    //     a.
+
     #[tokio::test]
     async fn prt_vehicles_test_one() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
             .await;
         let r = in_range("8001", "8018", x.unwrap());
         println!("{:#?}", r);
@@ -288,7 +280,7 @@ mod test {
 
     #[tokio::test]
     async fn prt_vehicles_test_two() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
             .await;
         let r = in_range("7000", "7106", x.unwrap());
         println!("{:#?}", r);
@@ -296,7 +288,7 @@ mod test {
 
     #[tokio::test]
     async fn prt_vehicles_test_three() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-train/vehicles")
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/vehicles")
             .await;
         let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
@@ -305,7 +297,7 @@ mod test {
     #[tokio::test]
     async fn prt_trips_test_one() {
         let x =
-            protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
         let r = in_range("6701", "6740", x.unwrap());
         println!("{:#?}", r);
     }
@@ -313,7 +305,7 @@ mod test {
     #[tokio::test]
     async fn prt_trips_test_two() {
         let x =
-            protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-train/trips").await;
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/trips").await;
         let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
@@ -321,13 +313,13 @@ mod test {
     #[tokio::test]
     async fn prt_alerts_test() {
         let x =
-            protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
         println!("{:#?}", x);
     }
 
     #[tokio::test]
     async fn prt_route_test() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
             .await;
         let r = on_route("28X", x.unwrap());
         println!("{:#?}", r);
@@ -336,7 +328,7 @@ mod test {
     #[tokio::test]
     async fn prt_vehicles_appr_stop_test() {
         let x =
-            protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
         let r = vehicles_approaching_stop(x.unwrap(), "10920".to_string());
         println!("{:#?}", r);
     }
@@ -346,66 +338,60 @@ mod test {
     //     a. 
     #[tokio::test]
     async fn mta_vehicles_test_one() {
-        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace").await;
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace").await;
         println!("{:#?}", x);
     }
 
     // Testing the GTFS-RT for trains B, D, F, M, and SF (Franklin Shuttle). 
     #[tokio::test]
     async fn mta_vehicles_test_two() {
-        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm").await;
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm").await;
         println!("{:#?}", x);
     }
 
     // Testing the GTFS-RT for train G.
     #[tokio::test]
     async fn mta_vehicles_test_three() {
-        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g").await;
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g").await;
         println!("{:#?}", x);
     }
 
     // Testing the GTFS-RT for trains J, Z
     #[tokio::test]
     async fn mta_vehicles_test_four() {
-        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz").await;
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz").await;
         println!("{:#?}", x);
     }
     
     // Testing the GTFS-RT for trains N, Q, R, W
     #[tokio::test]
     async fn mta_vehicles_test_five() {
-        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw").await;
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw").await;
         println!("{:#?}", x);
     }
      
     // Testing the GTFS-RT for train L
     #[tokio::test]
     async fn mta_vehicles_test_six() {
-        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l").await;
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l").await;
         println!("{:#?}", x);
     }
     
     // Testing the GTFS-RT for trains 1, 2, 3, 4, 5, 6, 7, and the S.
     #[tokio::test]
     async fn mta_vehicles_test_seven() {
-        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs").await;
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs").await;
         println!("{:#?}", x);
     }
     
     // Testing the GTFS-RT for train SI.
     #[tokio::test]
     async fn mta_vehicles_test_eight() {
-        let x = protobuf_request_from_url("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si").await;
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si").await;
         println!("{:#?}", x);
     }
 
-    #[tokio::test]
-    async fn testing_serde_json() {
-        let x =
-            protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
-        let y = gtfs_to_json(x.unwrap()).unwrap();
-        println!("{:#?}", y);
-    }
+
 
     #[test]
     fn on_route_filter_test() {
