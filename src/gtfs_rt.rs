@@ -4,13 +4,13 @@
 //! Many of the functions contained within this module can be run with only
 //! GTFS Realtime data URLs.
 
-use gtfs_realtime::{FeedEntity, FeedMessage};
+use gtfs_realtime::FeedMessage;
 use prost::DecodeError;
 use reqwest::Response;
 
 /// Returns a Result type containing either an error or a valid FeedMessage decoded
 /// from the inputted URL.
-pub async fn protobuf_request_from_url(url: &str) -> Result<FeedMessage, DecodeError> {
+pub async fn url_to_feedmessage(url: &str) -> Result<FeedMessage, DecodeError> {
     let response: Response = reqwest::get(url).await.unwrap(); // Fix this function so all errors are handled properly.
     let bytes = response.bytes().await.unwrap(); // Also here.
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
@@ -18,24 +18,10 @@ pub async fn protobuf_request_from_url(url: &str) -> Result<FeedMessage, DecodeE
     data
 }
 
-// Describe function when implemented.
-pub fn protobuf_request_from_path(path: &str) -> () {
-    // TODO: Implement this!
-    // TODO: change return type to match protobuf_request_from_url!
-}
-
-/// Returns a serialized JSON string from the FeedMessage struct. 
-pub fn gtfs_to_json(message: FeedMessage) -> Result<String, serde_json::Error> {
-    serde_json::to_string(&message)
-}
-
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain VehiclePosition.
-fn has_vehicleposition(message: FeedMessage) -> FeedMessage {
-    let filtered = message
-        .entity
-        .into_iter()
-        .filter(|x| x.vehicle.is_some());
+fn filter_vehicleposition(message: FeedMessage) -> FeedMessage {
+    let filtered = message.entity.into_iter().filter(|x| x.vehicle.is_some());
 
     FeedMessage {
         header: message.header,
@@ -45,7 +31,7 @@ fn has_vehicleposition(message: FeedMessage) -> FeedMessage {
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain TripUpdate.
-fn has_tripupdate(message: FeedMessage) -> FeedMessage {
+fn filter_tripupdate(message: FeedMessage) -> FeedMessage {
     let filtered = message
         .entity
         .into_iter()
@@ -58,7 +44,7 @@ fn has_tripupdate(message: FeedMessage) -> FeedMessage {
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain Alerts.
-fn has_alerts(message: FeedMessage) -> FeedMessage {
+fn filter_alerts(message: FeedMessage) -> FeedMessage {
     let filtered = message.entity.into_iter().filter(|x| x.alert.is_some());
     FeedMessage {
         header: message.header,
@@ -67,9 +53,56 @@ fn has_alerts(message: FeedMessage) -> FeedMessage {
 }
 
 /// Returns a FeedMessage which filters all entities in the FeedMessage which do
+/// not contain a VehicleDescriptor.
+/// REQUIRES: FeedMessage is the output of filter_vehicleposition or
+/// filter_tripupdate
+fn filter_vehicledescriptor(message: FeedMessage) -> FeedMessage {
+    let filtered = filter_vehicleposition(message); // Filter anything without a TripUpdate so we don't unwrap None!
+
+    FeedMessage {
+        header: filtered.header,
+        entity: filtered
+            .entity
+            .into_iter()
+            .filter(|x| {
+                x.trip_update
+                    .as_ref()
+                    .unwrap() // Guaranteed safe by passing through has_tripupdate().
+                    .vehicle
+                    .is_some()
+            })
+            .collect(),
+    }
+}
+
+/// Returns a FeedMessage which filters all entities in the FeedMessage which do
+/// not contain a TripDescriptor.
+/// REQUIRES: FeedMessage is the output of filter_vehicleposition only! TripUpdate
+/// contains TripDescriptor as a mandatory type!
+fn filter_tripdescriptor(message: FeedMessage) -> FeedMessage {
+    let filtered = filter_vehicleposition(message); // Filter anything without a 
+    // VehiclePosition so we don't unwrap None!
+
+    FeedMessage {
+        header: filtered.header,
+        entity: filtered
+            .entity
+            .into_iter()
+            .filter(|x| {
+                x.vehicle
+                    .as_ref()
+                    .unwrap() // Guaranteed safe by passing through has_tripupdate().
+                    .trip
+                    .is_some()
+            })
+            .collect(),
+    }
+}
+
+/// Returns a FeedMessage which filters all entities in the FeedMessage which do
 /// not contain stop_ids.
 fn has_stop_id(message: FeedMessage) -> FeedMessage {
-    let filtered = has_tripupdate(message.clone()); // Filter anything without a TripUpdate so we don't unwrap None!
+    let filtered = filter_tripupdate(message); // Filter anything without a TripUpdate so we don't unwrap None!
 
     FeedMessage {
         header: filtered.header,
@@ -88,58 +121,63 @@ fn has_stop_id(message: FeedMessage) -> FeedMessage {
     }
 }
 
+fn filter_vehicle_id(message: FeedMessage) -> FeedMessage {
+    let filtered = filter_vehicledescriptor(message); // Filter anything without a
+    // VehicleDescriptor so we don't unwrap None!
+
+    FeedMessage {
+        header : filtered.header,
+        entity: filtered
+            .entity
+            .into_iter()
+            .filter(|x| {
+                x.clone()
+                 .vehicle
+                 .unwrap()
+                 .vehicle
+                 .unwrap()
+                 .id
+                 .is_some()
+            })
+            .collect(),
+    }
+}
+
 /// Given a FeedMessage and a first and last vehicle_id, returns a FeedMessage
 /// containing only FeedEntities running within these vehicle_ids.
 /// (TODO: Have input list be generated or be an explicit collection.)
-pub fn filter_for_in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
-    let entities = message.entity;
-    let result = entities.into_iter().filter(|x| {
-        if x.vehicle.is_some() {
-            // First check for a VehiclePosition
-            within_bounds(
-                x.vehicle
-                    .as_ref()
-                    .unwrap()
-                    .vehicle
-                    .as_ref()
-                    .unwrap()
-                    .id
-                    .as_ref()
-                    .unwrap(),
-                first,
-                last,
-            )
-        } else if x.trip_update.is_some() {
-            // Now check for a TripUpdate.
-            within_bounds(
-                x.trip_update
-                    .as_ref()
-                    .unwrap()
-                    .vehicle
-                    .as_ref()
-                    .unwrap()
-                    .id
-                    .as_ref()
-                    .unwrap(),
-                first,
-                last,
-            )
-        } else {
-            true // If neither is_some, then return empty.
-        }
-    });
-    let in_range: Vec<FeedEntity> = result.collect();
+pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
+    let filtered = filter_vehicle_id(message);
 
+   
     FeedMessage {
-        header: message.header,
-        entity: in_range,
+        header: filtered.header,
+        entity: filtered
+            .entity
+            .into_iter()
+            .filter(|x| {
+                within_bounds(
+                    x.vehicle
+                     .as_ref()
+                     .unwrap()
+                     .vehicle
+                     .as_ref()
+                     .unwrap()
+                     .id
+                     .as_ref()
+                     .unwrap(),
+                first,
+                last,
+            )})
+            .collect(), 
     }
 }
+
 
 /// Given a FeedMessage and a route_id, returns a FeedMessage
 /// containing only FeedEntities running on that route.
 /// (TODO: Have input list be generated or be an explicit collection.)
-pub fn filter_for_on_route(number: &str, message: FeedMessage) -> FeedMessage {
+pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
         if x.trip_update.is_some() {
@@ -220,54 +258,140 @@ mod test {
     use super::*;
     use gtfs_realtime::trip_update::StopTimeUpdate;
     use gtfs_realtime::*;
+    
+    // Lots of PRT testing.
+    // I: Testing the main feeds: 
+    //     a. vehicles (for bus and train)
+    //     b. trips (for bus and train)
+    //     c. alerts (for bus and train)
+    //  II: Testing additional functionality
+    //     a. vehicles on a certain route
+    //     b. vehicles approaching a certain stop
+    //  III: Data testing
+    //     a.
 
     #[tokio::test]
-    async fn prt_vehicles_test() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = filter_for_in_range("6801", "6840", x.unwrap());
+    async fn prt_vehicles_test_one() {
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+            .await;
+        let r = in_range("8001", "8018", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_test_two() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = filter_for_in_range("7000", "7106", x.unwrap());
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+            .await;
+        let r = in_range("7000", "7106", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
-    async fn route() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = filter_for_on_route("74", x.unwrap());
+    async fn prt_vehicles_test_three() {
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/vehicles")
+            .await;
+        let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
-    async fn prt_trips_test() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
-        let r = filter_for_in_range("6701", "6740", x.unwrap());
+    async fn prt_trips_test_one() {
+        let x =
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let r = in_range("6701", "6740", x.unwrap());
+        println!("{:#?}", r);
+    }
+ 
+    #[tokio::test]
+    async fn prt_trips_test_two() {
+        let x =
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/trips").await;
+        let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_alerts_test() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
+        let x =
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
         println!("{:#?}", x);
     }
 
     #[tokio::test]
-    async fn vehicles_approaching_route_test() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
-        let r = vehicles_approaching_stop(x.unwrap(), "10920".to_string());
+    async fn prt_route_test() {
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
+            .await;
+        let r = on_route("28X", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
-    async fn testing_serde_json() {
-        let x = protobuf_request_from_url("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
-        let y = gtfs_to_json(x.unwrap()).unwrap();    
-        println!("{:#?}", y);
+    async fn prt_vehicles_appr_stop_test() {
+        let x =
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let r = vehicles_approaching_stop(x.unwrap(), "10920".to_string());
+        println!("{:#?}", r);
     }
+
+    // Lots of MTA testing.
+    // I: Testing the main feeds.
+    //     a. 
+    #[tokio::test]
+    async fn mta_vehicles_test_one() {
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace").await;
+        println!("{:#?}", x);
+    }
+
+    // Testing the GTFS-RT for trains B, D, F, M, and SF (Franklin Shuttle). 
+    #[tokio::test]
+    async fn mta_vehicles_test_two() {
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm").await;
+        println!("{:#?}", x);
+    }
+
+    // Testing the GTFS-RT for train G.
+    #[tokio::test]
+    async fn mta_vehicles_test_three() {
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g").await;
+        println!("{:#?}", x);
+    }
+
+    // Testing the GTFS-RT for trains J, Z
+    #[tokio::test]
+    async fn mta_vehicles_test_four() {
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz").await;
+        println!("{:#?}", x);
+    }
+    
+    // Testing the GTFS-RT for trains N, Q, R, W
+    #[tokio::test]
+    async fn mta_vehicles_test_five() {
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw").await;
+        println!("{:#?}", x);
+    }
+     
+    // Testing the GTFS-RT for train L
+    #[tokio::test]
+    async fn mta_vehicles_test_six() {
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l").await;
+        println!("{:#?}", x);
+    }
+    
+    // Testing the GTFS-RT for trains 1, 2, 3, 4, 5, 6, 7, and the S.
+    #[tokio::test]
+    async fn mta_vehicles_test_seven() {
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs").await;
+        println!("{:#?}", x);
+    }
+    
+    // Testing the GTFS-RT for train SI.
+    #[tokio::test]
+    async fn mta_vehicles_test_eight() {
+        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si").await;
+        println!("{:#?}", x);
+    }
+
+
 
     #[test]
     fn on_route_filter_test() {
@@ -380,7 +504,7 @@ mod test {
         };
 
         let route = "61C";
-        let on_route_message = filter_for_on_route(route, message.clone());
+        let on_route_message = on_route(route, message.clone());
         assert!(message.entity.len() == 2);
         assert!(on_route_message.entity.len() == 1);
 
@@ -517,7 +641,7 @@ mod test {
 
         let low = "3400";
         let high = "3425";
-        let on_route_message = filter_for_in_range(low, high, message.clone());
+        let on_route_message = in_range(low, high, message.clone());
         assert!(message.entity.len() == 2);
         assert!(on_route_message.entity.len() == 1);
     }
