@@ -110,8 +110,6 @@ pub fn count_trips_per_service_id(
     count_trips_per_service_id
 }
 
-
-
 #[derive(Debug, serde::Deserialize)]
 pub struct Agency {
     pub agency_id: Option<String>,
@@ -533,71 +531,71 @@ mod test {
     #[test]
     fn agency_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let agency = agency(path.to_string());
+        let agency = Agency::new_vec(path.to_string()).unwrap();
         println!("{:?}", agency);
     }
 
     #[test]
     fn calendar_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let calendar = calendar(path.to_string());
+        let calendar = Calendar::new_vec(path.to_string()).unwrap();
         println!("{:?}", calendar);
     }
 
     #[test]
     fn calendardates_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let calendardates = calendardates(path.to_string());
+        let calendardates = CalendarDates::new_vec(path.to_string()).unwrap();
         println!("{:?}", calendardates);
     }
 
     #[test]
     fn routes_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let routes = routes(path.to_string());
+        let routes = Routes::new_vec(path.to_string()).unwrap();
         println!("{:?}", routes);
     }
 
     #[test]
     fn stops_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let stops = stops(path.to_string());
+        let stops = Stops::new_vec(path.to_string()).unwrap();
         println!("{:?}", stops);
     }
 
     #[test]
     fn stoptimes_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let stoptimes = stoptimes(path.to_string());
+        let stoptimes = StopTimes::new_vec(path.to_string()).unwrap();
         println!("{:?}", stoptimes);
     }
 
     #[test]
     fn trips_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let trips = trips(path.to_string());
+        let trips = Trips::new_vec(path.to_string()).unwrap();
         println!("{:?}", trips);
     }
 
     #[test]
     fn service_ids_test() {
         let path = "src/static/pittsburgh/prt/";
-        let sid = service_ids(calendar(path.to_string()).unwrap());
+        let sid = Calendar::service_ids(Calendar::new_vec(path.to_string()).unwrap());
         println!("{:?}", sid);
     }
 
     #[test]
     fn trips_per_service_id_test() {
         let path = "src/static/pittsburgh/prt/";
-        let tpsid = trips_per_service_id(trips(path.to_string()).unwrap());
+        let tpsid = trips_per_service_id(Trips::new_vec(path.to_string()).unwrap());
         println!("{:?}", tpsid);
     }
 
     #[test]
     fn routes_per_stop_test() {
         let path = "src/static/pittsburgh/prt/";
-        let tpr = trips_per_route(trips(path.to_string()).unwrap());
-        let spt = stops_per_trip(stoptimes(path.to_string()).unwrap());
+        let tpr = trips_per_route(Trips::new_vec(path.to_string()).unwrap());
+        let spt = stops_per_trip(StopTimes::new_vec(path.to_string()).unwrap());
         let rps = routes_per_stop(tpr, spt);
         println!("{:?}", rps);
     }
@@ -605,7 +603,7 @@ mod test {
     #[test]
     fn count_trips_per_route_test() {
         let path = "src/static/pittsburgh/prt/";
-        let tpr = trips_per_route(trips(path.to_string()).unwrap());
+        let tpr = trips_per_route(Trips::new_vec(path.to_string()).unwrap());
         let count = count_trips_per_route(tpr);
         println!("{:?}", count);
     }
@@ -613,7 +611,7 @@ mod test {
     #[test]
     fn count_trips_per_service_id_test() {
         let path = "src/static/pittsburgh/prt/";
-        let tpr = trips_per_service_id(trips(path.to_string()).unwrap());
+        let tpr = trips_per_service_id(Trips::new_vec(path.to_string()).unwrap());
         let count = count_trips_per_service_id(tpr);
         println!("{:?}", count);
     }
