@@ -4,263 +4,8 @@
 //!
 //! A library for fetching and analyzing GTFS Static data from a transit feed.
 
-use chrono::Local;
 use std::collections::{HashMap, HashSet};
 use std::io::Error;
-
-/// Checks given root file path for the appropriate file.
-/// Returns a Result type containing either an error or a Vector with elements
-/// being Agency structs, each corresponding to a nonempty line of the
-/// data contained in the GTFS static definition.
-fn agency(file_path: String) -> Result<Vec<Agency>, Error> {
-    let mut agency: Vec<Agency> = Vec::new(); // Initializes the mutable data.
-    let mut path: String = file_path.clone(); // Getting the file path and
-    path.push_str("agency.txt");
-    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-    for result in rdr.deserialize() {
-        let record: Agency = result?;
-        agency.push(record);
-    }
-
-    Ok(agency)
-}
-
-/// Checks given root file path for the appropriate file.
-/// Returns a Result type containing either an error or a Vector with elements
-/// being Areas structs, each corresponding to a nonempty line of the
-/// data contained in the GTFS static definition.
-fn areas(file_path: String) -> Result<Vec<Areas>, Error> {
-    let mut areas: Vec<Areas> = Vec::new(); // Initializes the mutable data.
-    let mut path: String = file_path.clone(); // Getting the file path and
-    path.push_str("areas.txt");
-    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-    for result in rdr.deserialize() {
-        let record: Areas = result?;
-        areas.push(record);
-    }
-
-    Ok(areas)
-}
-
-/// Checks given root file path for the appropriate file.
-/// Returns a Result type containing either an error or a Vector with elements
-/// being CalendarDates structs, each corresponding to a nonempty line of the
-/// data contained in the GTFS static definition.
-fn calendardates(file_path: String) -> Result<Vec<CalendarDates>, Error> {
-    let mut calendardates: Vec<CalendarDates> = Vec::new(); // Initializes the mutable data.
-    let mut path: String = file_path.clone(); // Getting the file path and
-    path.push_str("calendar_dates.txt");
-    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-    for result in rdr.deserialize() {
-        let record: CalendarDates = result?;
-        calendardates.push(record);
-    }
-
-    Ok(calendardates)
-}
-
-/// Checks given root file path for the appropriate file.
-/// Returns a Result type containing either an error or a Vector with elements
-/// being Calendar structs, each corresponding to a nonempty line of the
-/// data contained in the GTFS static definition.
-fn calendar(file_path: String) -> Result<Vec<Calendar>, Error> {
-    let mut calendar: Vec<Calendar> = Vec::new(); // Initializes the mutable data.
-    let mut path: String = file_path.clone(); // Getting the file path and
-    path.push_str("calendar.txt");
-    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-    for result in rdr.deserialize() {
-        let record: Calendar = result?;
-        calendar.push(record);
-    }
-
-    Ok(calendar)
-}
-
-/// Checks given root file path for the appropriate file.
-/// Returns a Result type containing either an error or a Vector with elements
-/// being Routes structs, each corresponding to a nonempty line of the
-/// data contained in the GTFS static definition.
-fn routes(file_path: String) -> Result<Vec<Routes>, Error> {
-    let mut routes: Vec<Routes> = Vec::new(); // Initializes the mutable data.
-    let mut path: String = file_path.clone(); // Getting the file path and
-    path.push_str("routes.txt");
-    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-    for result in rdr.deserialize() {
-        let record: Routes = result?;
-        routes.push(record);
-    }
-
-    Ok(routes)
-}
-
-/// Checks given root file path for the appropriate file.
-/// Returns a Result type containing either an error or a Vector with elements
-/// being Shapes structs, each corresponding to a nonempty line of the
-/// data contained in the GTFS static definition.
-fn shapes(file_path: String) -> Result<Vec<Stops>, Error> {
-    let mut stops: Vec<Stops> = Vec::new(); // Initializes the mutable data.
-    let mut path: String = file_path.clone(); // Getting the file path and
-    path.push_str("stops.txt");
-    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-    for result in rdr.deserialize() {
-        let record: Stops = result?;
-        stops.push(record);
-    }
-
-    Ok(stops)
-}
-
-/// Checks given root file path for the appropriate file.
-/// Returns a Result type containing either an error or a Vector with elements
-/// being Stops structs, each corresponding to a nonempty line of the
-/// data contained in the GTFS static definition.
-fn stops(file_path: String) -> Result<Vec<Shapes>, Error> {
-    let mut shapes: Vec<Shapes> = Vec::new(); // Initializes the mutable data.
-    let mut path: String = file_path.clone(); // Getting the file path and
-    path.push_str("shapes.txt");
-    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-    for result in rdr.deserialize() {
-        let record: Shapes = result?;
-        shapes.push(record);
-    }
-
-    Ok(shapes)
-}
-
-/// Checks given root file path for the appropriate file.
-/// Returns a Result type containing either an error or a Vector with elements
-/// being StopTimes structs, each corresponding to a nonempty line of the
-/// data contained in the GTFS static definition.
-fn stoptimes(file_path: String) -> Result<Vec<StopTimes>, Error> {
-    let mut stoptimes: Vec<StopTimes> = Vec::new(); // Initializes the mutable data.
-    let mut path: String = file_path.clone(); // Getting the file path and
-    path.push_str("stop_times.txt");
-    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-    for result in rdr.deserialize() {
-        let record: StopTimes = result?;
-        stoptimes.push(record);
-    }
-
-    Ok(stoptimes)
-}
-
-/// Checks given root file path for the appropriate file.
-/// Returns a Result type containing either an error or a Vector with elements
-/// being Timeframes structs, each corresponding to a nonempty line of the
-/// data contained in the GTFS static definition.
-fn timeframes(file_path: String) -> Result<Vec<Timeframes>, Error> {
-    let mut timeframes: Vec<Timeframes> = Vec::new(); // Initializes the mutable data.
-    let mut path: String = file_path.clone(); // Getting the file path and
-    path.push_str("timeframes.txt");
-    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-    for result in rdr.deserialize() {
-        let record: Timeframes = result?;
-        timeframes.push(record);
-    }
-
-    Ok(timeframes)
-}
-
-/// Checks given root file path for the appropriate file.
-/// Returns a Result type containing either an error or a Vector with elements
-/// being Trips structs, each corresponding to a nonempty line of the
-/// data contained in the GTFS static definition.
-fn trips(file_path: String) -> Result<Vec<Trips>, Error> {
-    let mut trips: Vec<Trips> = Vec::new(); // Initializes the mutable data.
-    let mut path: String = file_path.clone(); // Getting the file path and
-    path.push_str("trips.txt");
-    let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-    for result in rdr.deserialize() {
-        let record: Trips = result?;
-        trips.push(record);
-    }
-
-    Ok(trips)
-}
-
-pub fn agency_hash(agency: Vec<Agency>) -> HashMap<String, Agency> {
-    let mut map: HashMap<String, Agency> = HashMap::new();
-    for entry in agency {
-        let key: &String = entry.agency_id.as_ref().unwrap();
-        map.insert(key.to_string(), entry);
-    }
-
-    map
-}
-
-pub fn calendardates_hash(
-    calendardates: Vec<CalendarDates>,
-) -> HashMap<(String, String), CalendarDates> {
-    let mut map: HashMap<(String, String), CalendarDates> = HashMap::new();
-    for entry in calendardates {
-        let key_one: &String = &entry.service_id;
-        let key_two: &String = &entry.date;
-        map.insert((key_one.to_string(), key_two.to_string()), entry);
-    }
-
-    map
-}
-
-pub fn calendar_hash(calendar: Vec<Calendar>) -> HashMap<String, Calendar> {
-    let mut map: HashMap<String, Calendar> = HashMap::new();
-    for entry in calendar {
-        let key: &String = &entry.service_id;
-        map.insert(key.to_string(), entry);
-    }
-
-    map
-}
-
-pub fn routes_hash(routes: Vec<Routes>) -> HashMap<String, Routes> {
-    let mut map: HashMap<String, Routes> = HashMap::new();
-    for entry in routes {
-        let key: &String = &entry.route_id;
-        map.insert(key.to_string(), entry);
-    }
-
-    map
-}
-
-pub fn stops_hash(stops: Vec<Stops>) -> HashMap<String, Stops> {
-    let mut map: HashMap<String, Stops> = HashMap::new();
-    for entry in stops {
-        let key: &String = &entry.stop_id;
-        map.insert(key.to_string(), entry);
-    }
-
-    map
-}
-
-pub fn stoptimes_hash(stoptimes: Vec<StopTimes>) -> HashMap<(String, String), StopTimes> {
-    let mut map: HashMap<(String, String), StopTimes> = HashMap::new();
-    for entry in stoptimes {
-        let key_one: &String = &entry.trip_id;
-        let key_two: &String = &entry.stop_sequence;
-        map.insert((key_one.to_string(), key_two.to_string()), entry);
-    }
-
-    map
-}
-
-pub fn trips_hash(trips: Vec<Trips>) -> HashMap<String, Trips> {
-    let mut map: HashMap<String, Trips> = HashMap::new();
-    for entry in trips {
-        let key: &String = &entry.trip_id;
-        map.insert(key.to_string(), entry);
-    }
-
-    map
-}
-
-pub fn service_ids(calendar_data: Vec<Calendar>) -> HashSet<String> {
-    let mut service_ids: HashSet<String> = HashSet::new();
-
-    for item in calendar_data {
-        service_ids.insert(item.service_id);
-    }
-
-    service_ids
-}
 
 pub fn trips_per_route(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
     let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
@@ -365,127 +110,6 @@ pub fn count_trips_per_service_id(
     count_trips_per_service_id
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn agency_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let agency = agency(path.to_string());
-        println!("{:?}", agency);
-    }
-
-    #[test]
-    fn calendar_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let calendar = calendar(path.to_string());
-        println!("{:?}", calendar);
-    }
-
-    #[test]
-    fn calendardates_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let calendardates = calendardates(path.to_string());
-        println!("{:?}", calendardates);
-    }
-
-    #[test]
-    fn routes_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let routes = routes(path.to_string());
-        println!("{:?}", routes);
-    }
-
-    #[test]
-    fn stops_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let stops = stops(path.to_string());
-        println!("{:?}", stops);
-    }
-
-    #[test]
-    fn stoptimes_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let stoptimes = stoptimes(path.to_string());
-        println!("{:?}", stoptimes);
-    }
-
-    #[test]
-    fn trips_prints() {
-        let path = "src/static/pittsburgh/prt/";
-        let trips = trips(path.to_string());
-        println!("{:?}", trips);
-    }
-
-    #[test]
-    fn service_ids_test() {
-        let path = "src/static/pittsburgh/prt/";
-        let sid = service_ids(calendar(path.to_string()).unwrap());
-        println!("{:?}", sid);
-    }
-
-    #[test]
-    fn trips_per_service_id_test() {
-        let path = "src/static/pittsburgh/prt/";
-        let tpsid = trips_per_service_id(trips(path.to_string()).unwrap());
-        println!("{:?}", tpsid);
-    }
-
-    #[test]
-    fn routes_per_stop_test() {
-        let path = "src/static/pittsburgh/prt/";
-        let tpr = trips_per_route(trips(path.to_string()).unwrap());
-        let spt = stops_per_trip(stoptimes(path.to_string()).unwrap());
-        let rps = routes_per_stop(tpr, spt);
-        let key_1 = "20287";
-        let key_2 = "5124";
-        let key_3 = "5125";
-        let key_4 = "16107";
-        let key_5 = "8163";
-        let key_6 = "16122";
-        let key_7 = "20501";
-        let key_8 = "8162";
-        let key_9 = "16121";
-        let key_10 = "8165";
-        let key_11 = "16109";
-        let key_12 = "8161";
-        let key_13 = "16120";
-        let key_14 = "8160";
-        let key_15 = "16110";
-
-        println!("Penn station A\n{:#?}", rps.get(key_1));
-        println!("Penn station B\n{:#?}", rps.get(key_2));
-        println!("Herron station A\n{:#?}", rps.get(key_3));
-        println!("Herron station B\n{:#?}", rps.get(key_4));
-        println!("Herron station C\n{:#?}", rps.get(key_5));
-        println!("Herron station D\n{:#?}", rps.get(key_6));
-        println!("Negley station A\n{:#?}", rps.get(key_7));
-        println!("Negley station C\n{:#?}", rps.get(key_8));
-        println!("Negley station D\n{:#?}", rps.get(key_9));
-        println!("E Lib station A\n{:#?}", rps.get(key_10));
-        println!("E Lib station B\n{:#?}", rps.get(key_11));
-        println!("E Lib station C\n{:#?}", rps.get(key_12));
-        println!("E Lib station D\n{:#?}", rps.get(key_13));
-    }
-
-    #[test]
-    fn count_trips_per_route_test() {
-        let path = "src/static/pittsburgh/prt/";
-        let tpr = trips_per_route(trips(path.to_string()).unwrap());
-        let count = count_trips_per_route(tpr);
-        println!("{:?}", count);
-    }
-
-    #[test]
-    fn count_trips_per_service_id_test() {
-        let path = "src/static/pittsburgh/prt/";
-        let tpr = trips_per_service_id(trips(path.to_string()).unwrap());
-        let count = count_trips_per_service_id(tpr);
-        println!("{:?}", count);
-    }
-}
-
 #[derive(Debug, serde::Deserialize)]
 pub struct Agency {
     pub agency_id: Option<String>,
@@ -498,10 +122,63 @@ pub struct Agency {
     pub agency_email: Option<String>,
 }
 
+impl Agency {
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being Agency structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_vec(file_path: String) -> Result<Vec<Agency>, Error> {
+        let mut agency: Vec<Agency> = Vec::new(); // Initializes the mutable data.
+        let mut path: String = file_path.clone(); // Getting the file path and
+        path.push_str("agency.txt");
+        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+        for result in rdr.deserialize() {
+            let record: Agency = result?;
+            agency.push(record);
+        }
+
+        Ok(agency)
+    }
+
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being Agency structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_hash(agency: Vec<Agency>) -> HashMap<String, Agency> {
+        let mut map: HashMap<String, Agency> = HashMap::new();
+        for entry in agency {
+            let key: &String = entry.agency_id.as_ref().unwrap();
+            map.insert(key.to_string(), entry);
+        }
+
+        map
+    }
+
+}
+
 #[derive(Debug, serde::Deserialize)]
 pub struct Areas {
     pub area_id: String,
     pub area_name: Option<String>,
+}
+
+impl Areas {
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being Areas structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_vec(file_path: String) -> Result<Vec<Areas>, Error> {
+        let mut areas: Vec<Areas> = Vec::new(); // Initializes the mutable data.
+        let mut path: String = file_path.clone(); // Getting the file path and
+        path.push_str("areas.txt");
+        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+        for result in rdr.deserialize() {
+            let record: Areas = result?;
+            areas.push(record);
+        }
+
+        Ok(areas)
+    }
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -533,11 +210,81 @@ pub struct Calendar {
     pub end_date: String,
 }
 
+impl Calendar {
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being Calendar structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_vec(file_path: String) -> Result<Vec<Calendar>, Error> {
+        let mut calendar: Vec<Calendar> = Vec::new(); // Initializes the mutable data.
+        let mut path: String = file_path.clone(); // Getting the file path and
+        path.push_str("calendar.txt");
+        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+        for result in rdr.deserialize() {
+            let record: Calendar = result?;
+            calendar.push(record);
+        }
+
+        Ok(calendar)
+    }
+
+    fn new_hash(calendar: Vec<Calendar>) -> HashMap<String, Calendar> {
+        let mut map: HashMap<String, Calendar> = HashMap::new();
+        for entry in calendar {
+            let key: &String = &entry.service_id;
+            map.insert(key.to_string(), entry);
+        }
+
+        map
+    }
+
+    fn service_ids(calendar_data: Vec<Calendar>) -> HashSet<String> {
+        let mut service_ids: HashSet<String> = HashSet::new();
+
+        for item in calendar_data {
+            service_ids.insert(item.service_id);
+        }
+
+        service_ids
+    }
+}
+
 #[derive(Debug, serde::Deserialize)]
 pub struct CalendarDates {
     pub service_id: String,
     pub date: String,
     pub exception_type: String,
+}
+
+impl CalendarDates {
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being CalendarDates structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_vec(file_path: String) -> Result<Vec<CalendarDates>, Error> {
+        let mut calendardates: Vec<CalendarDates> = Vec::new(); // Initializes the mutable data.
+        let mut path: String = file_path.clone(); // Getting the file path and
+        path.push_str("calendar_dates.txt");
+        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+        for result in rdr.deserialize() {
+            let record: CalendarDates = result?;
+            calendardates.push(record);
+        }
+
+        Ok(calendardates)
+    }
+
+    fn new_hash(calendardates: Vec<CalendarDates>) -> HashMap<(String, String), CalendarDates> {
+        let mut map: HashMap<(String, String), CalendarDates> = HashMap::new();
+        for entry in calendardates {
+            let key_one: &String = &entry.service_id;
+            let key_two: &String = &entry.date;
+            map.insert((key_one.to_string(), key_two.to_string()), entry);
+        }
+
+        map
+    }
+
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -557,6 +304,35 @@ pub struct Routes {
     pub network_id: Option<String>,
 }
 
+impl Routes {
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being Routes structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_vec(file_path: String) -> Result<Vec<Routes>, Error> {
+        let mut routes: Vec<Routes> = Vec::new(); // Initializes the mutable data.
+        let mut path: String = file_path.clone(); // Getting the file path and
+        path.push_str("routes.txt");
+        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+        for result in rdr.deserialize() {
+            let record: Routes = result?;
+            routes.push(record);
+        }
+
+        Ok(routes)
+    }
+
+    fn new_hash(routes: Vec<Routes>) -> HashMap<String, Routes> {
+        let mut map: HashMap<String, Routes> = HashMap::new();
+        for entry in routes {
+            let key: &String = &entry.route_id;
+            map.insert(key.to_string(), entry);
+        }
+
+        map
+    }
+}
+
 #[derive(Debug, serde::Deserialize)]
 pub struct Shapes {
     pub id: String,
@@ -564,6 +340,25 @@ pub struct Shapes {
     pub pt_lon: String,
     pub pt_sequence: String,
     pub dist_traveled: Option<f32>,
+}
+
+impl Shapes {
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being Shapes structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_vec(file_path: String) -> Result<Vec<Shapes>, Error> {
+        let mut shapes: Vec<Shapes> = Vec::new(); // Initializes the mutable data.
+        let mut path: String = file_path.clone(); // Getting the file path and
+        path.push_str("shapes.txt");
+        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+        for result in rdr.deserialize() {
+            let record: Shapes= result?;
+            shapes.push(record);
+        }
+
+        Ok(shapes)
+    }
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -575,6 +370,36 @@ pub struct Stops {
     pub stop_desc: Option<String>,
     pub stop_lat: Option<String>,
     pub stop_lon: Option<String>,
+}
+
+impl Stops {
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being Stops structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_vec(file_path: String) -> Result<Vec<Stops>, Error> {
+        let mut stops: Vec<Stops> = Vec::new(); // Initializes the mutable data.
+        let mut path: String = file_path.clone(); // Getting the file path and
+        path.push_str("stops.txt");
+        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+        for result in rdr.deserialize() {
+            let record: Stops = result?;
+            stops.push(record);
+        }
+
+        Ok(stops)
+    }
+
+    fn new_hash(stops: Vec<Stops>) -> HashMap<String, Stops> {
+        let mut map: HashMap<String, Stops> = HashMap::new();
+        for entry in stops {
+            let key: &String = &entry.stop_id;
+            map.insert(key.to_string(), entry);
+        }
+
+        map
+    }
+
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -599,12 +424,61 @@ pub struct StopTimes {
     pub drop_off_booking_rule_id: Option<String>,
 }
 
+impl StopTimes {
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being StopTimes structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_vec(file_path: String) -> Result<Vec<StopTimes>, Error> {
+        let mut stoptimes: Vec<StopTimes> = Vec::new(); // Initializes the mutable data.
+        let mut path: String = file_path.clone(); // Getting the file path and
+        path.push_str("stop_times.txt");
+        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+        for result in rdr.deserialize() {
+            let record: StopTimes = result?;
+            stoptimes.push(record);
+        }
+
+        Ok(stoptimes)
+    }
+
+    fn new_hash(stoptimes: Vec<StopTimes>) -> HashMap<(String, String), StopTimes> {
+        let mut map: HashMap<(String, String), StopTimes> = HashMap::new();
+        for entry in stoptimes {
+            let key_one: &String = &entry.trip_id;
+            let key_two: &String = &entry.stop_sequence;
+            map.insert((key_one.to_string(), key_two.to_string()), entry);
+        }
+
+        map
+    }
+}
+
 #[derive(Debug, serde::Deserialize)]
 pub struct Timeframes {
     pub timeframe_group_id: String,
     pub start_time: String,
     pub end_time: String,
     pub service_id: String,
+}
+
+impl Timeframes {
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being Timeframes structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_vec(file_path: String) -> Result<Vec<Timeframes>, Error> {
+        let mut timeframes: Vec<Timeframes> = Vec::new(); // Initializes the mutable data.
+        let mut path: String = file_path.clone(); // Getting the file path and
+        path.push_str("timeframes.txt");
+        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+        for result in rdr.deserialize() {
+            let record: Timeframes = result?;
+            timeframes.push(record);
+        }
+
+        Ok(timeframes)
+    }
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -619,4 +493,126 @@ pub struct Trips {
     pub shape_id: Option<String>,
     pub wheelchair_accessible: Option<String>,
     pub bikes_allowed: Option<String>,
+}
+
+impl Trips {
+    /// Checks given root file path for the appropriate file.
+    /// Returns a Result type containing either an error or a Vector with elements
+    /// being Trips structs, each corresponding to a nonempty line of the
+    /// data contained in the GTFS static definition.
+    fn new_vec(file_path: String) -> Result<Vec<Trips>, Error> {
+        let mut trips: Vec<Trips> = Vec::new(); // Initializes the mutable data.
+        let mut path: String = file_path.clone(); // Getting the file path and
+        path.push_str("trips.txt");
+        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
+        for result in rdr.deserialize() {
+            let record: Trips = result?;
+            trips.push(record);
+        }
+
+        Ok(trips)
+    }
+
+    fn new_hash(trips: Vec<Trips>) -> HashMap<String, Trips> {
+        let mut map: HashMap<String, Trips> = HashMap::new();
+        for entry in trips {
+            let key: &String = &entry.trip_id;
+            map.insert(key.to_string(), entry);
+        }
+
+        map
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn agency_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let agency = Agency::new_vec(path.to_string()).unwrap();
+        println!("{:?}", agency);
+    }
+
+    #[test]
+    fn calendar_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let calendar = Calendar::new_vec(path.to_string()).unwrap();
+        println!("{:?}", calendar);
+    }
+
+    #[test]
+    fn calendardates_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let calendardates = CalendarDates::new_vec(path.to_string()).unwrap();
+        println!("{:?}", calendardates);
+    }
+
+    #[test]
+    fn routes_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let routes = Routes::new_vec(path.to_string()).unwrap();
+        println!("{:?}", routes);
+    }
+
+    #[test]
+    fn stops_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let stops = Stops::new_vec(path.to_string()).unwrap();
+        println!("{:?}", stops);
+    }
+
+    #[test]
+    fn stoptimes_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let stoptimes = StopTimes::new_vec(path.to_string()).unwrap();
+        println!("{:?}", stoptimes);
+    }
+
+    #[test]
+    fn trips_prints() {
+        let path = "src/static/pittsburgh/prt/";
+        let trips = Trips::new_vec(path.to_string()).unwrap();
+        println!("{:?}", trips);
+    }
+
+    #[test]
+    fn service_ids_test() {
+        let path = "src/static/pittsburgh/prt/";
+        let sid = Calendar::service_ids(Calendar::new_vec(path.to_string()).unwrap());
+        println!("{:?}", sid);
+    }
+
+    #[test]
+    fn trips_per_service_id_test() {
+        let path = "src/static/pittsburgh/prt/";
+        let tpsid = trips_per_service_id(Trips::new_vec(path.to_string()).unwrap());
+        println!("{:?}", tpsid);
+    }
+
+    #[test]
+    fn routes_per_stop_test() {
+        let path = "src/static/pittsburgh/prt/";
+        let tpr = trips_per_route(Trips::new_vec(path.to_string()).unwrap());
+        let spt = stops_per_trip(StopTimes::new_vec(path.to_string()).unwrap());
+        let rps = routes_per_stop(tpr, spt);
+        println!("{:?}", rps);
+    }
+
+    #[test]
+    fn count_trips_per_route_test() {
+        let path = "src/static/pittsburgh/prt/";
+        let tpr = trips_per_route(Trips::new_vec(path.to_string()).unwrap());
+        let count = count_trips_per_route(tpr);
+        println!("{:?}", count);
+    }
+
+    #[test]
+    fn count_trips_per_service_id_test() {
+        let path = "src/static/pittsburgh/prt/";
+        let tpr = trips_per_service_id(Trips::new_vec(path.to_string()).unwrap());
+        let count = count_trips_per_service_id(tpr);
+        println!("{:?}", count);
+    }
 }
