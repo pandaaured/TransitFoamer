@@ -1,0 +1,7 @@
+static = "https://www.rideprt.org/developerresources/GTFS.zip"
+vehicles_bus = ""
+vehicles_train = ""
+trips_bus = ""
+trips_train = ""
+alerts_bus = ""
+alerts_train = ""

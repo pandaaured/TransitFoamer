@@ -1,8 +1,8 @@
 //! Testing
 //!
 //! A library with testing infrastructure for the GTFS_RT library. Contains
-//! multiple functions that deal with converting between protocol buffers, 
-//! serialized structs, JSON, and files. I enumerate a list of conversions 
+//! multiple functions that deal with converting between protocol buffers,
+//! serialized structs, JSON, and files. I enumerate a list of conversions
 //! below:
 //! 1. File path -> _:
 //!   a. file path -> bytes: path_to_bytes
@@ -13,24 +13,24 @@
 //!   a. GTFS -> JSON: gtfs_to_json
 //! 4. JSON -> _:
 //!   a. JSON -> file path: json_to_path
-//! 
+//!
 //! These steps are done incrementally so that chained computations can be done
-//! in a more simplistic, "compositional" way that avoids creating too many 
+//! in a more simplistic, "compositional" way that avoids creating too many
 //! monolithic functions and retains flexibility for future test-case writing.
 
-use gtfs_realtime::{FeedMessage};
+use gtfs_realtime::FeedMessage;
 use prost::DecodeError;
 use std::fs;
 
 /// Returns either an error or a protobuf file opened as bytes
 pub fn path_to_bytes(path: &str) -> Result<Vec<u8>, std::io::Error> {
     let bytes: Result<Vec<u8>, std::io::Error> = fs::read(path);
-    bytes 
+    bytes
 }
 
 /// Returns either an error (decoding) or a decoded FeedMessage from bytes.
 pub fn bytes_to_gtfs(bytes: Vec<u8>) -> Result<FeedMessage, DecodeError> {
-    let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> = 
+    let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
         prost::Message::decode(bytes.as_ref());
 
     data
@@ -57,8 +57,10 @@ mod test {
 
     #[tokio::test]
     async fn serde_json_prt_bus_trips() {
-        let x =
-            crate::gtfs_rt::url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let x = crate::gtfs_rt::url_to_feedmessage(
+            "https://truetime.portauthority.org/gtfsrt-bus/trips",
+        )
+        .await;
         let y = gtfs_to_json(x.unwrap()).unwrap();
         println!("{:#?}", y);
     }
