@@ -153,7 +153,6 @@ impl Agency {
 
         map
     }
-
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -284,10 +283,9 @@ impl CalendarDates {
 
         map
     }
-
 }
 
-#[derive(Debug, serde::Deserialize)]
+#[derive(Debug, serde::Deserialize, serde::Serialize)]
 pub struct Routes {
     pub route_id: String,
     pub agency_id: Option<String>,
@@ -309,9 +307,10 @@ impl Routes {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being Routes structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: String) -> Result<Vec<Routes>, Error> {
+    pub fn new(file_path: String) -> Result<Vec<Routes>, Error> {
         let mut routes: Vec<Routes> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.clone(); // Getting the file path and
+        println!("{:?}", path);
         path.push_str("routes.txt");
         let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
         for result in rdr.deserialize() {
@@ -353,7 +352,7 @@ impl Shapes {
         path.push_str("shapes.txt");
         let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
         for result in rdr.deserialize() {
-            let record: Shapes= result?;
+            let record: Shapes = result?;
             shapes.push(record);
         }
 
@@ -399,7 +398,6 @@ impl Stops {
 
         map
     }
-
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -494,6 +492,8 @@ pub struct Trips {
     pub wheelchair_accessible: Option<String>,
     pub bikes_allowed: Option<String>,
 }
+
+fn write_to_file() {}
 
 impl Trips {
     /// Checks given root file path for the appropriate file.

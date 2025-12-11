@@ -80,8 +80,8 @@ fn filter_vehicledescriptor(message: FeedMessage) -> FeedMessage {
 /// REQUIRES: FeedMessage is the output of filter_vehicleposition only! TripUpdate
 /// contains TripDescriptor as a mandatory type!
 fn filter_tripdescriptor(message: FeedMessage) -> FeedMessage {
-    let filtered = filter_vehicleposition(message); // Filter anything without a 
-    // VehiclePosition so we don't unwrap None!
+    let filtered = filter_vehicleposition(message); // Filter anything without a
+                                                    // VehiclePosition so we don't unwrap None!
 
     FeedMessage {
         header: filtered.header,
@@ -123,22 +123,14 @@ fn has_stop_id(message: FeedMessage) -> FeedMessage {
 
 fn filter_vehicle_id(message: FeedMessage) -> FeedMessage {
     let filtered = filter_vehicledescriptor(message); // Filter anything without a
-    // VehicleDescriptor so we don't unwrap None!
+                                                      // VehicleDescriptor so we don't unwrap None!
 
     FeedMessage {
-        header : filtered.header,
+        header: filtered.header,
         entity: filtered
             .entity
             .into_iter()
-            .filter(|x| {
-                x.clone()
-                 .vehicle
-                 .unwrap()
-                 .vehicle
-                 .unwrap()
-                 .id
-                 .is_some()
-            })
+            .filter(|x| x.clone().vehicle.unwrap().vehicle.unwrap().id.is_some())
             .collect(),
     }
 }
@@ -149,7 +141,6 @@ fn filter_vehicle_id(message: FeedMessage) -> FeedMessage {
 pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
     let filtered = filter_vehicle_id(message);
 
-   
     FeedMessage {
         header: filtered.header,
         entity: filtered
@@ -158,21 +149,21 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
             .filter(|x| {
                 within_bounds(
                     x.vehicle
-                     .as_ref()
-                     .unwrap()
-                     .vehicle
-                     .as_ref()
-                     .unwrap()
-                     .id
-                     .as_ref()
-                     .unwrap(),
-                first,
-                last,
-            )})
-            .collect(), 
+                        .as_ref()
+                        .unwrap()
+                        .vehicle
+                        .as_ref()
+                        .unwrap()
+                        .id
+                        .as_ref()
+                        .unwrap(),
+                    first,
+                    last,
+                )
+            })
+            .collect(),
     }
 }
-
 
 /// Given a FeedMessage and a route_id, returns a FeedMessage
 /// containing only FeedEntities running on that route.
@@ -258,9 +249,9 @@ mod test {
     use super::*;
     use gtfs_realtime::trip_update::StopTimeUpdate;
     use gtfs_realtime::*;
-    
+
     // Lots of PRT testing.
-    // I: Testing the main feeds: 
+    // I: Testing the main feeds:
     //     a. vehicles (for bus and train)
     //     b. trips (for bus and train)
     //     c. alerts (for bus and train)
@@ -272,126 +263,141 @@ mod test {
 
     #[tokio::test]
     async fn prt_vehicles_test_one() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
-            .await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
         let r = in_range("8001", "8018", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_test_two() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
-            .await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
         let r = in_range("7000", "7106", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_test_three() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/vehicles")
-            .await;
+        let x =
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/vehicles").await;
         let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_trips_test_one() {
-        let x =
-            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
         let r = in_range("6701", "6740", x.unwrap());
         println!("{:#?}", r);
     }
- 
+
     #[tokio::test]
     async fn prt_trips_test_two() {
-        let x =
-            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/trips").await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/trips").await;
         let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_alerts_test() {
-        let x =
-            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
         println!("{:#?}", x);
     }
 
     #[tokio::test]
     async fn prt_route_test() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles")
-            .await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
         let r = on_route("28X", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_appr_stop_test() {
-        let x =
-            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
         let r = vehicles_approaching_stop(x.unwrap(), "10920".to_string());
         println!("{:#?}", r);
     }
 
     // Lots of MTA testing.
     // I: Testing the main feeds.
-    //     a. 
+    //     a.
     #[tokio::test]
     async fn mta_vehicles_test_one() {
-        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace").await;
+        let x = url_to_feedmessage(
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace",
+        )
+        .await;
         println!("{:#?}", x);
     }
 
-    // Testing the GTFS-RT for trains B, D, F, M, and SF (Franklin Shuttle). 
+    // Testing the GTFS-RT for trains B, D, F, M, and SF (Franklin Shuttle).
     #[tokio::test]
     async fn mta_vehicles_test_two() {
-        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm").await;
+        let x = url_to_feedmessage(
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm",
+        )
+        .await;
         println!("{:#?}", x);
     }
 
     // Testing the GTFS-RT for train G.
     #[tokio::test]
     async fn mta_vehicles_test_three() {
-        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g").await;
+        let x = url_to_feedmessage(
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g",
+        )
+        .await;
         println!("{:#?}", x);
     }
 
     // Testing the GTFS-RT for trains J, Z
     #[tokio::test]
     async fn mta_vehicles_test_four() {
-        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz").await;
+        let x = url_to_feedmessage(
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz",
+        )
+        .await;
         println!("{:#?}", x);
     }
-    
+
     // Testing the GTFS-RT for trains N, Q, R, W
     #[tokio::test]
     async fn mta_vehicles_test_five() {
-        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw").await;
+        let x = url_to_feedmessage(
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw",
+        )
+        .await;
         println!("{:#?}", x);
     }
-     
+
     // Testing the GTFS-RT for train L
     #[tokio::test]
     async fn mta_vehicles_test_six() {
-        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l").await;
+        let x = url_to_feedmessage(
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l",
+        )
+        .await;
         println!("{:#?}", x);
     }
-    
+
     // Testing the GTFS-RT for trains 1, 2, 3, 4, 5, 6, 7, and the S.
     #[tokio::test]
     async fn mta_vehicles_test_seven() {
-        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs").await;
+        let x = url_to_feedmessage(
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs",
+        )
+        .await;
         println!("{:#?}", x);
     }
-    
+
     // Testing the GTFS-RT for train SI.
     #[tokio::test]
     async fn mta_vehicles_test_eight() {
-        let x = url_to_feedmessage("https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si").await;
+        let x = url_to_feedmessage(
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si",
+        )
+        .await;
         println!("{:#?}", x);
     }
-
-
 
     #[test]
     fn on_route_filter_test() {
