@@ -13,6 +13,8 @@ pub mod gtfs_rt;
 pub mod gtfs_static;
 pub mod static_fetch;
 pub mod testing;
+pub mod htmlwriter;
+pub mod list;
 
 use std::{fs, time::Duration};
 
@@ -56,6 +58,13 @@ async fn main() {
         .with_graceful_shutdown(shutdown_signal())
         .await
         .unwrap();
+
+    let trips = "https://s3.amazonaws.com/kcm-alerts-realtime-prod/tripupdates.pb"
+        .to_string();
+    let vehicles= "https://s3.amazonaws.com/kcm-alerts-realtime-prod/tripupdates.pb"
+        .to_string();
+    let alerts = "https://s3.amazonaws.com/kcm-alerts-realtime-prod/tripupdates.pb"
+        .to_string();
 }
 
 async fn shutdown_signal() {
