@@ -19,6 +19,7 @@ axum = "0.8.7"
 tower-http = { version = "0.6.8", features = ["full"] }
 http = "1.4.0"
 axum-server = "0.8.0"
+bincode = "2.0.1"
 
 [dev-dependencies]
 ring = "0.17.13"

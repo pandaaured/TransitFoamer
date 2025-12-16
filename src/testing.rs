@@ -58,7 +58,7 @@ mod test {
     #[tokio::test]
     async fn serde_json_prt_bus_trips() {
         let x = crate::gtfs_rt::url_to_feedmessage(
-            "https://truetime.portauthority.org/gtfsrt-bus/trips",
+            "https://truetime.portauthority.org/gtfsrt-bus/trips".to_string(),
         )
         .await;
         let y = gtfs_to_json(x.unwrap()).unwrap();

@@ -202,3 +202,97 @@ impl FleetEntry {
         }
     }
 }
+
+#[derive(PartialEq)]
+pub enum Fleet {
+    NFI_XDE_35_2014,
+    NFI_XE_40_2021,
+    NFI_XE_60_2021,
+    NFI_DE_60_LFA_2009,
+    NFI_DE_60_LFR_2011,
+    NFI_DE_60_LFR_2013,
+    NFI_XDE_60_2015,
+    NFI_XDE_60_2018,
+    NFI_XDE_60_2019,
+    NFI_XDE_60_2023,
+    NFI_DE_60_LF_2008,
+    NFI_DE_60_LF_2009,
+    NFI_DE_60_LFR_2010,
+    NFI_DE_60_LFR_2012,
+    OBI_VII_2010,
+    OBI_VII_2011,
+    NFI_XDE_40_2014,
+    GILLIG_HEV_40_2017,
+    GILLIG_HEV_40_2018,
+    GILLIG_HEV_40_2019,
+    NFI_XDE_60_2014,
+    NFI_XDE_60_2016,
+    NFI_XDE_60_2017,
+    NFI_XDE_40_2017,
+    NFI_XT_40_2014,
+    NFI_XT_60_2015,
+    NoneFleet
+}
+
+impl Fleet {
+    pub fn which(vid: i32) -> Fleet {
+        if 3700 <= vid && vid <= 3759 {
+            return Fleet::NFI_XDE_35_2014;
+        } else if 4700 <= vid && vid <= 4719 {
+            return Fleet::NFI_XE_40_2021;
+        } else if 4800 <= vid && vid <= 4819 {
+            return Fleet::NFI_XE_60_2021;
+        } else if 6000 <= vid && vid <= 6019 {
+            return Fleet::NFI_DE_60_LFA_2009;
+        }  else if 6020 <= vid && vid <= 6073 {
+            return Fleet::NFI_DE_60_LFR_2011;
+        } else if 6075 <= vid && vid <= 6117 {
+            return Fleet::NFI_DE_60_LFR_2013;
+        } else if 6200 <= vid && vid <= 6219 {
+            return Fleet::NFI_XDE_60_2015;
+        } else if 6220 <= vid && vid <= 6241 {
+            return Fleet::NFI_XDE_60_2018;
+        } else if 6242 <= vid && vid <= 6269 {
+            return Fleet::NFI_XDE_60_2019;
+        } else if 6400 <= vid && vid <= 6412 {
+            return Fleet::NFI_XDE_60_2023;
+        } else if 6813 <= vid && vid <= 6850 {
+            return Fleet::NFI_DE_60_LF_2008;
+        } else if 6851 <= vid && vid <= 6865 {
+            return Fleet::NFI_DE_60_LF_2009;
+        } else if 6866 <= vid && vid <= 6921 {
+            return Fleet::NFI_DE_60_LFR_2010;
+        } else if 6922 <= vid && vid <= 6935 {
+            return Fleet::NFI_DE_60_LFR_2011;
+        } else if 6936 <= vid && vid <= 6999 {
+            return Fleet::NFI_DE_60_LFR_2012;
+        } else if vid == 6800 {
+            return Fleet::NFI_DE_60_LFR_2012;
+        } else if 7001 <= vid && vid <= 7093 {
+            return Fleet::OBI_VII_2010;
+        } else if 7094 <= vid && vid <= 7199 {
+            return Fleet::OBI_VII_2011;
+        } else if 7200 <= vid && vid <= 7259 {
+            return Fleet::NFI_XDE_40_2014;
+        } else if vid == 7300 {
+            return Fleet::GILLIG_HEV_40_2017;
+        } else if 7301 <= vid && vid <= 7429 {
+            return Fleet::GILLIG_HEV_40_2018;
+        } else if 7430 <= vid && vid <= 7494 {
+            return Fleet::GILLIG_HEV_40_2019;
+        } else if 8000 <= vid && vid <= 8084 {
+            return Fleet::NFI_XDE_60_2015;
+        } else if 8100 <= vid && vid <= 8199 {
+            return Fleet::NFI_XDE_60_2016;
+        } else if 8200 <= vid && vid <= 8299 {
+            return Fleet::NFI_XDE_40_2017;
+        } else if 4300 <= vid && vid <= 4409 {
+            return Fleet::NFI_XT_40_2014;
+        } else if 4500 <= vid && vid <= 4563 {
+            return Fleet::NFI_XT_60_2015;
+        } else {
+            return Fleet::NoneFleet;
+        }
+
+    }
+}
