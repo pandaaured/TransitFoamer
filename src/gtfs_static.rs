@@ -127,7 +127,7 @@ impl Agency {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being Agency structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: String) -> Result<Vec<Agency>, Error> {
+    pub fn new_vec(file_path: &String) -> Result<Vec<Agency>, Error> {
         let mut agency: Vec<Agency> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.clone(); // Getting the file path and
         path.push_str("agency.txt");
@@ -214,7 +214,7 @@ impl Calendar {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being Calendar structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: String) -> Result<Vec<Calendar>, Error> {
+    pub fn new_vec(file_path: &String) -> Result<Vec<Calendar>, Error> {
         let mut calendar: Vec<Calendar> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.clone(); // Getting the file path and
         path.push_str("calendar.txt");
@@ -260,7 +260,7 @@ impl CalendarDates {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being CalendarDates structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: String) -> Result<Vec<CalendarDates>, Error> {
+    fn new_vec(file_path: &String) -> Result<Vec<CalendarDates>, Error> {
         let mut calendardates: Vec<CalendarDates> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.clone(); // Getting the file path and
         path.push_str("calendar_dates.txt");
@@ -307,9 +307,9 @@ impl Routes {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being Routes structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    pub fn new(file_path: String) -> Result<Vec<Routes>, Error> {
+    pub fn new_vec(file_path: &String) -> Result<Vec<Routes>, Error> {
         let mut routes: Vec<Routes> = Vec::new(); // Initializes the mutable data.
-        let mut path: String = file_path.clone(); // Getting the file path and
+        let mut path: String = file_path.to_string().clone(); // Getting the file path and
         println!("{:?}", path);
         path.push_str("routes.txt");
         let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
@@ -346,9 +346,9 @@ impl Shapes {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being Shapes structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: String) -> Result<Vec<Shapes>, Error> {
+    pub fn new_vec(file_path: &String) -> Result<Vec<Shapes>, Error> {
         let mut shapes: Vec<Shapes> = Vec::new(); // Initializes the mutable data.
-        let mut path: String = file_path.clone(); // Getting the file path and
+        let mut path: String = file_path.to_string().clone(); // Getting the file path and
         path.push_str("shapes.txt");
         let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
         for result in rdr.deserialize() {
@@ -376,7 +376,7 @@ impl Stops {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being Stops structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: String) -> Result<Vec<Stops>, Error> {
+    pub fn new_vec(file_path: &String) -> Result<Vec<Stops>, Error> {
         let mut stops: Vec<Stops> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.clone(); // Getting the file path and
         path.push_str("stops.txt");
@@ -389,7 +389,7 @@ impl Stops {
         Ok(stops)
     }
 
-    fn new_hash(stops: Vec<Stops>) -> HashMap<String, Stops> {
+    pub fn new_hash(stops: Vec<Stops>) -> HashMap<String, Stops> {
         let mut map: HashMap<String, Stops> = HashMap::new();
         for entry in stops {
             let key: &String = &entry.stop_id;
@@ -427,7 +427,7 @@ impl StopTimes {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being StopTimes structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: String) -> Result<Vec<StopTimes>, Error> {
+    pub fn new_vec(file_path: &String) -> Result<Vec<StopTimes>, Error> {
         let mut stoptimes: Vec<StopTimes> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.clone(); // Getting the file path and
         path.push_str("stop_times.txt");
@@ -440,7 +440,7 @@ impl StopTimes {
         Ok(stoptimes)
     }
 
-    fn new_hash(stoptimes: Vec<StopTimes>) -> HashMap<(String, String), StopTimes> {
+    pub fn new_hash(stoptimes: Vec<StopTimes>) -> HashMap<(String, String), StopTimes> {
         let mut map: HashMap<(String, String), StopTimes> = HashMap::new();
         for entry in stoptimes {
             let key_one: &String = &entry.trip_id;
@@ -465,7 +465,7 @@ impl Timeframes {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being Timeframes structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: String) -> Result<Vec<Timeframes>, Error> {
+    fn new_vec(file_path: &String) -> Result<Vec<Timeframes>, Error> {
         let mut timeframes: Vec<Timeframes> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.clone(); // Getting the file path and
         path.push_str("timeframes.txt");
@@ -493,14 +493,12 @@ pub struct Trips {
     pub bikes_allowed: Option<String>,
 }
 
-fn write_to_file() {}
-
 impl Trips {
     /// Checks given root file path for the appropriate file.
     /// Returns a Result type containing either an error or a Vector with elements
     /// being Trips structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: String) -> Result<Vec<Trips>, Error> {
+    pub fn new_vec(file_path: &String) -> Result<Vec<Trips>, Error> {
         let mut trips: Vec<Trips> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.clone(); // Getting the file path and
         path.push_str("trips.txt");
@@ -513,7 +511,7 @@ impl Trips {
         Ok(trips)
     }
 
-    fn new_hash(trips: Vec<Trips>) -> HashMap<String, Trips> {
+    pub fn new_hash(trips: Vec<Trips>) -> HashMap<String, Trips> {
         let mut map: HashMap<String, Trips> = HashMap::new();
         for entry in trips {
             let key: &String = &entry.trip_id;
@@ -531,71 +529,71 @@ mod test {
     #[test]
     fn agency_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let agency = Agency::new_vec(path.to_string()).unwrap();
+        let agency = Agency::new_vec(&path.to_string()).unwrap();
         println!("{:?}", agency);
     }
 
     #[test]
     fn calendar_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let calendar = Calendar::new_vec(path.to_string()).unwrap();
+        let calendar = Calendar::new_vec(&path.to_string()).unwrap();
         println!("{:?}", calendar);
     }
 
     #[test]
     fn calendardates_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let calendardates = CalendarDates::new_vec(path.to_string()).unwrap();
+        let calendardates = CalendarDates::new_vec(&path.to_string()).unwrap();
         println!("{:?}", calendardates);
     }
 
     #[test]
     fn routes_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let routes = Routes::new_vec(path.to_string()).unwrap();
+        let routes = Routes::new_vec(&path.to_string()).unwrap();
         println!("{:?}", routes);
     }
 
     #[test]
     fn stops_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let stops = Stops::new_vec(path.to_string()).unwrap();
+        let stops = Stops::new_vec(&path.to_string()).unwrap();
         println!("{:?}", stops);
     }
 
     #[test]
     fn stoptimes_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let stoptimes = StopTimes::new_vec(path.to_string()).unwrap();
+        let stoptimes = StopTimes::new_vec(&path.to_string()).unwrap();
         println!("{:?}", stoptimes);
     }
 
     #[test]
     fn trips_prints() {
         let path = "src/static/pittsburgh/prt/";
-        let trips = Trips::new_vec(path.to_string()).unwrap();
+        let trips = Trips::new_vec(&path.to_string()).unwrap();
         println!("{:?}", trips);
     }
 
     #[test]
     fn service_ids_test() {
         let path = "src/static/pittsburgh/prt/";
-        let sid = Calendar::service_ids(Calendar::new_vec(path.to_string()).unwrap());
+        let sid = Calendar::service_ids(Calendar::new_vec(&path.to_string()).unwrap());
         println!("{:?}", sid);
     }
 
     #[test]
     fn trips_per_service_id_test() {
         let path = "src/static/pittsburgh/prt/";
-        let tpsid = trips_per_service_id(Trips::new_vec(path.to_string()).unwrap());
+        let tpsid = trips_per_service_id(Trips::new_vec(&path.to_string()).unwrap());
         println!("{:?}", tpsid);
     }
 
     #[test]
     fn routes_per_stop_test() {
         let path = "src/static/pittsburgh/prt/";
-        let tpr = trips_per_route(Trips::new_vec(path.to_string()).unwrap());
-        let spt = stops_per_trip(StopTimes::new_vec(path.to_string()).unwrap());
+        let tpr = trips_per_route(Trips::new_vec(&path.to_string()).unwrap());
+        let spt = stops_per_trip(StopTimes::new_vec(&path.to_string()).unwrap());
         let rps = routes_per_stop(tpr, spt);
         println!("{:?}", rps);
     }
@@ -603,7 +601,7 @@ mod test {
     #[test]
     fn count_trips_per_route_test() {
         let path = "src/static/pittsburgh/prt/";
-        let tpr = trips_per_route(Trips::new_vec(path.to_string()).unwrap());
+        let tpr = trips_per_route(Trips::new_vec(&path.to_string()).unwrap());
         let count = count_trips_per_route(tpr);
         println!("{:?}", count);
     }
@@ -611,7 +609,7 @@ mod test {
     #[test]
     fn count_trips_per_service_id_test() {
         let path = "src/static/pittsburgh/prt/";
-        let tpr = trips_per_service_id(Trips::new_vec(path.to_string()).unwrap());
+        let tpr = trips_per_service_id(Trips::new_vec(&path.to_string()).unwrap());
         let count = count_trips_per_service_id(tpr);
         println!("{:?}", count);
     }

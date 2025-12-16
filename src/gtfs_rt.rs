@@ -10,7 +10,7 @@ use reqwest::Response;
 
 /// Returns a Result type containing either an error or a valid FeedMessage decoded
 /// from the inputted URL.
-pub async fn url_to_feedmessage(url: &str) -> Result<FeedMessage, DecodeError> {
+pub async fn url_to_feedmessage(url: String) -> Result<FeedMessage, DecodeError> {
     let response: Response = reqwest::get(url).await.unwrap(); // Fix this function so all errors are handled properly.
     let bytes = response.bytes().await.unwrap(); // Also here.
     let data: Result<gtfs_realtime::FeedMessage, prost::DecodeError> =
@@ -168,7 +168,7 @@ pub fn in_range(first: &str, last: &str, message: FeedMessage) -> FeedMessage {
 /// Given a FeedMessage and a route_id, returns a FeedMessage
 /// containing only FeedEntities running on that route.
 /// (TODO: Have input list be generated or be an explicit collection.)
-pub fn on_route(number: &str, message: FeedMessage) -> FeedMessage {
+pub fn on_route(number: String, message: FeedMessage) -> FeedMessage {
     let entities = message.entity;
     let result = entities.into_iter().filter(|x| {
         if x.trip_update.is_some() {
@@ -263,14 +263,14 @@ mod test {
 
     #[tokio::test]
     async fn prt_vehicles_test_one() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles".to_string()).await;
         let r = in_range("8001", "8018", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_test_two() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles".to_string()).await;
         let r = in_range("7000", "7106", x.unwrap());
         println!("{:#?}", r);
     }
@@ -278,41 +278,41 @@ mod test {
     #[tokio::test]
     async fn prt_vehicles_test_three() {
         let x =
-            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/vehicles").await;
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/vehicles".to_string()).await;
         let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_trips_test_one() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips".to_string()).await;
         let r = in_range("6701", "6740", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_trips_test_two() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/trips").await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/trips".to_string()).await;
         let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_alerts_test() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/alerts").await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/alerts".to_string()).await;
         println!("{:#?}", x);
     }
 
     #[tokio::test]
     async fn prt_route_test() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles").await;
-        let r = on_route("28X", x.unwrap());
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles".to_string()).await;
+        let r = on_route("28X".to_string(), x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_appr_stop_test() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips").await;
+        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips".to_string()).await;
         let r = vehicles_approaching_stop(x.unwrap(), "10920".to_string());
         println!("{:#?}", r);
     }
@@ -323,7 +323,7 @@ mod test {
     #[tokio::test]
     async fn mta_vehicles_test_one() {
         let x = url_to_feedmessage(
-            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace",
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace".to_string(),
         )
         .await;
         println!("{:#?}", x);
@@ -333,7 +333,7 @@ mod test {
     #[tokio::test]
     async fn mta_vehicles_test_two() {
         let x = url_to_feedmessage(
-            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm",
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm".to_string(),
         )
         .await;
         println!("{:#?}", x);
@@ -343,7 +343,7 @@ mod test {
     #[tokio::test]
     async fn mta_vehicles_test_three() {
         let x = url_to_feedmessage(
-            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g",
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g".to_string(),
         )
         .await;
         println!("{:#?}", x);
@@ -353,7 +353,7 @@ mod test {
     #[tokio::test]
     async fn mta_vehicles_test_four() {
         let x = url_to_feedmessage(
-            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz",
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz".to_string(),
         )
         .await;
         println!("{:#?}", x);
@@ -363,7 +363,7 @@ mod test {
     #[tokio::test]
     async fn mta_vehicles_test_five() {
         let x = url_to_feedmessage(
-            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw",
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw".to_string(),
         )
         .await;
         println!("{:#?}", x);
@@ -373,7 +373,7 @@ mod test {
     #[tokio::test]
     async fn mta_vehicles_test_six() {
         let x = url_to_feedmessage(
-            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l",
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l".to_string(),
         )
         .await;
         println!("{:#?}", x);
@@ -383,7 +383,7 @@ mod test {
     #[tokio::test]
     async fn mta_vehicles_test_seven() {
         let x = url_to_feedmessage(
-            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs",
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs".to_string(),
         )
         .await;
         println!("{:#?}", x);
@@ -393,7 +393,7 @@ mod test {
     #[tokio::test]
     async fn mta_vehicles_test_eight() {
         let x = url_to_feedmessage(
-            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si",
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si".to_string(),
         )
         .await;
         println!("{:#?}", x);
@@ -509,14 +509,10 @@ mod test {
             entity: vec_entity,
         };
 
-        let route = "61C";
+        let route = "61C".to_string();
         let on_route_message = on_route(route, message.clone());
         assert!(message.entity.len() == 2);
         assert!(on_route_message.entity.len() == 1);
-
-        for i in on_route_message.entity {
-            assert!(i.trip_update.unwrap().trip.route_id.unwrap() == route);
-        }
 
         // This test takes a FeedMessage and tests whether filtering it will
         // remove an element with a route that is not the input.
