@@ -12,6 +12,7 @@
 pub mod gtfs_rt;
 pub mod gtfs_static;
 pub mod handlers;
+pub mod helpers;
 pub mod structs;
 pub mod testing;
 
