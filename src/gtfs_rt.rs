@@ -263,56 +263,75 @@ mod test {
 
     #[tokio::test]
     async fn prt_vehicles_test_one() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles".to_string()).await;
+        let x = url_to_feedmessage(
+            "https://truetime.portauthority.org/gtfsrt-bus/vehicles".to_string(),
+        )
+        .await;
         let r = in_range("8001", "8018", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_test_two() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles".to_string()).await;
+        let x = url_to_feedmessage(
+            "https://truetime.portauthority.org/gtfsrt-bus/vehicles".to_string(),
+        )
+        .await;
         let r = in_range("7000", "7106", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_test_three() {
-        let x =
-            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/vehicles".to_string()).await;
+        let x = url_to_feedmessage(
+            "https://truetime.portauthority.org/gtfsrt-train/vehicles".to_string(),
+        )
+        .await;
         let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_trips_test_one() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips".to_string()).await;
+        let x =
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips".to_string())
+                .await;
         let r = in_range("6701", "6740", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_trips_test_two() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/trips".to_string()).await;
+        let x =
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-train/trips".to_string())
+                .await;
         let r = in_range("4201", "4299", x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_alerts_test() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/alerts".to_string()).await;
+        let x =
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/alerts".to_string())
+                .await;
         println!("{:#?}", x);
     }
 
     #[tokio::test]
     async fn prt_route_test() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/vehicles".to_string()).await;
+        let x = url_to_feedmessage(
+            "https://truetime.portauthority.org/gtfsrt-bus/vehicles".to_string(),
+        )
+        .await;
         let r = on_route("28X".to_string(), x.unwrap());
         println!("{:#?}", r);
     }
 
     #[tokio::test]
     async fn prt_vehicles_appr_stop_test() {
-        let x = url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips".to_string()).await;
+        let x =
+            url_to_feedmessage("https://truetime.portauthority.org/gtfsrt-bus/trips".to_string())
+                .await;
         let r = vehicles_approaching_stop(x.unwrap(), "10920".to_string());
         println!("{:#?}", r);
     }
