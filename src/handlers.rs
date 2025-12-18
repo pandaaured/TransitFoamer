@@ -1,6 +1,6 @@
 use std::fs;
 
-use crate::structs::{Links, HTML};
+use crate::structs::{Fleet, HTML, Links};
 use axum::response::Html;
 
 use crate::gtfs_rt::url_to_feedmessage;
@@ -57,7 +57,7 @@ pub async fn route_list_handler() -> Html<String> {
 
 // Handles the fleet API call, returning HTML which contains each fleet category (as enumerated 
 // in list.rs) along with the currently running vehicles on it.
-pub async fn fleet_handler() {
+pub async fn fleet_handler() -> Html<String>{
     let links: Links = Links::new();
     let vehicle_posn = url_to_feedmessage(links.vehicles).await.unwrap();
     let vehicle_entities = vehicle_posn.entity;
@@ -65,9 +65,13 @@ pub async fn fleet_handler() {
     let category = helpers::get_collection(vehicle_entities); 
         
     let mut top_level: HTML = HTML::new("fleet".to_string(), "fleet".to_string(), "".to_string());
+    let mut val = top_level.value;
     for item in category {
-        let container = HTML::new("fleet-elem".to_string(), item.name, "".to_string());
-            helpers::collection_split_html(item.list);
+        let mut container = HTML::new("fleet-elem".to_string(), item.name, "".to_string());
+        let string = helpers::collection_split_html(item.list);
+        container.value = string;
+        val.push_str(&container.conv_to_string());
     }
-
+    top_level.value = val;
+    Html(top_level.conv_to_string())
 }

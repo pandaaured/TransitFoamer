@@ -1,5 +1,6 @@
 use crate::structs;
 use crate::structs::Fleet;
+use crate::structs::HTML;
 use gtfs_realtime::FeedEntity;
 
 // A helper function that takes a FeedEntity and splits it into a Vec of Vecs of all vehicles
@@ -165,6 +166,13 @@ pub fn fleet_helper(vector: Vec<FeedEntity>, enumeration: Fleet) -> (structs::Fe
 }
 
 
-pub fn collection_split_html(vector: Vec<FeedEntity>) {
-   
+pub fn collection_split_html(vector: Vec<FeedEntity>) -> String {
+    let mut ret = String::new();
+    for item in vector {
+        let vehicle_id = item.vehicle.unwrap().vehicle.unwrap().id.unwrap();
+        let entry = HTML::new("sub-item".to_string(), vehicle_id.clone(), vehicle_id);        
+        ret.push_str(&entry.conv_to_string())
+    }
+    
+    ret
 }
