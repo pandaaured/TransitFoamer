@@ -194,7 +194,7 @@ pub fn on_route(number: String, message: FeedMessage) -> FeedMessage {
                 .unwrap()
                 == *number.to_owned()
         } else {
-            true // Just return the whole list if neither is contained.
+            false // If neither is contained, return nothing.
         }
     });
     let on_route = result.collect();
