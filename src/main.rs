@@ -12,11 +12,10 @@
 pub mod gtfs_rt;
 pub mod gtfs_static;
 pub mod handlers;
-pub mod helpers;
-pub mod structs;
 pub mod testing;
+pub mod structs;
 
-use std::{fs, time::Duration};
+use std::time::Duration;
 
 use http::StatusCode;
 
@@ -28,24 +27,22 @@ use tower_http::{
 };
 
 use axum::{
-    extract::Query,
-    response::{Html, Json},
     routing::get,
     Router,
 };
 
 use tokio::signal;
-use gtfs_rt::{on_route, url_to_feedmessage};
 use gtfs_static::{Agency, Routes, StopTimes, Stops, Trips};
-use structs::Links;
 
-// Run the main server routine.
+// Parse command line arguments. 
+// TODO: Make this formatted more cleanly in the future.
 #[tokio::main]
 async fn main() {
-    let links = Links::new();
-    let trip_update = url_to_feedmessage(links.trips).await.unwrap();
-    let static_data = StaticInfo::new();
+    server_routine().await;
+}
 
+
+async fn server_routine() {
     let cors_layer = CorsLayer::new()
         .allow_origin(Any)
         .allow_methods(Any)
@@ -53,15 +50,13 @@ async fn main() {
 
     // Creating the axum app. We add routers for our various API functions described below.
     // 1) / returns the HTML index.
-    // 2) /route/{route} is the `route` call. Displays information about a specific route.
-    //    Uses GTFS-RT!
-    // 3) /routes is the `routes` call, returns a list of routes and associated data.
+    // 2) /routes/:route_id returns the feed filtered to only include a certain route.
     let app: Router = Router::new()
         .layer(cors_layer)
         .route("/", get(handlers::main_content_handler))
-        .route("/routes", get(handlers::route_list_handler))
-        .route("/fleet", get(handlers::fleet_handler)) 
-        .nest_service("/static", ServeDir::new("static"))
+        .route("/routes/{route_id}", get(handlers::route_handler))
+        .nest_service("/dist", ServeDir::new("dist"))
+        .nest_service("/assets", ServeDir::new("dist/assets"))
         .layer((
             TraceLayer::new_for_http(),
             TimeoutLayer::with_status_code(StatusCode::REQUEST_TIMEOUT, Duration::from_secs(10)),
@@ -124,7 +119,7 @@ struct StaticInfo {
 
 impl StaticInfo {
     fn new() -> StaticInfo {
-        let path: String = "src/static/seattle/kc/".to_string();
+        let path: String = "GTFS/".to_string();
         StaticInfo {
             agency: Agency::new_vec(&path).unwrap(),
             routes: Routes::new_vec(&path).unwrap(),
