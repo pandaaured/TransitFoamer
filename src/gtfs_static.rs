@@ -7,6 +7,8 @@
 use std::collections::{HashMap, HashSet};
 use std::io::Error;
 
+// Takes a vector of Trips data and returns a HashMap containing route_ids
+// as keys and a vector of the corresponding trip_ids as values. 
 pub fn trips_per_route(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
     let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
     for item in trip_data {
@@ -24,6 +26,8 @@ pub fn trips_per_route(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
     trips_per_route
 }
 
+// Takes a vector of Trips data and returns a HashMap containing service_ids
+// as keys and a vector of the corresponding trip_ids as values.
 pub fn trips_per_service_id(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
     let mut trips_per_service_id: HashMap<String, Vec<String>> = HashMap::new();
     for item in trip_data {
@@ -41,6 +45,8 @@ pub fn trips_per_service_id(trip_data: Vec<Trips>) -> HashMap<String, Vec<String
     trips_per_service_id
 }
 
+// Takes a vector of StopTimes data and returns a HashMap containing trip_ids
+// as keys and a vector of the stops for each trip_id for values.
 pub fn stops_per_trip(stop_times_data: Vec<StopTimes>) -> HashMap<String, Vec<String>> {
     let mut stops_per_trip: HashMap<String, Vec<String>> = HashMap::new();
 
@@ -60,6 +66,8 @@ pub fn stops_per_trip(stop_times_data: Vec<StopTimes>) -> HashMap<String, Vec<St
     stops_per_trip
 }
 
+// Takes in trips_per_route data and stops_per_trip data and returns a HashMap
+// containing stop_ids as keys and a vector of the route_ids for values.
 pub fn routes_per_stop(
     trips_per_route: HashMap<String, Vec<String>>,
     stops_per_trip: HashMap<String, Vec<String>>,
@@ -152,31 +160,6 @@ impl Agency {
         }
 
         map
-    }
-}
-
-#[derive(Debug, serde::Deserialize)]
-pub struct Areas {
-    pub area_id: String,
-    pub area_name: Option<String>,
-}
-
-impl Areas {
-    /// Checks given root file path for the appropriate file.
-    /// Returns a Result type containing either an error or a Vector with elements
-    /// being Areas structs, each corresponding to a nonempty line of the
-    /// data contained in the GTFS static definition.
-    fn new_vec(file_path: String) -> Result<Vec<Areas>, Error> {
-        let mut areas: Vec<Areas> = Vec::new(); // Initializes the mutable data.
-        let mut path: String = file_path.clone(); // Getting the file path and
-        path.push_str("areas.txt");
-        let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
-        for result in rdr.deserialize() {
-            let record: Areas = result?;
-            areas.push(record);
-        }
-
-        Ok(areas)
     }
 }
 
@@ -563,35 +546,35 @@ mod test {
 
     #[test]
     fn stoptimes_prints() {
-        let path = "src/static/pittsburgh/prt/";
+        let path = "GTFS/"; 
         let stoptimes = StopTimes::new_vec(&path.to_string()).unwrap();
         println!("{:?}", stoptimes);
     }
 
     #[test]
     fn trips_prints() {
-        let path = "src/static/pittsburgh/prt/";
+        let path = "GTFS/"; 
         let trips = Trips::new_vec(&path.to_string()).unwrap();
         println!("{:?}", trips);
     }
 
     #[test]
     fn service_ids_test() {
-        let path = "src/static/pittsburgh/prt/";
+        let path = "GTFS/"; 
         let sid = Calendar::service_ids(Calendar::new_vec(&path.to_string()).unwrap());
         println!("{:?}", sid);
     }
 
     #[test]
     fn trips_per_service_id_test() {
-        let path = "src/static/pittsburgh/prt/";
+        let path = "GTFS/";
         let tpsid = trips_per_service_id(Trips::new_vec(&path.to_string()).unwrap());
         println!("{:?}", tpsid);
     }
 
     #[test]
     fn routes_per_stop_test() {
-        let path = "src/static/pittsburgh/prt/";
+        let path = "GTFS/"; 
         let tpr = trips_per_route(Trips::new_vec(&path.to_string()).unwrap());
         let spt = stops_per_trip(StopTimes::new_vec(&path.to_string()).unwrap());
         let rps = routes_per_stop(tpr, spt);
@@ -600,7 +583,7 @@ mod test {
 
     #[test]
     fn count_trips_per_route_test() {
-        let path = "src/static/pittsburgh/prt/";
+        let path = "GTFS/"; 
         let tpr = trips_per_route(Trips::new_vec(&path.to_string()).unwrap());
         let count = count_trips_per_route(tpr);
         println!("{:?}", count);
@@ -608,7 +591,7 @@ mod test {
 
     #[test]
     fn count_trips_per_service_id_test() {
-        let path = "src/static/pittsburgh/prt/";
+        let path = "GTFS/";
         let tpr = trips_per_service_id(Trips::new_vec(&path.to_string()).unwrap());
         let count = count_trips_per_service_id(tpr);
         println!("{:?}", count);
