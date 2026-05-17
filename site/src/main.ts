@@ -1,9 +1,9 @@
 import './styles.css'
 import { transit_realtime } from 'gtfs-realtime-bindings'
 
-async function getRouteInfo(routeId: string) {
+async function getRouteInfo() {
   try {
-    const response = await fetch(`/routes/${routeId}`)    
+    const response = await fetch(`/stopTimes`)    
     console.log('Status:', response.status)  // add this
     if (!response.ok) {
       throw new Error(`Error: status ${response.status}`)
@@ -19,5 +19,5 @@ async function getRouteInfo(routeId: string) {
 }
 
 // Example usage
-const feed = await getRouteInfo('61C')
+const feed = await getRouteInfo()
 console.log(feed)

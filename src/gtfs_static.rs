@@ -5,66 +5,9 @@
 //! A library for fetching and analyzing GTFS Static data from a transit feed.
 
 use std::collections::{HashMap, HashSet};
-use std::io::Error;
+use std::io::{Error, Write};
 
-// Takes a vector of Trips data and returns a HashMap containing route_ids
-// as keys and a vector of the corresponding trip_ids as values. 
-pub fn trips_per_route(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
-    let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
-    for item in trip_data {
-        let route = item.route_id;
-        let trip = item.trip_id;
-        if trips_per_route.contains_key(&route) {
-            let mut vector = trips_per_route.remove(&route).unwrap();
-            vector.push(trip.clone());
-            trips_per_route.insert(route.clone(), vector.clone());
-        } else {
-            trips_per_route.insert(route, vec![trip]);
-        }
-    }
-
-    trips_per_route
-}
-
-// Takes a vector of Trips data and returns a HashMap containing service_ids
-// as keys and a vector of the corresponding trip_ids as values.
-pub fn trips_per_service_id(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
-    let mut trips_per_service_id: HashMap<String, Vec<String>> = HashMap::new();
-    for item in trip_data {
-        let service_id = item.service_id;
-        let trip = item.trip_id;
-        if trips_per_service_id.contains_key(&service_id) {
-            let mut vector = trips_per_service_id.remove(&service_id).unwrap();
-            vector.push(trip.clone());
-            trips_per_service_id.insert(service_id.clone(), vector.clone());
-        } else {
-            trips_per_service_id.insert(service_id, vec![trip]);
-        }
-    }
-
-    trips_per_service_id
-}
-
-// Takes a vector of StopTimes data and returns a HashMap containing trip_ids
-// as keys and a vector of the stops for each trip_id for values.
-pub fn stops_per_trip(stop_times_data: Vec<StopTimes>) -> HashMap<String, Vec<String>> {
-    let mut stops_per_trip: HashMap<String, Vec<String>> = HashMap::new();
-
-    for item in stop_times_data {
-        let trip_id = item.trip_id;
-        if stops_per_trip.contains_key(&trip_id.clone()) {
-            let stop_id = item.stop_id.unwrap();
-            let mut vector = stops_per_trip[&trip_id.clone()].clone();
-            vector.push(stop_id.clone());
-            stops_per_trip.insert(trip_id.clone(), vector.clone());
-        } else {
-            let stop_id = item.stop_id.unwrap();
-            stops_per_trip.insert(trip_id.clone(), vec![stop_id.clone()]);
-        }
-    }
-
-    stops_per_trip
-}
+use itertools::Itertools;
 
 // Takes in trips_per_route data and stops_per_trip data and returns a HashMap
 // containing stop_ids as keys and a vector of the route_ids for values.
@@ -93,6 +36,36 @@ pub fn routes_per_stop(
     }
 
     routes_per_stop
+}
+
+pub fn unique_trip_sequences(data: Vec<StopTimes>) -> Vec<Vec<(Option<String>, String)>> {
+    let grouped = group_stoptimes_by_trip_id(data);
+    let mapped = map_to_vec(grouped);
+    mapped
+}
+
+pub fn group_stoptimes_by_trip_id(data: Vec<StopTimes>) -> Vec<Vec<StopTimes>> {
+    let data_new: Vec<Vec<StopTimes>> = data
+        .into_iter()
+        .into_group_map_by(|s| s.trip_id.clone())
+        .into_values()
+        .collect();
+    data_new
+}
+
+pub fn map_to_vec(data: Vec<Vec<StopTimes>>) -> Vec<Vec<(Option<String>, String)>> {
+    let new: Vec<Vec<(Option<String>, String)>> = data
+        .iter()
+        .map(|f| {
+            f.iter()
+                .map(|g| (g.stop_id.clone(), g.stop_sequence.clone()))
+                .collect()
+        })
+        .collect();
+
+    let new_prime: Vec<Vec<(Option<String>, String)>> = new.into_iter().unique().collect();
+
+    new_prime
 }
 
 pub fn count_trips_per_route(
@@ -147,20 +120,6 @@ impl Agency {
 
         Ok(agency)
     }
-
-    /// Checks given root file path for the appropriate file.
-    /// Returns a Result type containing either an error or a Vector with elements
-    /// being Agency structs, each corresponding to a nonempty line of the
-    /// data contained in the GTFS static definition.
-    fn new_hash(agency: Vec<Agency>) -> HashMap<String, Agency> {
-        let mut map: HashMap<String, Agency> = HashMap::new();
-        for entry in agency {
-            let key: &String = entry.agency_id.as_ref().unwrap();
-            map.insert(key.to_string(), entry);
-        }
-
-        map
-    }
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -210,16 +169,6 @@ impl Calendar {
         Ok(calendar)
     }
 
-    fn new_hash(calendar: Vec<Calendar>) -> HashMap<String, Calendar> {
-        let mut map: HashMap<String, Calendar> = HashMap::new();
-        for entry in calendar {
-            let key: &String = &entry.service_id;
-            map.insert(key.to_string(), entry);
-        }
-
-        map
-    }
-
     fn service_ids(calendar_data: Vec<Calendar>) -> HashSet<String> {
         let mut service_ids: HashSet<String> = HashSet::new();
 
@@ -254,17 +203,6 @@ impl CalendarDates {
         }
 
         Ok(calendardates)
-    }
-
-    fn new_hash(calendardates: Vec<CalendarDates>) -> HashMap<(String, String), CalendarDates> {
-        let mut map: HashMap<(String, String), CalendarDates> = HashMap::new();
-        for entry in calendardates {
-            let key_one: &String = &entry.service_id;
-            let key_two: &String = &entry.date;
-            map.insert((key_one.to_string(), key_two.to_string()), entry);
-        }
-
-        map
     }
 }
 
@@ -302,16 +240,6 @@ impl Routes {
         }
 
         Ok(routes)
-    }
-
-    fn new_hash(routes: Vec<Routes>) -> HashMap<String, Routes> {
-        let mut map: HashMap<String, Routes> = HashMap::new();
-        for entry in routes {
-            let key: &String = &entry.route_id;
-            map.insert(key.to_string(), entry);
-        }
-
-        map
     }
 }
 
@@ -383,7 +311,7 @@ impl Stops {
     }
 }
 
-#[derive(Debug, serde::Deserialize)]
+#[derive(Debug, serde::Deserialize, Clone)]
 pub struct StopTimes {
     pub trip_id: String,
     pub arrival_time: Option<String>,
@@ -423,7 +351,7 @@ impl StopTimes {
         Ok(stoptimes)
     }
 
-    pub fn new_hash(stoptimes: Vec<StopTimes>) -> HashMap<(String, String), StopTimes> {
+    pub fn _new_hash(stoptimes: Vec<StopTimes>) -> HashMap<(String, String), StopTimes> {
         let mut map: HashMap<(String, String), StopTimes> = HashMap::new();
         for entry in stoptimes {
             let key_one: &String = &entry.trip_id;
@@ -432,6 +360,27 @@ impl StopTimes {
         }
 
         map
+    }
+
+    // Takes a vector of StopTimes data and returns a HashMap containing trip_ids
+    // as keys and a vector of the stops for each trip_id for values.
+    pub fn stops_per_trip(stop_times_data: Vec<StopTimes>) -> HashMap<String, Vec<String>> {
+        let mut stops_per_trip: HashMap<String, Vec<String>> = HashMap::new();
+
+        for item in stop_times_data {
+            let trip_id = item.trip_id;
+            if stops_per_trip.contains_key(&trip_id.clone()) {
+                let stop_id = item.stop_id.unwrap();
+                let mut vector = stops_per_trip[&trip_id.clone()].clone();
+                vector.push(stop_id.clone());
+                stops_per_trip.insert(trip_id.clone(), vector.clone());
+            } else {
+                let stop_id = item.stop_id.unwrap();
+                stops_per_trip.insert(trip_id.clone(), vec![stop_id.clone()]);
+            }
+        }
+
+        stops_per_trip
     }
 }
 
@@ -448,7 +397,7 @@ impl Timeframes {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being Timeframes structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: &String) -> Result<Vec<Timeframes>, Error> {
+    fn _new_vec(file_path: &String) -> Result<Vec<Timeframes>, Error> {
         let mut timeframes: Vec<Timeframes> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.clone(); // Getting the file path and
         path.push_str("timeframes.txt");
@@ -494,19 +443,59 @@ impl Trips {
         Ok(trips)
     }
 
-    pub fn new_hash(trips: Vec<Trips>) -> HashMap<String, Trips> {
+    pub fn new_hash(trip_data: Vec<Trips>) -> HashMap<String, Trips> {
         let mut map: HashMap<String, Trips> = HashMap::new();
-        for entry in trips {
+        for entry in trip_data {
             let key: &String = &entry.trip_id;
             map.insert(key.to_string(), entry);
         }
 
         map
     }
+
+    // Takes a vector of Trips data and returns a HashMap containing route_ids
+    // as keys and a vector of the corresponding trip_ids as values.
+    pub fn trips_per_route(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
+        let mut trips_per_route: HashMap<String, Vec<String>> = HashMap::new();
+        for item in trip_data {
+            let route = item.route_id;
+            let trip = item.trip_id;
+            if trips_per_route.contains_key(&route) {
+                let mut vector = trips_per_route.remove(&route).unwrap();
+                vector.push(trip.clone());
+                trips_per_route.insert(route.clone(), vector.clone());
+            } else {
+                trips_per_route.insert(route, vec![trip]);
+            }
+        }
+
+        trips_per_route
+    }
+
+    // Takes a vector of Trips data and returns a HashMap containing service_ids
+    // as keys and a vector of the corresponding trip_ids as values.
+    pub fn trips_per_service_id(trip_data: Vec<Trips>) -> HashMap<String, Vec<String>> {
+        let mut trips_per_service_id: HashMap<String, Vec<String>> = HashMap::new();
+        for item in trip_data {
+            let service_id = item.service_id;
+            let trip = item.trip_id;
+            if trips_per_service_id.contains_key(&service_id) {
+                let mut vector = trips_per_service_id.remove(&service_id).unwrap();
+                vector.push(trip.clone());
+                trips_per_service_id.insert(service_id.clone(), vector.clone());
+            } else {
+                trips_per_service_id.insert(service_id, vec![trip]);
+            }
+        }
+
+        trips_per_service_id
+    }
 }
 
 #[cfg(test)]
 mod test {
+    use std::fs::File;
+
     use super::*;
 
     #[test]
@@ -546,21 +535,21 @@ mod test {
 
     #[test]
     fn stoptimes_prints() {
-        let path = "GTFS/"; 
+        let path = "GTFS/";
         let stoptimes = StopTimes::new_vec(&path.to_string()).unwrap();
         println!("{:?}", stoptimes);
     }
 
     #[test]
     fn trips_prints() {
-        let path = "GTFS/"; 
+        let path = "GTFS/";
         let trips = Trips::new_vec(&path.to_string()).unwrap();
         println!("{:?}", trips);
     }
 
     #[test]
     fn service_ids_test() {
-        let path = "GTFS/"; 
+        let path = "GTFS/";
         let sid = Calendar::service_ids(Calendar::new_vec(&path.to_string()).unwrap());
         println!("{:?}", sid);
     }
@@ -568,23 +557,23 @@ mod test {
     #[test]
     fn trips_per_service_id_test() {
         let path = "GTFS/";
-        let tpsid = trips_per_service_id(Trips::new_vec(&path.to_string()).unwrap());
+        let tpsid = Trips::trips_per_service_id(Trips::new_vec(&path.to_string()).unwrap());
         println!("{:?}", tpsid);
     }
 
     #[test]
     fn routes_per_stop_test() {
-        let path = "GTFS/"; 
-        let tpr = trips_per_route(Trips::new_vec(&path.to_string()).unwrap());
-        let spt = stops_per_trip(StopTimes::new_vec(&path.to_string()).unwrap());
+        let path = "GTFS/";
+        let tpr = Trips::trips_per_route(Trips::new_vec(&path.to_string()).unwrap());
+        let spt = StopTimes::stops_per_trip(StopTimes::new_vec(&path.to_string()).unwrap());
         let rps = routes_per_stop(tpr, spt);
         println!("{:?}", rps);
     }
 
     #[test]
     fn count_trips_per_route_test() {
-        let path = "GTFS/"; 
-        let tpr = trips_per_route(Trips::new_vec(&path.to_string()).unwrap());
+        let path = "GTFS/";
+        let tpr = Trips::trips_per_route(Trips::new_vec(&path.to_string()).unwrap());
         let count = count_trips_per_route(tpr);
         println!("{:?}", count);
     }
@@ -592,8 +581,109 @@ mod test {
     #[test]
     fn count_trips_per_service_id_test() {
         let path = "GTFS/";
-        let tpr = trips_per_service_id(Trips::new_vec(&path.to_string()).unwrap());
+        let tpr = Trips::trips_per_service_id(Trips::new_vec(&path.to_string()).unwrap());
         let count = count_trips_per_service_id(tpr);
         println!("{:?}", count);
+    }
+
+    #[test]
+    fn proper_count_test() {
+        let path = "GTFS/";
+        let stop_times = StopTimes::new_vec(&path.to_string()).unwrap();
+        let info = unique_trip_sequences(stop_times);
+        let mut file = File::create("proper_count.txt").unwrap(); // unsafe.
+        for group in &info {
+            writeln!(file, "{:#?}", group).unwrap();
+        }
+    }
+
+    /*
+     * Given a StopTimes vector, takes the initial entry's trip_id and then produces
+     * written output for the sequence of stops associated with that trip_id. The
+     * output is sorted by stop_sequence.
+     *
+     * TODO: Make this output CSV with more metadata to facilitate better debugging.
+     */
+    #[test]
+    fn check_one_trip_id() {
+        let path = "gtfs_static/prt/";
+        let stop_times = StopTimes::new_vec(&path.to_string()).unwrap();
+        let trip_id_use = stop_times.get(0).unwrap().trip_id.clone();
+        let stop_times_filtered: Vec<StopTimes> = stop_times
+            .into_iter()
+            .filter(|x| x.trip_id == trip_id_use)
+            .collect();
+        let mut reduced: Vec<(Option<String>, String)> = stop_times_filtered
+            .into_iter()
+            .map(|x| (x.stop_id, x.stop_sequence))
+            .collect();
+        reduced.sort_by(|x, y| {
+            x.1.parse::<u32>()
+                .unwrap()
+                .cmp(y.1.parse::<u32>().as_ref().unwrap())
+        });
+        let mut file = File::create("test/check_one_trip.txt").unwrap(); // unsafe.
+        writeln!(file, "trip_id = {}\n", trip_id_use).unwrap();
+        for group in reduced {
+            writeln!(file, "{:#?}", group).unwrap();
+        }
+    }
+
+    /*
+     * Given a StopTimes vector, takes the initial entry's trip_id and then produces a list of
+     * different sequences of stops associated with that trip_id's route_id. The output is sorted
+     * by stop_sequence. 
+     *
+     * TODO: Make this output CSV with more metadata to facilitate better debugging.
+     */
+    #[test]
+    fn check_one_route_id() {
+        let path = "gtfs_static/prt/";
+        let stop_times = StopTimes::new_vec(&path.to_string()).unwrap();
+        let trips = Trips::new_vec(&path.to_string()).unwrap();
+        let trip_id_use = stop_times.get(0).unwrap().trip_id.clone();
+        let route_id = trips
+            .iter()
+            .find(|x| x.trip_id == trip_id_use)
+            .unwrap()
+            .route_id
+            .clone();
+        let trip_id_hash = Trips::trips_per_route(trips);
+        let trip_ids = trip_id_hash.get(&route_id).unwrap();
+        let stop_times_filtered: Vec<StopTimes> = stop_times // Only the data on a
+            // certain route is
+            // included now.
+            .into_iter()
+            .filter(|x| trip_ids.contains(&x.trip_id))
+            .collect();
+        let grouped = group_stoptimes_by_trip_id(stop_times_filtered);
+        let reduced: Vec<Vec<(Option<String>, String)>> = grouped
+            .into_iter()
+            .map(|x| {
+                x.into_iter()
+                    .map(|y| (y.stop_id, y.stop_sequence))
+                    .collect()
+            })
+            .collect();
+        let unique: Vec<Vec<(Option<String>, String)>> = reduced.into_iter().unique().collect();
+
+        let unique: Vec<Vec<(Option<String>, String)>> = unique
+            .into_iter()
+            .map(|mut x| {
+                x.sort_by(|a, b| {
+                    let a = a.1.parse::<u32>().unwrap();
+                    let b = b.1.parse::<u32>().unwrap();
+                    a.cmp(&b)
+                });
+                x
+            })
+            .collect();
+
+        let mut file = File::create("test/check_one_route.txt").unwrap(); // unsafe.
+        writeln!(file, "route_id = {}", route_id).unwrap();
+        writeln!(file, "number of unique sequences = {}", unique.len()).unwrap();
+        for group in &unique {
+            writeln!(file, "{:#?}", group).unwrap();
+        }
     }
 }

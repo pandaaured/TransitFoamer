@@ -12,9 +12,9 @@
 pub mod gtfs_rt;
 pub mod gtfs_static;
 pub mod handlers;
-pub mod testing;
 pub mod structs;
 
+use std::sync::Arc;
 use std::time::Duration;
 
 use http::StatusCode;
@@ -26,21 +26,19 @@ use tower_http::{
     trace::TraceLayer,
 };
 
-use axum::{
-    routing::get,
-    Router,
-};
+use axum::{extract::State, routing::get, Router};
 
-use tokio::signal;
+use structs::{AppState, Links, StaticInfo};
+
 use gtfs_static::{Agency, Routes, StopTimes, Stops, Trips};
+use tokio::signal;
 
-// Parse command line arguments. 
+// Parse command line arguments.
 // TODO: Make this formatted more cleanly in the future.
 #[tokio::main]
 async fn main() {
     server_routine().await;
 }
-
 
 async fn server_routine() {
     let cors_layer = CorsLayer::new()
@@ -48,13 +46,21 @@ async fn server_routine() {
         .allow_methods(Any)
         .allow_headers(Any);
 
+    let state = AppState {
+        static_info: Arc::new(StaticInfo::new()),
+        links: Arc::new(Links::new()),
+    };
+
     // Creating the axum app. We add routers for our various API functions described below.
     // 1) / returns the HTML index.
     // 2) /routes/:route_id returns the feed filtered to only include a certain route.
     let app: Router = Router::new()
         .layer(cors_layer)
         .route("/", get(handlers::main_content_handler))
+        .route("/rtlist", get(handlers::route_list_handler))
         .route("/routes/{route_id}", get(handlers::route_handler))
+        .route("/stoptimes", get(handlers::stop_times_list_handler))
+        .with_state(state)
         .nest_service("/dist", ServeDir::new("dist"))
         .nest_service("/assets", ServeDir::new("dist/assets"))
         .layer((
@@ -91,45 +97,4 @@ async fn shutdown_signal() {
         _ = ctrl_c => {},
         _ = terminate => {},
     }
-}
-
-// Deliver the main file to the client. (index.html)
-
-// This function is a handler for the route API request. Uses GTFS-RT.
-/* async fn route_gtfsrt_handler(Query(routes) : Query<RouteQuery> ) -> Json<String> {
-    let links = Links::new();
-    let trip_update = url_to_feedmessage(links.vehicles).await.unwrap();
-    let route = routes.route;
-    let route_entries = on_route(route, trip_update);
-    let json = serde_json::to_string(&route_entries).unwrap();
-    Json(json)
-} */
-
-/* async fn fleet_analyzer() -> Json<String> {
-    let file_path = "src/static/seattle/kc/".to_string();
-} */
-
-struct StaticInfo {
-    agency: Vec<Agency>,
-    routes: Vec<Routes>,
-    stops: Vec<Stops>,
-    stop_times: Vec<StopTimes>,
-    trips: Vec<Trips>,
-}
-
-impl StaticInfo {
-    fn new() -> StaticInfo {
-        let path: String = "GTFS/".to_string();
-        StaticInfo {
-            agency: Agency::new_vec(&path).unwrap(),
-            routes: Routes::new_vec(&path).unwrap(),
-            stops: Stops::new_vec(&path).unwrap(),
-            stop_times: StopTimes::new_vec(&path).unwrap(),
-            trips: Trips::new_vec(&path).unwrap(),
-        }
-    }
-}
-
-struct RouteQuery {
-    route: String,
 }
