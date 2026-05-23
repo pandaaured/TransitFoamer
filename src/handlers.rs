@@ -17,6 +17,7 @@ use prost::Message;
 
 // Fetches the route list. Returns as JSON.
 pub async fn route_list_handler(State(state): State<AppState>) -> Json<Vec<Routes>> {
+    println!("API request made to /rtlist -- list of routes.");
     Json(state.static_info.routes.clone())
 }
 
@@ -26,6 +27,7 @@ pub async fn schedule_handler(
     Path(route_id): Path<String>,
     State(state): State<AppState>,
 ) -> Json<Schedule> {
+    println!("API request made to /schedule/{route_id} -- a schedule for this route.");
     Json(build_schedule(
         &route_id,
         &state.static_info.trips,
@@ -38,6 +40,7 @@ pub async fn schedule_handler(
 
 // Filters a GTFS-RT feed by route_id.
 pub async fn route_handler(Path(route_id): Path<String>) -> Response {
+    println!("API request made to /routes/{route_id} -- realtime information for this route.");
     let links = Links::new();
 
     // Decodes protobuf into FeedMessage
