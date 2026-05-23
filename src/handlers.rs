@@ -1,13 +1,16 @@
 use std::fs;
 
 use axum::response::Html;
+use axum::Json;
 
 use crate::gtfs_rt::{on_route, url_to_feedmessage};
-use crate::structs::Links;
+use crate::schedule::build_schedule;
+use crate::structs::{AppState, Links, Schedule};
 
+use crate::gtfs_static::{Routes};
 use crate::gtfs_static::{group_stoptimes_by_trip_id, unique_trip_sequences};
 
-use crate::{AppState, State};
+use crate::State;
 
 use axum::{
     extract::Path,
@@ -16,23 +19,9 @@ use axum::{
 };
 use prost::Message;
 
-//  Handles the main request (returns index.html)
-pub async fn main_content_handler() -> Html<String> {
-    let file_path = "dist/index.html".to_string();
-    let file_as_string =
-        fs::read_to_string(file_path).expect("Should have been able to read dist/index.html");
-    Html(file_as_string)
-}
-
 // Fetches the route list. Returns as HTML ul.
-pub async fn route_list_handler(State(state): State<AppState>) -> Html<String> {
-    let data = &state.static_info.routes;
-    let ids = data
-        .iter()
-        .map(|x| format!("<li>{}</li>", x.route_id.clone()));
-    let items = ids.collect::<Vec<String>>().join("\n");
-
-    Html(format!("<ul>{}</ul>", items))
+pub async fn route_list_handler(State(state): State<AppState>) -> Json<Vec<Routes>> {
+    Json(state.static_info.routes.clone())
 }
 
 // Fetches the stop times list. Returns as HTML ul.
@@ -40,8 +29,22 @@ pub async fn stop_times_list_handler(State(state): State<AppState>) {
     let data = &state.static_info.stop_times;
     let copy = data.clone();
     let grouped = unique_trip_sequences(copy);
-    println!("how many vecs are there after filter\n {:?}", grouped);
-    println!("{:?}", grouped);
+}
+
+// Returns a JSON schedule for a given route_id, grouped by (service_id, stop_pattern).
+// Trips with identical stop sequences are collapsed into the same timetable.
+pub async fn schedule_handler(
+    Path(route_id): Path<String>,
+    State(state): State<AppState>,
+) -> Json<Schedule> {
+    Json(build_schedule(
+        &route_id,
+        &state.static_info.trips,
+        &state.static_info.stop_times,
+        &state.static_info.stops,
+        &state.static_info.calendar,
+        &state.static_info.calendar_dates,
+    ))
 }
 
 // Filters a GTFS-RT feed by route.
