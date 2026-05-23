@@ -12,6 +12,7 @@
 pub mod gtfs_rt;
 pub mod gtfs_static;
 pub mod handlers;
+pub mod schedule;
 pub mod structs;
 
 use std::sync::Arc;
@@ -46,22 +47,25 @@ async fn server_routine() {
         .allow_methods(Any)
         .allow_headers(Any);
 
+    println!("Loading static data...");
     let state = AppState {
         static_info: Arc::new(StaticInfo::new()),
         links: Arc::new(Links::new()),
     };
+    println!("Static data loaded! Starting server...");
 
     // Creating the axum app. We add routers for our various API functions described below.
     // 1) / returns the HTML index.
     // 2) /routes/:route_id returns the feed filtered to only include a certain route.
     let app: Router = Router::new()
         .layer(cors_layer)
-        .route("/", get(handlers::main_content_handler))
         .route("/rtlist", get(handlers::route_list_handler))
         .route("/routes/{route_id}", get(handlers::route_handler))
         .route("/stoptimes", get(handlers::stop_times_list_handler))
+        .route("/schedule/{route_id}", get(handlers::schedule_handler))
         .with_state(state)
-        .nest_service("/dist", ServeDir::new("dist"))
+        .nest_service("/dist", ServeDir::new("dist")
+            .append_index_html_on_directories(true))
         .nest_service("/assets", ServeDir::new("dist/assets"))
         .layer((
             TraceLayer::new_for_http(),
