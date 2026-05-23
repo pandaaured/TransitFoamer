@@ -61,7 +61,6 @@ async fn server_routine() {
         .layer(cors_layer)
         .route("/rtlist", get(handlers::route_list_handler))
         .route("/routes/{route_id}", get(handlers::route_handler))
-        .route("/stoptimes", get(handlers::stop_times_list_handler))
         .route("/schedule/{route_id}", get(handlers::schedule_handler))
         .with_state(state)
         .nest_service("/dist", ServeDir::new("dist")
