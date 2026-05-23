@@ -1,6 +1,3 @@
-use std::fs;
-
-use axum::response::Html;
 use axum::Json;
 
 use crate::gtfs_rt::{on_route, url_to_feedmessage};
@@ -8,7 +5,6 @@ use crate::schedule::build_schedule;
 use crate::structs::{AppState, Links, Schedule};
 
 use crate::gtfs_static::{Routes};
-use crate::gtfs_static::{group_stoptimes_by_trip_id, unique_trip_sequences};
 
 use crate::State;
 
@@ -19,16 +15,9 @@ use axum::{
 };
 use prost::Message;
 
-// Fetches the route list. Returns as HTML ul.
+// Fetches the route list. Returns as JSON.
 pub async fn route_list_handler(State(state): State<AppState>) -> Json<Vec<Routes>> {
     Json(state.static_info.routes.clone())
-}
-
-// Fetches the stop times list. Returns as HTML ul.
-pub async fn stop_times_list_handler(State(state): State<AppState>) {
-    let data = &state.static_info.stop_times;
-    let copy = data.clone();
-    let grouped = unique_trip_sequences(copy);
 }
 
 // Returns a JSON schedule for a given route_id, grouped by (service_id, stop_pattern).
@@ -47,7 +36,7 @@ pub async fn schedule_handler(
     ))
 }
 
-// Filters a GTFS-RT feed by route.
+// Filters a GTFS-RT feed by route_id.
 pub async fn route_handler(Path(route_id): Path<String>) -> Response {
     let links = Links::new();
 
