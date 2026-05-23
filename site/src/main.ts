@@ -1,23 +1,29 @@
 import './styles.css'
-import { transit_realtime } from 'gtfs-realtime-bindings'
+import { getSchedule, getRoutes } from './api'
+import { renderSchedule } from './render'
+import { renderRouteList } from './routes-page'
 
-async function getRouteInfo() {
-  try {
-    const response = await fetch(`/stopTimes`)    
-    console.log('Status:', response.status)  // add this
-    if (!response.ok) {
-      throw new Error(`Error: status ${response.status}`)
+const container = document.getElementById('app')!
+
+async function navigate() {
+  const hash = window.location.hash
+
+  if (hash.startsWith('#/schedule/')) {
+    const routeId = hash.replace('#/schedule/', '')
+    container.innerHTML = '<p>Loading schedule...</p>'
+    const schedule = await getSchedule(routeId)
+    if (schedule) {
+      renderSchedule(schedule, container)
+    } else {
+      container.innerHTML = '<p>Failed to load schedule.</p>'
     }
-
-    const buffer = await response.arrayBuffer()
-    const feed = transit_realtime.FeedMessage.decode(new Uint8Array(buffer))
-    return feed
-  } catch {
-    console.error('Failed to fetch vehicle positions')
-    return null
+  } else {
+    // Default: route list
+    container.innerHTML = '<p>Loading routes...</p>'
+    const routes = await getRoutes()
+    renderRouteList(routes, container)
   }
 }
 
-// Example usage
-const feed = await getRouteInfo()
-console.log(feed)
+window.addEventListener('hashchange', navigate)
+navigate()
