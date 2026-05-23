@@ -75,7 +75,7 @@ async fn server_routine() {
     let listener = tokio::net::TcpListener::bind("127.0.0.1:8080")
         .await
         .unwrap();
-    println!("TCP Listener bond to the address 127.0.0.1:8080.");
+    println!("TCP Listener bound to the address 127.0.0.1:8080.");
 
     axum::serve(listener, app.into_make_service())
         .with_graceful_shutdown(shutdown_signal())
