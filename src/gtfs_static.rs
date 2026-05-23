@@ -192,7 +192,7 @@ impl CalendarDates {
     /// Returns a Result type containing either an error or a Vector with elements
     /// being CalendarDates structs, each corresponding to a nonempty line of the
     /// data contained in the GTFS static definition.
-    fn new_vec(file_path: &String) -> Result<Vec<CalendarDates>, Error> {
+    pub fn new_vec(file_path: &String) -> Result<Vec<CalendarDates>, Error> {
         let mut calendardates: Vec<CalendarDates> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.clone(); // Getting the file path and
         path.push_str("calendar_dates.txt");
@@ -206,7 +206,7 @@ impl CalendarDates {
     }
 }
 
-#[derive(Debug, serde::Deserialize, serde::Serialize)]
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 pub struct Routes {
     pub route_id: String,
     pub agency_id: Option<String>,
@@ -231,7 +231,6 @@ impl Routes {
     pub fn new_vec(file_path: &String) -> Result<Vec<Routes>, Error> {
         let mut routes: Vec<Routes> = Vec::new(); // Initializes the mutable data.
         let mut path: String = file_path.to_string().clone(); // Getting the file path and
-        println!("{:?}", path);
         path.push_str("routes.txt");
         let mut rdr = csv::ReaderBuilder::new().from_path(path)?;
         for result in rdr.deserialize() {
@@ -632,7 +631,7 @@ mod test {
     /*
      * Given a StopTimes vector, takes the initial entry's trip_id and then produces a list of
      * different sequences of stops associated with that trip_id's route_id. The output is sorted
-     * by stop_sequence. 
+     * by stop_sequence.
      *
      * TODO: Make this output CSV with more metadata to facilitate better debugging.
      */
