@@ -31,13 +31,13 @@ use axum::{extract::State, routing::get, Router};
 
 use structs::{AppState, Links, StaticInfo};
 
-use gtfs_static::{Agency, Routes, StopTimes, Stops, Trips};
 use tokio::signal;
 
 // Parse command line arguments.
 // TODO: Make this formatted more cleanly in the future.
 #[tokio::main]
 async fn main() {
+    println!("Main called.");
     server_routine().await;
 }
 
@@ -48,15 +48,15 @@ async fn server_routine() {
         .allow_headers(Any);
 
     println!("Loading static data...");
-    let state = AppState {
-        static_info: Arc::new(StaticInfo::new()),
-        links: Arc::new(Links::new()),
-    };
+    let static_info = tokio::task::spawn_blocking(|| {
+        Arc::new(StaticInfo::new())
+    }).await.unwrap();
     println!("Static data loaded! Starting server...");
 
-    // Creating the axum app. We add routers for our various API functions described below.
-    // 1) / returns the HTML index.
-    // 2) /routes/:route_id returns the feed filtered to only include a certain route.
+    let state = AppState {
+        static_info,
+        links: Arc::new(Links::new()),
+    };
     let app: Router = Router::new()
         .layer(cors_layer)
         .route("/rtlist", get(handlers::route_list_handler))
@@ -70,15 +70,18 @@ async fn server_routine() {
             TraceLayer::new_for_http(),
             TimeoutLayer::with_status_code(StatusCode::REQUEST_TIMEOUT, Duration::from_secs(10)),
         ));
+    println!("Router initialized with appropriate endpoints exposed.");
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:8080")
         .await
         .unwrap();
+    println!("TCP Listener bond to the address 127.0.0.1:8080.");
 
     axum::serve(listener, app.into_make_service())
         .with_graceful_shutdown(shutdown_signal())
         .await
         .unwrap();
+    println!("Axum app served.");
 }
 
 async fn shutdown_signal() {
