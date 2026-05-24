@@ -25,3 +25,10 @@ itertools = "0.14.0"
 ring = "0.17.13"
 openssl = "0.10.72"
 
+[[bin]]
+name = "ingest"
+path = "src/bin/ingest.rs"
+
+[[bin]]
+name = "serve"
+path = "src/main.rs"
