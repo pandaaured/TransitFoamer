@@ -1,0 +1,94 @@
+.timetable {
+  margin-bottom: 40px;
+}
+
+.service-meta {
+  font-size: 13px;
+  color: #666;
+  padding: 0 16px 12px;
+}
+
+.table-wrapper {
+  width: 100%;
+  margin: 0 0 32px;
+  overflow: hidden;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  font-size: 11px;
+}
+
+thead tr {
+  background: #1a5c9e;
+  color: #fff;
+}
+
+th {
+  padding: 4px 6px;
+  text-align: center;
+  font-weight: 500;
+  white-space: normal;
+  word-break: break-word;
+  overflow: hidden;
+  vertical-align: bottom;
+  border-right: 1px solid #2a6cae;
+}
+
+th:first-child {
+  width: 140px;
+  min-width: 140px;
+  text-align: left;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #1a5c9e;
+}
+
+td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #e8e8e8;
+  border-right: 1px solid #e8e8e8;
+  white-space: normal;
+  word-break: break-all;
+  text-align: center;
+  overflow: hidden;
+}
+
+td:first-child {
+  width: 140px;
+  min-width: 140px;
+  text-align: left;
+  position: sticky;
+  left: 0;
+  background: #fff;
+  font-weight: 500;
+  z-index: 1;
+  border-right: 2px solid #ccc;
+}
+
+tbody tr:nth-child(even) td {
+  background: #f5f8fc;
+}
+
+tbody tr:nth-child(even) td:first-child {
+  background: #f5f8fc;
+}
+
+tbody tr:hover td {
+  background: #e8f0fb;
+}
+
+tbody tr:hover td:first-child {
+  background: #e8f0fb;
+}
+
+td.time {
+  font-variant-numeric: tabular-nums;
+}
+
+td.no-stop {
+  color: #bbb;
+}

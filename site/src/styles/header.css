@@ -1,0 +1,23 @@
+.site-header {
+  background: #184684;
+  padding: 12px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.site-title {
+  text-decoration: none;
+  font-family: "Overpass", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.site-title-light {
+  color: #5c9cd4;
+}
+
+.site-title-white {
+  color: #ffffff;
+}

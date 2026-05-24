@@ -1,0 +1,49 @@
+.home-hero {
+  text-align: center;
+  padding: 60px 16px 40px;
+}
+
+.home-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-top: 8px;
+}
+
+.home-nav {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 16px;
+}
+
+.home-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  width: 220px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.home-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-color: #1a5c9e;
+}
+
+.home-card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a5c9e;
+  margin: 0;
+}
+
+.home-card p {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
